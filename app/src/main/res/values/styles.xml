@@ -1,0 +1,52 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorControlActivated">@color/colorAccent</item>
+    </style>
+
+    <!-- Action bar theme -->
+    <style name="actionBar" parent="AppTheme">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <!-- Action bar popup menu theme -->
+    <style name="actionBarPopupMenu" parent="actionBar">
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+    <!-- Tab buttons style -->
+    <style name="tabWidget" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/colorAccent</item>
+    </style>
+
+    <style name="editActivityTextStyle">
+    </style>
+
+    <style name="editActivityTitleStyle" parent="editActivityTextStyle">
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textSize">19sp</item>
+    </style>
+
+    <style name="editActivityClickableValueStyle" parent="editActivityTextStyle">
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/edit_item_background</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@drawable/selectable_text_color</item>
+    </style>
+
+    <!-- Fixture list item styles -->
+    <style name="fixtureListItemOpposition">
+        <item name="android:textColor">@color/textColorSecondary</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="fixtureListItemCardiff" parent="fixtureListItemOpposition">
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

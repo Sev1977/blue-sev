@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2e1eb4</color>
+    <color name="colorPrimaryDark">#1c126c</color>
+    <color name="colorAccent">#f0f000</color>
+
+    <color name="colorAccentPressed">#7ff0f000</color>
+
+    <color name="textColorPrimary">@android:color/primary_text_dark</color>
+    <color name="textColorSecondary">@android:color/secondary_text_dark</color>
+    <color name="textColorDisabled">@android:color/tertiary_text_dark</color>
+
+    <color name="result_win">#00cc00</color>
+    <color name="result_defeat">#dd0000</color>
+    <color name="result_draw">#888888</color>
+
+    <color name="form_block_empty">@android:color/white</color>
+</resources>

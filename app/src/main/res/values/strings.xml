@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name">Cardiff City Fixtures</string>
+
+    <string name="cardiff_city">Cardiff City</string>
+
+    <!-- Activity titles -->
+    <string name="fixture_edit_title">Edit fixture</string>
+    <string name="fixture_title">Fixture</string>
+    <string name="stats_title">Statistics</string>
+    <string name="clubs_title">Clubs</string>
+    <string name="club_edit_title">Edit club</string>
+    <string name="competitions_title">Competitions</string>
+    <string name="competition_edit_title">Edit competition</string>
+    <string name="players_title">Players</string>
+    <string name="edit_player_title">Edit player</string>
+    <string name="seasons_title">Seasons</string>
+    <string name="edit_season_title">Edit season</string>
+    <string name="edit_score_title">Edit score</string>
+    <string name="choose_goal_scorers">Select goal scorers</string>
+
+    <!-- home screen tabs -->
+    <string name="fixtures_tab_label">Fixtures</string>
+    <string name="results_tab_label">Results</string>
+    <string name="results_label_form">Form</string>
+
+    <!-- home screen menu -->
+    <string name="home_menu_stats">Statistics</string>
+    <string name="home_menu_clubs">Clubs</string>
+    <string name="home_menu_comps">Competitions</string>
+    <string name="home_menu_players">Players</string>
+    <string name="home_menu_seasons">Seasons</string>
+    <string name="home_menu_about">About</string>
+
+    <!-- fixture screen menu -->
+    <string name="fixture_menu_edit">Edit</string>
+
+    <!-- fixture screen buttons -->
+    <string name="fixture_previous_label">Previous</string>
+    <string name="fixture_next_label">Next</string>
+
+    <!-- Fixture screen -->
+    <string name="home">Home</string>
+    <string name="away">Away</string>
+    <string name="attendance">Attendance: %d</string>
+    <string name="score_format" translatable="false">%d - %d</string>
+    <string name="long_date_format" translatable="false">EEE, dd MMM yyyy, HH:mm</string>
+    <string name="short_date_format" translatable="false">dd MMM yyyy</string>
+    <string name="time_format" translatable="false">kk:mm</string>
+    <string name="versus">v</string>
+
+    <!-- Edit item strings -->
+    <string name="edit_full_name_label">Full name</string>
+    <string name="edit_short_name_label">Short name</string>
+    <string name="edit_code_label">Three letter code</string>
+    <string name="edit_forename_label">Forename</string>
+    <string name="edit_surname_label">Surname</string>
+    <string name="edit_name_label">Name</string>
+    <string name="edit_club_is_league_label">League opponent</string>
+    <string name="edit_date_label">Date:</string>
+    <string name="edit_time_label">Time:</string>
+    <string name="edit_competition_label">Competition:</string>
+    <string name="edit_opponent_label">Opponent:</string>
+    <string name="edit_venue_label">Venue:</string>
+    <string name="edit_score_label">Score:</string>
+    <string name="edit_goal_scorers_label">Goal scorers:</string>
+    <string name="edit_attendance_label">Attendance:</string>
+    <string name="edit_season_label">Season:</string>
+    <string name="edit_score_home_goals">Home score</string>
+    <string name="edit_score_away_goals">Away score</string>
+
+    <!-- Chooser titles -->
+    <string name="competition_chooser_title">Choose competition</string>
+    <string name="opponent_chooser_title">Choose opponent</string>
+    <string name="player_chooser_title">Choose player</string>
+    <string name="season_chooser_title">Choose season</string>
+
+    <string name="goal_scorer_dialog_label_name">Name</string>
+    <string name="goal_scorer_dialog_label_penalty">Penalty</string>
+
+    <!-- Common strings -->
+    <string name="action_add">Add</string>
+    <string name="action_save">Save</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+
+</resources>

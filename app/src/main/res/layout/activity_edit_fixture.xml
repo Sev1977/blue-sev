@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="android.personal.fixtures.EditFixtureActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/edit_fixture_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/actionBar"
+        app:popupTheme="@style/actionBarPopupMenu"/>
+
+    <TextView
+        android:id="@+id/editFixtureSeasonLabel"
+        style="@style/editActivityTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_horizontal_margin"
+        android:layout_marginTop="@dimen/default_activity_vertical_margin"
+        android:text="@string/edit_season_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_fixture_toolbar"/>
+
+    <Button
+        android:id="@+id/editFixtureSeason"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_activity_margin"
+        android:layout_marginStart="@dimen/linear_text_spacing"
+        app:layout_constraintBaseline_toBaselineOf="@id/editFixtureSeasonLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editFixtureSeasonLabel"/>
+
+    <TextView
+        android:id="@+id/editFixtureDateLabel"
+        style="@style/editActivityTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_horizontal_margin"
+        android:layout_marginTop="@dimen/default_activity_vertical_margin"
+        android:text="@string/edit_date_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editFixtureSeasonLabel"/>
+
+    <Button
+        android:id="@+id/editFixtureDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_activity_margin"
+        android:layout_marginStart="@dimen/linear_text_spacing"
+        android:onClick="showDatePicker"
+        app:layout_constraintBaseline_toBaselineOf="@id/editFixtureDateLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editFixtureDateLabel"/>
+
+    <TextView
+        android:id="@+id/editFixtureTimeLabel"
+        style="@style/editActivityTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_horizontal_margin"
+        android:layout_marginTop="@dimen/default_activity_vertical_margin"
+        android:text="@string/edit_time_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editFixtureDateLabel"/>
+
+    <Button
+        android:id="@+id/editFixtureTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_activity_margin"
+        android:layout_marginStart="@dimen/linear_text_spacing"
+        android:onClick="showTimePicker"
+        android:text="15:00"
+        app:layout_constraintBaseline_toBaselineOf="@id/editFixtureTimeLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editFixtureTimeLabel"/>
+
+    <TextView
+        android:id="@+id/editFixtureCompetitionLabel"
+        style="@style/editActivityTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_horizontal_margin"
+        android:layout_marginTop="@dimen/default_activity_vertical_margin"
+        android:text="@string/edit_competition_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editFixtureTimeLabel"/>
+
+    <Button
+        android:id="@+id/editFixtureCompetition"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_activity_margin"
+        android:layout_marginStart="@dimen/linear_text_spacing"
+        app:layout_constraintBaseline_toBaselineOf="@id/editFixtureCompetitionLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editFixtureCompetitionLabel"/>
+
+    <TextView
+        android:id="@+id/editFixtureOpponentLabel"
+        style="@style/editActivityTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_horizontal_margin"
+        android:layout_marginTop="@dimen/default_activity_vertical_margin"
+        android:text="@string/edit_opponent_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editFixtureCompetitionLabel"/>
+
+    <Button
+        android:id="@+id/editFixtureOpponent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_activity_margin"
+        android:layout_marginStart="@dimen/linear_text_spacing"
+        app:layout_constraintBaseline_toBaselineOf="@id/editFixtureOpponentLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editFixtureOpponentLabel"/>
+
+    <TextView
+        android:id="@+id/editFixtureVenueLabel"
+        style="@style/editActivityTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_horizontal_margin"
+        android:layout_marginTop="@dimen/default_activity_vertical_margin"
+        android:text="@string/edit_venue_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editFixtureOpponentLabel"/>
+
+    <RadioGroup
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editFixtureVenueLabel"
+        app:layout_constraintTop_toTopOf="@id/editFixtureVenueLabel">
+
+        <RadioButton
+            android:id="@+id/editFixtureButtonHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="@string/home"/>
+
+        <RadioButton
+            android:id="@+id/editFixtureButtonAway"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/away"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/editFixtureScoreLabel"
+        style="@style/editActivityTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_horizontal_margin"
+        android:layout_marginTop="@dimen/default_activity_vertical_margin"
+        android:text="@string/edit_score_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editFixtureVenueLabel"/>
+
+    <Button
+        android:id="@+id/editFixtureScore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_activity_horizontal_margin"
+        android:layout_marginStart="@dimen/linear_text_spacing"
+        app:layout_constraintBaseline_toBaselineOf="@id/editFixtureScoreLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editFixtureScoreLabel"/>
+
+    <TextView
+        android:id="@+id/editFixtureScorersLabel"
+        style="@style/editActivityTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_horizontal_margin"
+        android:layout_marginTop="@dimen/default_activity_vertical_margin"
+        android:text="@string/edit_goal_scorers_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editFixtureScoreLabel"/>
+
+    <Button
+        android:id="@+id/editFixtureScorers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_activity_horizontal_margin"
+        android:layout_marginStart="@dimen/default_activity_horizontal_margin"
+        android:layout_marginTop="@dimen/default_activity_vertical_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editFixtureScorersLabel"/>
+
+    <TextView
+        android:id="@+id/editFixtureAttendanceLabel"
+        style="@style/editActivityTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_activity_horizontal_margin"
+        android:layout_marginTop="@dimen/default_activity_vertical_margin"
+        android:text="@string/edit_attendance_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editFixtureScorers"/>
+
+    <EditText
+        android:id="@+id/editFixtureAttendance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_activity_margin"
+        android:layout_marginStart="@dimen/linear_text_spacing"
+        android:inputType="number"
+        app:layout_constraintBaseline_toBaselineOf="@id/editFixtureAttendanceLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editFixtureAttendanceLabel"/>
+
+</android.support.constraint.ConstraintLayout>

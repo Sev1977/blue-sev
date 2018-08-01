@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/home_action_add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/action_add"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/home_action_stats"
+        android:title="@string/home_menu_stats"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/home_action_clubs"
+        android:title="@string/home_menu_clubs"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/home_action_comps"
+        android:title="@string/home_menu_comps"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/home_action_players"
+        android:title="@string/home_menu_players"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/home_action_seasons"
+        android:title="@string/home_menu_seasons"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/home_action_about"
+        android:title="@string/home_menu_about"
+        app:showAsAction="never"/>
+</menu>
