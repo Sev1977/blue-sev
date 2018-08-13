@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/text_margin"
             android:layout_weight="1"
-            android:text="@string/edit_score_home_goals"/>
+            android:text="@string/edit_score_cardiff_goals"/>
 
         <EditText
             android:id="@+id/homeScoreInput"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/text_margin"
             android:layout_weight="1"
-            android:text="@string/edit_score_away_goals"/>
+            android:text="@string/edit_score_opponent_goals"/>
 
         <EditText
             android:id="@+id/awayScoreInput"

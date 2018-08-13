@@ -84,10 +84,7 @@ public class FixtureActivity extends AppCompatActivity
                 if (!mFixtures.isFirst())
                 {
                     mFixtures.moveToPrevious();
-                    mFixtureId = mFixtures.getLong(0);
-                    mCurrentFixture = mDatabase.getFullRecordWithId(Fixtures.TABLE_NAME,
-                            mFixtureId);
-                    setupViews();
+                    loadNewFixture();
                 }
             }
         });
@@ -100,10 +97,7 @@ public class FixtureActivity extends AppCompatActivity
                 if (!mFixtures.isLast())
                 {
                     mFixtures.moveToNext();
-                    mFixtureId = mFixtures.getLong(0);
-                    mCurrentFixture = mDatabase.getFullRecordWithId(Fixtures.TABLE_NAME,
-                            mFixtureId);
-                    setupViews();
+                    loadNewFixture();
                 }
             }
         });
@@ -147,7 +141,7 @@ public class FixtureActivity extends AppCompatActivity
             if (resultCode == RESULT_OK)
             {
                 mIsEdited = true;
-                setupViews();
+                loadNewFixture();
             }
         }
         else
@@ -242,5 +236,12 @@ public class FixtureActivity extends AppCompatActivity
     {
         setResult(RESULT_OK, new Intent().putExtra(EXTRA_FIXTURE_EDITED, mIsEdited));
         finish();
+    }
+
+    private void loadNewFixture()
+    {
+        mFixtureId = mFixtures.getLong(0);
+        mCurrentFixture = mDatabase.getFullRecordWithId(Fixtures.TABLE_NAME, mFixtureId);
+        setupViews();
     }
 }

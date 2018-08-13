@@ -112,7 +112,8 @@ public class EditFixtureActivity extends AppCompatActivity
         public void onClick(final View view)
         {
             final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            final int[] score = getScoreFromString(mScoreButton.getText().toString());
+            final int[] score = TextUtils.isEmpty(mScoreButton.getText()) ? new int[]{0, 0} :
+                    getScoreFromString(mScoreButton.getText().toString());
             final EditScoreFragment scoreDialog = EditScoreFragment.newInstance(score[0], score[1]);
             scoreDialog.setListener(EditFixtureActivity.this);
             scoreDialog.show(transaction, "score_dialog");
@@ -323,7 +324,7 @@ public class EditFixtureActivity extends AppCompatActivity
         final String venue = mHomeButton.isChecked() ? getString(R.string.home) : getString(
                 R.string.away);
         final CharSequence score = mScoreButton.getText();
-        //        final CharSequence scorers = mGoalScorersButton.getText();
+//        final CharSequence scorers = mGoalScorersButton.getText();
         final CharSequence attendance = mAttendanceInput.getText();
 
         final ContentValues values = new ContentValues();

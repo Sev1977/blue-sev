@@ -65,8 +65,8 @@
     <string name="edit_goal_scorers_label">Goal scorers:</string>
     <string name="edit_attendance_label">Attendance:</string>
     <string name="edit_season_label">Season:</string>
-    <string name="edit_score_home_goals">Home score</string>
-    <string name="edit_score_away_goals">Away score</string>
+    <string name="edit_score_cardiff_goals">Cardiff:</string>
+    <string name="edit_score_opponent_goals">Opponent:</string>
 
     <!-- Chooser titles -->
     <string name="competition_chooser_title">Choose competition</string>

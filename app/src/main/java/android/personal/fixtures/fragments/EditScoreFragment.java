@@ -15,13 +15,13 @@ import android.widget.EditText;
  */
 public class EditScoreFragment extends DialogFragment
 {
-    public static final String EXTRA_HOME_SCORE = "home_score";
-    public static final String EXTRA_AWAY_SCORE = "away_score";
+    public static final String EXTRA_CARDIFF_SCORE = "cardiff_score";
+    public static final String EXTRA_OPPONENT_SCORE = "opponent_score";
 
-    private int mHomeScore;
-    private int mAwayScore;
-    private EditText mHomeScoreView;
-    private EditText mAwayScoreView;
+    private int mCardiffScore;
+    private int mOpponentScore;
+    private EditText mCardiffScoreView;
+    private EditText mOpponentScoreView;
 
     private ScoreDialogListener mListener;
 
@@ -34,16 +34,16 @@ public class EditScoreFragment extends DialogFragment
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters.
      *
-     * @param homeScore Number of goals scored by the home team.
-     * @param awayScore Number of goals scored by the away team.
+     * @param cardiffGoals Number of goals scored by Cardiff.
+     * @param opponentGoals Number of goals scored by the opponent.
      * @return A new instance of fragment EditScoreFragment.
      */
-    public static EditScoreFragment newInstance(int homeScore, int awayScore)
+    public static EditScoreFragment newInstance(int cardiffGoals, int opponentGoals)
     {
         final EditScoreFragment fragment = new EditScoreFragment();
         final Bundle args = new Bundle();
-        args.putInt(EXTRA_HOME_SCORE, homeScore);
-        args.putInt(EXTRA_AWAY_SCORE, awayScore);
+        args.putInt(EXTRA_CARDIFF_SCORE, cardiffGoals);
+        args.putInt(EXTRA_OPPONENT_SCORE, opponentGoals);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,8 +59,8 @@ public class EditScoreFragment extends DialogFragment
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
         {
-            mHomeScore = getArguments().getInt(EXTRA_HOME_SCORE, 0);
-            mAwayScore = getArguments().getInt(EXTRA_AWAY_SCORE, 0);
+            mCardiffScore = getArguments().getInt(EXTRA_CARDIFF_SCORE, 0);
+            mOpponentScore = getArguments().getInt(EXTRA_OPPONENT_SCORE, 0);
         }
     }
 
@@ -70,23 +70,23 @@ public class EditScoreFragment extends DialogFragment
     {
         // Inflate the layout for this fragment
         final View layout = inflater.inflate(R.layout.fragment_edit_score, container, false);
-        mHomeScoreView = layout.findViewById(R.id.homeScoreInput);
-        mHomeScoreView.setText(String.valueOf(mHomeScore));
-        mAwayScoreView = layout.findViewById(R.id.awayScoreInput);
-        mAwayScoreView.setText(String.valueOf(mAwayScore));
+        mCardiffScoreView = layout.findViewById(R.id.homeScoreInput);
+        mCardiffScoreView.setText(String.valueOf(mCardiffScore));
+        mOpponentScoreView = layout.findViewById(R.id.awayScoreInput);
+        mOpponentScoreView.setText(String.valueOf(mOpponentScore));
         layout.findViewById(R.id.editScoreOkButton).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(final View view)
             {
                 final int[] score = new int[]{0, 0};
-                if (!TextUtils.isEmpty(mHomeScoreView.getText()))
+                if (!TextUtils.isEmpty(mCardiffScoreView.getText()))
                 {
-                    score[0] = Integer.valueOf(mHomeScoreView.getText().toString());
+                    score[0] = Integer.valueOf(mCardiffScoreView.getText().toString());
                 }
-                if (!TextUtils.isEmpty(mAwayScoreView.getText()))
+                if (!TextUtils.isEmpty(mOpponentScoreView.getText()))
                 {
-                    score[1] = Integer.valueOf(mAwayScoreView.getText().toString());
+                    score[1] = Integer.valueOf(mOpponentScoreView.getText().toString());
                 }
                 if (mListener != null)
                 {
