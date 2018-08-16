@@ -14,6 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Results.
@@ -37,31 +40,54 @@ public class ResultsFragment extends Fragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        Log.v(TAG, "onCreate");
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
     {
         final View view = inflater.inflate(R.layout.fragment_result_list, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView)
+        final View list = view.findViewById(R.id.list);
+        if (list instanceof RecyclerView)
         {
-            final Context context = view.getContext();
-            final RecyclerView recyclerView = (RecyclerView)view;
+            final Context context = list.getContext();
+            final RecyclerView recyclerView = (RecyclerView)list;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             recyclerView.setAdapter(
                     new ResultRecyclerViewAdapter(getContext(), mResults, mListener));
         }
 
+        // setup the form views.
+        final ArrayList<Integer> form = FixturesHelper.getRecentForm(
+                Database.getInstance(getActivity().getApplicationContext()));
+        if (form.size() > 0)
+        {
+            final ArrayList<ImageView> formViews = new ArrayList<>();
+            formViews.add((ImageView)view.findViewById(R.id.resultsForm6));
+            formViews.add((ImageView)view.findViewById(R.id.resultsForm5));
+            formViews.add((ImageView)view.findViewById(R.id.resultsForm4));
+            formViews.add((ImageView)view.findViewById(R.id.resultsForm3));
+            formViews.add((ImageView)view.findViewById(R.id.resultsForm2));
+            formViews.add((ImageView)view.findViewById(R.id.resultsForm1));
+            for (Integer winLoseOrDraw : form)
+            {
+                final int index = form.indexOf(winLoseOrDraw);
+                if (winLoseOrDraw == 3)
+                {
+                    formViews.get(index).setImageResource(R.drawable.form_win);
+                }
+                else if (winLoseOrDraw == 1)
+                {
+                    formViews.get(index).setImageResource(R.drawable.form_draw);
+                }
+                else
+                {
+                    formViews.get(index).setImageResource(R.drawable.form_defeat);
+                }
+            }
+        }
+
         return view;
     }
-
 
     @Override
     public void onAttach(Context context)
@@ -105,6 +131,7 @@ public class ResultsFragment extends Fragment
     public interface OnResultsListInteractionListener
     {
         void onResultSelected(final long id);
+
         void onEditResult(final long id);
     }
 }

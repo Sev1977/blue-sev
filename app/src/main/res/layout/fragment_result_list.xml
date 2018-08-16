@@ -1,14 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/list"
-    android:name="android.personal.fixtures.fragments.ResultsFragment"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="4dp"
-    android:scrollbars="vertical"
-    android:verticalScrollbarPosition="right"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".fragments.ResultsFragment"/>
+    android:orientation="vertical"
+    tools:context=".fragments.ResultsFragment">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/default_activity_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/form_label"/>
+
+        <ImageView
+            android:id="@+id/resultsForm1"
+            style="@style/formBoxStyle"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/form_empty"/>
+
+        <ImageView
+            android:id="@+id/resultsForm2"
+            style="@style/formBoxStyle"
+            android:src="@drawable/form_empty"/>
+
+        <ImageView
+            android:id="@+id/resultsForm3"
+            style="@style/formBoxStyle"
+            android:src="@drawable/form_empty"/>
+
+        <ImageView
+            android:id="@+id/resultsForm4"
+            style="@style/formBoxStyle"
+            android:src="@drawable/form_empty"/>
+
+        <ImageView
+            android:id="@+id/resultsForm5"
+            style="@style/formBoxStyle"
+            android:src="@drawable/form_empty"/>
+
+        <ImageView
+            android:id="@+id/resultsForm6"
+            style="@style/formBoxStyle"
+            android:src="@drawable/form_empty"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:name="android.personal.fixtures.fragments.ResultsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:verticalScrollbarPosition="right"
+        app:layoutManager="LinearLayoutManager"/>
+
+</LinearLayout>
