@@ -37,13 +37,11 @@ public class EditFixtureActivity extends AppCompatActivity
 {
     static final String EXTRA_FIXTURE_ID = "fixture_id";
 
-    private static final int REQUEST_DATE = 0;
-    private static final int REQUEST_TIME = 1;
-    private static final int REQUEST_COMPETITION = 2;
-    private static final int REQUEST_OPPOSITION = 3;
-    private static final int REQUEST_SCORE = 4;
-    private static final int REQUEST_GOAL_SCORERS = 5;
-    private static final int REQUEST_SEASON = 6;
+    private static final int REQUEST_COMPETITION = 0;
+    private static final int REQUEST_OPPOSITION = 1;
+    private static final int REQUEST_SCORE = 2;
+    private static final int REQUEST_GOAL_SCORERS = 3;
+    private static final int REQUEST_SEASON = 4;
 
     private static final String EXTRA_GOALS_SCORED = "goals_scored";
     private static final String EXTRA_GOALS_CONCEDED = "goals_conceded";
@@ -70,8 +68,6 @@ public class EditFixtureActivity extends AppCompatActivity
     private int mYear;
     private int mHours;
     private int mMinutes;
-    private long mCompetitionId;
-    private long mOppositionId;
 
     private final View.OnClickListener mOnChoiceButtonClicked = new View.OnClickListener()
     {
@@ -267,7 +263,6 @@ public class EditFixtureActivity extends AppCompatActivity
             case REQUEST_COMPETITION:
                 if (id != -1)
                 {
-                    mCompetitionId = id;
                     mCompetitionButton.setText(
                             CompetitionsHelper.getShortNameFromId(mDatabase, id));
                 }
@@ -276,7 +271,6 @@ public class EditFixtureActivity extends AppCompatActivity
             case REQUEST_OPPOSITION:
                 if (id != -1)
                 {
-                    mOppositionId = id;
                     mOpponentButton.setText(ClubsHelper.getShortNameFromId(mDatabase, id));
                 }
                 break;
@@ -392,12 +386,9 @@ public class EditFixtureActivity extends AppCompatActivity
     public void showDatePicker(View view)
     {
         final DatePickerFragment fragment = new DatePickerFragment();
-        if (mIsEditMode)
-        {
-            final Calendar calendar = Calendar.getInstance();
-            calendar.set(mYear, mMonth, mDay);
-            fragment.setDate(calendar.getTimeInMillis());
-        }
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(mYear, mMonth, mDay);
+        fragment.setDate(calendar.getTimeInMillis());
         fragment.setListener(mDateSelectedListener);
         fragment.show(getFragmentManager(), "datePicker");
     }
@@ -417,12 +408,9 @@ public class EditFixtureActivity extends AppCompatActivity
     public void showTimePicker(View view)
     {
         final TimePickerFragment fragment = new TimePickerFragment();
-        if (mIsEditMode)
-        {
-            final Calendar calendar = Calendar.getInstance();
-            calendar.set(mYear, mMonth, mDay, mHours, mMinutes);
-            fragment.setTime(calendar.getTimeInMillis());
-        }
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(mYear, mMonth, mDay, mHours, mMinutes);
+        fragment.setTime(calendar.getTimeInMillis());
         fragment.setListener(mTimeSelectedListener);
         fragment.show(getFragmentManager(), "timePicker");
     }
