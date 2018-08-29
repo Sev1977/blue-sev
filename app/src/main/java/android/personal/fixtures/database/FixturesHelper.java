@@ -74,7 +74,7 @@ public class FixturesHelper
                     // if goals scored is > goals conceded, then it's a win
                     if (scored > conceded)
                     {
-                        form.add(2);
+                        form.add(3);
                     }
                     // else if goals scored == goals conceded, then it's a draw
                     else if (scored == conceded)

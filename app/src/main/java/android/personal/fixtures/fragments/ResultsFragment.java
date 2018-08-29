@@ -68,20 +68,20 @@ public class ResultsFragment extends Fragment
             formViews.add((ImageView)view.findViewById(R.id.resultsForm3));
             formViews.add((ImageView)view.findViewById(R.id.resultsForm2));
             formViews.add((ImageView)view.findViewById(R.id.resultsForm1));
-            for (Integer winLoseOrDraw : form)
+            for (int i = 0; i < form.size(); i++)
             {
-                final int index = form.indexOf(winLoseOrDraw);
-                if (winLoseOrDraw == 3)
+                final Integer result = form.get(i);
+                if (result == 3)
                 {
-                    formViews.get(index).setImageResource(R.drawable.form_win);
+                    formViews.get(i).setImageResource(R.drawable.form_win);
                 }
-                else if (winLoseOrDraw == 1)
+                else if (result == 1)
                 {
-                    formViews.get(index).setImageResource(R.drawable.form_draw);
+                    formViews.get(i).setImageResource(R.drawable.form_draw);
                 }
                 else
                 {
-                    formViews.get(index).setImageResource(R.drawable.form_defeat);
+                    formViews.get(i).setImageResource(R.drawable.form_defeat);
                 }
             }
         }
