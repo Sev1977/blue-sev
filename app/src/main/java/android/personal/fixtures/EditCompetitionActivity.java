@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Switch;
 
 public class EditCompetitionActivity extends AppCompatActivity
 {
@@ -22,6 +23,7 @@ public class EditCompetitionActivity extends AppCompatActivity
 
     private EditText mFullNameInput;
     private EditText mShortNameInput;
+    private Switch mCompIsLeague;
 
     private boolean mIsEditMode;
     private long mCompetitionId;
@@ -44,6 +46,7 @@ public class EditCompetitionActivity extends AppCompatActivity
 
         mFullNameInput = findViewById(R.id.competition_full_name_input);
         mShortNameInput = findViewById(R.id.competition_short_name_input);
+        mCompIsLeague = findViewById(R.id.compIsLeagueSwitch);
 
         mIsEditMode = false;
 
@@ -56,10 +59,9 @@ public class EditCompetitionActivity extends AppCompatActivity
                     mCompetitionId);
             if (competition != null)
             {
-                mFullNameInput.setText(competition
-                        .getString(competition.getColumnIndex(Competitions.COL_NAME_FULL_NAME)));
-                mShortNameInput.setText(competition
-                        .getString(competition.getColumnIndex(Competitions.COL_NAME_SHORT_NAME)));
+                mFullNameInput.setText(competition.getString(Competitions.COL_INDEX_FULL_NAME));
+                mShortNameInput.setText(competition.getString(Competitions.COL_INDEX_SHORT_NAME));
+                mCompIsLeague.setChecked(competition.getInt(Competitions.COL_INDEX_IS_LEAGUE) == 1);
                 competition.close();
             }
         }
@@ -114,6 +116,7 @@ public class EditCompetitionActivity extends AppCompatActivity
         final ContentValues values = new ContentValues();
         values.put(Competitions.COL_NAME_FULL_NAME, fullName);
         values.put(Competitions.COL_NAME_SHORT_NAME, shortName);
+        values.put(Competitions.COL_NAME_IS_LEAGUE, mCompIsLeague.isChecked());
 
         if (mIsEditMode)
         {

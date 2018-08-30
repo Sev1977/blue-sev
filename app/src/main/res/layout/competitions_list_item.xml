@@ -33,10 +33,20 @@
 
     <TextView
         android:id="@+id/short_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/full_name"
         android:layout_below="@id/full_name"
         android:text="short name"/>
+
+    <TextView
+        android:id="@+id/comp_league_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/full_name"
+        android:layout_toEndOf="@id/short_name"
+        android:text="@string/league_label"
+        android:textAlignment="viewEnd"/>
 
 </RelativeLayout>

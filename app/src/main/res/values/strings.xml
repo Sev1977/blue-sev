@@ -83,5 +83,7 @@
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="form_label">Form</string>
+    <string name="league_label">League</string>
+    <string name="cup_label">Cup</string>
 
 </resources>

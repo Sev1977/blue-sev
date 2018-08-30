@@ -49,10 +49,10 @@ public class CompetitionRecyclerViewAdapter
         holder.mCompetitionId = mCompetitions.getLong(
                 mCompetitions.getColumnIndex(BaseColumns._ID));
         holder.mIdView.setText(String.valueOf(position + 1));
-        holder.mFullNameView.setText(mCompetitions
-                .getString(mCompetitions.getColumnIndex(Competitions.COL_NAME_FULL_NAME)));
-        holder.mShortNameView.setText(mCompetitions
-                .getString(mCompetitions.getColumnIndex(Competitions.COL_NAME_SHORT_NAME)));
+        holder.mFullNameView.setText(mCompetitions.getString(Competitions.COL_INDEX_FULL_NAME));
+        holder.mShortNameView.setText(mCompetitions.getString(Competitions.COL_INDEX_SHORT_NAME));
+        holder.mIsLeagueView.setText(mCompetitions.getInt(Competitions.COL_INDEX_IS_LEAGUE) == 1 ?
+                R.string.league_label : R.string.cup_label);
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
@@ -82,6 +82,7 @@ public class CompetitionRecyclerViewAdapter
         final TextView mIdView;
         final TextView mFullNameView;
         final TextView mShortNameView;
+        final TextView mIsLeagueView;
 
         ViewHolder(View view)
         {
@@ -90,6 +91,7 @@ public class CompetitionRecyclerViewAdapter
             mIdView = view.findViewById(R.id.item_number);
             mFullNameView = view.findViewById(R.id.full_name);
             mShortNameView = view.findViewById(R.id.short_name);
+            mIsLeagueView = view.findViewById(R.id.comp_league_label);
         }
 
         @Override
