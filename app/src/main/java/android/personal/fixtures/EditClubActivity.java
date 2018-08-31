@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.personal.fixtures.database.Database;
+import android.personal.fixtures.database.FixturesHelper;
 import android.personal.fixtures.database.tables.Clubs;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,8 @@ public class EditClubActivity extends AppCompatActivity
 
     private boolean mIsEditMode;
     private long mClubId;
+    /** Store the original short name so we can update the fixtures if it changes. */
+    private String mOldName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,6 +54,7 @@ public class EditClubActivity extends AppCompatActivity
         mLeagueSwitch = findViewById(R.id.club_league_switch);
 
         mIsEditMode = false;
+        mOldName = null;
 
         final Bundle extras = getIntent().getExtras();
         if (extras != null)
@@ -62,8 +66,9 @@ public class EditClubActivity extends AppCompatActivity
             {
                 mFullNameInput.setText(
                         club.getString(club.getColumnIndex(Clubs.COL_NAME_FULL_NAME)));
-                mShortNameInput.setText(
-                        club.getString(club.getColumnIndex(Clubs.COL_NAME_SHORT_NAME)));
+                final String name = club.getString(club.getColumnIndex(Clubs.COL_NAME_SHORT_NAME));
+                mShortNameInput.setText(name);
+                mOldName = name;
                 mCodeInput.setText(club.getString(club.getColumnIndex(Clubs.COL_NAME_CODE)));
                 mLeagueSwitch.setChecked(
                         club.getInt(club.getColumnIndex(Clubs.COL_NAME_IS_LEAGUE)) == 1);
@@ -88,6 +93,13 @@ public class EditClubActivity extends AppCompatActivity
             case R.id.edit_action_save:
                 if (saveClub())
                 {
+                    // Check if we need to update any fixtures
+                    final String name = mShortNameInput.getText().toString();
+                    if (!name.equals(mOldName))
+                    {
+                        FixturesHelper.updateOppositionName(mDatabase, mOldName, name);
+                    }
+
                     setResult(RESULT_OK);
                     finish();
                 }
