@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.personal.fixtures.database.Database;
+import android.personal.fixtures.database.FixturesHelper;
 import android.personal.fixtures.database.tables.Competitions;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,8 @@ public class EditCompetitionActivity extends AppCompatActivity
 
     private boolean mIsEditMode;
     private long mCompetitionId;
+    /** Store the original name so we can update the fixtures if it changes. */
+    private String mOldName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,6 +52,7 @@ public class EditCompetitionActivity extends AppCompatActivity
         mCompIsLeague = findViewById(R.id.compIsLeagueSwitch);
 
         mIsEditMode = false;
+        mOldName = null;
 
         final Bundle extras = getIntent().getExtras();
         if (extras != null)
@@ -60,7 +64,9 @@ public class EditCompetitionActivity extends AppCompatActivity
             if (competition != null)
             {
                 mFullNameInput.setText(competition.getString(Competitions.COL_INDEX_FULL_NAME));
-                mShortNameInput.setText(competition.getString(Competitions.COL_INDEX_SHORT_NAME));
+                final String shortName = competition.getString(Competitions.COL_INDEX_SHORT_NAME);
+                mShortNameInput.setText(shortName);
+                mOldName = shortName;
                 mCompIsLeague.setChecked(competition.getInt(Competitions.COL_INDEX_IS_LEAGUE) == 1);
                 competition.close();
             }
@@ -83,6 +89,13 @@ public class EditCompetitionActivity extends AppCompatActivity
             case R.id.edit_action_save:
                 if (saveCompetition())
                 {
+                    // Check if we need to update any fixtures
+                    final String name = mShortNameInput.getText().toString();
+                    if (!name.equals(mOldName))
+                    {
+                        FixturesHelper.updateCompetitionName(mDatabase, mOldName, name);
+                    }
+
                     setResult(RESULT_OK);
                     finish();
                 }

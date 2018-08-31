@@ -97,4 +97,14 @@ public class FixturesHelper
         database.getWritableDatabase().update(Fixtures.TABLE_NAME, values,
                 Fixtures.COL_NAME_OPPOSITION + "=?", new String[]{oldName});
     }
+
+    public static void updateCompetitionName(final Database database, final String oldName,
+            final String newName)
+    {
+        final ContentValues values = new ContentValues();
+        values.put(Fixtures.COL_NAME_COMPETITION, newName);
+
+        database.getWritableDatabase().update(Fixtures.TABLE_NAME, values,
+                Fixtures.COL_NAME_COMPETITION + "=?", new String[]{oldName});
+    }
 }
