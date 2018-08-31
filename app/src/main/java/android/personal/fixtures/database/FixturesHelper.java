@@ -15,14 +15,14 @@ public class FixturesHelper
 {
     private static final String TAG = FixturesHelper.class.getSimpleName();
 
-    public static Cursor getAllResults(final Database database)
+    public static Cursor getAllResults(final Database database, final String sortOrder)
     {
         Log.d(TAG, "getAllResults");
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
         final Cursor allFixtures = database.getSelection(Fixtures.TABLE_NAME,
                 Fixtures.COL_NAME_DATE + "<?", new String[]{String.valueOf(nowInSeconds)},
-                Fixtures.DEFAULT_SORT_ORDER);
+                (sortOrder == null) ? Fixtures.DEFAULT_SORT_ORDER : sortOrder);
         if (allFixtures != null)
         {
             allFixtures.moveToFirst();
