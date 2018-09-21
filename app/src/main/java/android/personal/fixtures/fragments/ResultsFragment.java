@@ -30,6 +30,21 @@ public class ResultsFragment extends Fragment
 
     private Cursor mResults;
     private OnResultsListInteractionListener mListener;
+    private View mSelectedFilterButton = null;
+
+    private View.OnClickListener mOnClickFilterToggle = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(final View v)
+        {
+            if (mSelectedFilterButton != null)
+            {
+                mSelectedFilterButton.setSelected(false);
+            }
+            mSelectedFilterButton = v;
+            mSelectedFilterButton.setSelected(true);
+        }
+    };
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
@@ -55,6 +70,12 @@ public class ResultsFragment extends Fragment
             recyclerView.setAdapter(
                     new ResultRecyclerViewAdapter(getContext(), mResults, mListener));
         }
+
+        // set the click listener for the filter toggle buttons
+        final View allButton = view.findViewById(R.id.resultsFilterAll);
+        allButton.setOnClickListener(mOnClickFilterToggle);
+        mOnClickFilterToggle.onClick(allButton); // select the all filter by default
+        view.findViewById(R.id.resultsFilterLge).setOnClickListener(mOnClickFilterToggle);
 
         // setup the form views.
         final ArrayList<Integer> form = FixturesHelper.getRecentForm(

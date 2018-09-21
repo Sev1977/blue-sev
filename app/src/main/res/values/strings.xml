@@ -77,6 +77,10 @@
     <string name="goal_scorer_dialog_label_name">Name</string>
     <string name="goal_scorer_dialog_label_penalty">Penalty</string>
 
+    <!-- Fixtures/results filter labels -->
+    <string name="filter_all">ALL</string>
+    <string name="filter_lge">LGE</string>
+
     <!-- Common strings -->
     <string name="action_add">Add</string>
     <string name="action_save">Save</string>
