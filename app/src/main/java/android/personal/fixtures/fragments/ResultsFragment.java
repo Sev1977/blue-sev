@@ -7,6 +7,7 @@ import android.personal.fixtures.R;
 import android.personal.fixtures.adapters.ResultRecyclerViewAdapter;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.FixturesHelper;
+import android.personal.fixtures.database.tables.Fixtures;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -126,7 +127,8 @@ public class ResultsFragment extends Fragment
         }
 
         mResults = FixturesHelper.getAllResults(
-                Database.getInstance(getActivity().getApplicationContext()));
+                Database.getInstance(getActivity().getApplicationContext()),
+                Fixtures.COL_NAME_DATE + " DESC");
         if (mResults != null)
         {
             Log.i(TAG, "number of results: " + mResults.getCount());

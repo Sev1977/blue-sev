@@ -55,4 +55,23 @@ public class CompetitionsHelper
 
         return fullName;
     }
+
+    public static boolean getIsLeague(final Database database, final String shortName)
+    {
+        boolean isLeague = false;
+        final Cursor competition = (shortName == null) ? null : database.getColumnsForSelection(
+                Competitions.TABLE_NAME, new String[]{Competitions.COL_NAME_IS_LEAGUE},
+                Competitions.COL_NAME_SHORT_NAME + "=?", new String[]{shortName},
+                Competitions.DEFAULT_SORT_ORDER);
+        if (competition != null)
+        {
+            if (competition.getCount() == 1)
+            {
+                isLeague = (competition.getInt(0) == 1);
+            }
+            competition.close();
+        }
+
+        return isLeague;
+    }
 }

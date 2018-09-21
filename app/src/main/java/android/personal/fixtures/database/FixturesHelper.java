@@ -1,8 +1,8 @@
 package android.personal.fixtures.database;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.personal.fixtures.database.tables.Fixtures;
-import android.provider.BaseColumns;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -15,14 +15,14 @@ public class FixturesHelper
 {
     private static final String TAG = FixturesHelper.class.getSimpleName();
 
-    public static Cursor getAllResults(final Database database)
+    public static Cursor getAllResults(final Database database, final String sortOrder)
     {
         Log.d(TAG, "getAllResults");
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
         final Cursor allFixtures = database.getSelection(Fixtures.TABLE_NAME,
                 Fixtures.COL_NAME_DATE + "<?", new String[]{String.valueOf(nowInSeconds)},
-                Fixtures.DEFAULT_SORT_ORDER);
+                (sortOrder == null) ? Fixtures.DEFAULT_SORT_ORDER : sortOrder);
         if (allFixtures != null)
         {
             allFixtures.moveToFirst();
@@ -45,13 +45,6 @@ public class FixturesHelper
         return allFixtures;
     }
 
-    public static boolean removeFixtureWithId(final Database database, final long id)
-    {
-        final int numRowsDeleted = database.getWritableDatabase().delete(Fixtures.TABLE_NAME,
-                BaseColumns._ID + "=?", new String[]{String.valueOf(id)});
-        return numRowsDeleted > 0;
-    }
-
     public static ArrayList<Integer> getRecentForm(final Database database)
     {
         final ArrayList<Integer> form = new ArrayList<>();
@@ -61,7 +54,7 @@ public class FixturesHelper
         final Cursor cursor = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
                 new String[]{Fixtures.COL_NAME_GOALS_SCORED, Fixtures.COL_NAME_GOALS_CONCEDED},
                 Fixtures.COL_NAME_DATE + "<?", new String[]{String.valueOf(nowInSeconds)}, null,
-                null, Fixtures.COL_NAME_DATE + " " + "DESC " + "LIMIT 6");
+                null, Fixtures.COL_NAME_DATE + " DESC LIMIT 6");
         if (cursor != null)
         {
             if (cursor.moveToFirst())
@@ -88,9 +81,30 @@ public class FixturesHelper
                     }
                 } while (cursor.moveToNext());
             }
+
             cursor.close();
         }
 
         return form;
+    }
+
+    public static void updateOppositionName(final Database database, final String oldName,
+            final String newName)
+    {
+        final ContentValues values = new ContentValues();
+        values.put(Fixtures.COL_NAME_OPPOSITION, newName);
+
+        database.getWritableDatabase().update(Fixtures.TABLE_NAME, values,
+                Fixtures.COL_NAME_OPPOSITION + "=?", new String[]{oldName});
+    }
+
+    public static void updateCompetitionName(final Database database, final String oldName,
+            final String newName)
+    {
+        final ContentValues values = new ContentValues();
+        values.put(Fixtures.COL_NAME_COMPETITION, newName);
+
+        database.getWritableDatabase().update(Fixtures.TABLE_NAME, values,
+                Fixtures.COL_NAME_COMPETITION + "=?", new String[]{oldName});
     }
 }

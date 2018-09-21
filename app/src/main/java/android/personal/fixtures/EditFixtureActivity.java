@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.personal.fixtures.database.ClubsHelper;
 import android.personal.fixtures.database.CompetitionsHelper;
 import android.personal.fixtures.database.Database;
+import android.personal.fixtures.database.tables.Clubs;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.personal.fixtures.database.tables.Goals;
 import android.personal.fixtures.database.tables.Seasons;
@@ -86,10 +87,19 @@ public class EditFixtureActivity extends AppCompatActivity
                     break;
 
                 case R.id.editFixtureOpponent:
+                {
+                    final CharSequence competitionName = mCompetitionButton.getText();
+                    if (!TextUtils.isEmpty(competitionName) && CompetitionsHelper.getIsLeague(
+                            mDatabase, competitionName.toString()))
+                    {
+                        chooser.putExtra(ChooserListActivity.EXTRA_FILTER,
+                                Clubs.COL_NAME_IS_LEAGUE + "=1");
+                    }
                     chooser.putExtra(ChooserListActivity.EXTRA_ITEM_TYPE,
                             ChooserListActivity.ITEM_TYPE_CLUB);
                     requestId = REQUEST_OPPOSITION;
-                    break;
+                }
+                break;
 
                 case R.id.editFixtureSeason:
                     chooser.putExtra(ChooserListActivity.EXTRA_ITEM_TYPE,
@@ -318,7 +328,6 @@ public class EditFixtureActivity extends AppCompatActivity
         final String venue = mHomeButton.isChecked() ? getString(R.string.home) : getString(
                 R.string.away);
         final CharSequence score = mScoreButton.getText();
-//        final CharSequence scorers = mGoalScorersButton.getText();
         final CharSequence attendance = mAttendanceInput.getText();
 
         final ContentValues values = new ContentValues();
