@@ -17,7 +17,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements FixturesFragment.OnFixturesListInteractionListener,
-        ResultsFragment.OnResultsListInteractionListener
+        ResultsFragment.OnResultsListInteractionListener, MainActivityInteraction
 {
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -29,12 +29,15 @@ public class MainActivity extends AppCompatActivity
     private static final String RESULTS_TAG = "resultsTab";
 
     private String mVisibleTab;
+    private boolean mShowAllFixtures;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mShowAllFixtures = true;
 
         Toolbar toolbar = findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
@@ -64,18 +67,18 @@ public class MainActivity extends AppCompatActivity
                 final String tag = (String)tab.getTag();
                 if (FIXTURES_TAG.equalsIgnoreCase(tag))
                 {
-                    transaction.replace(R.id.main_content, new FixturesFragment()).commit();
+                    transaction.replace(R.id.main_content, new FixturesFragment(), tag).commit();
                 }
                 else if (RESULTS_TAG.equalsIgnoreCase(tag))
                 {
-                    transaction.replace(R.id.main_content, new ResultsFragment()).commit();
+                    transaction.replace(R.id.main_content, new ResultsFragment(), tag).commit();
                 }
+                mVisibleTab = tag;
             }
 
             @Override
             public void onTabUnselected(final TabLayout.Tab tab)
             {
-
             }
 
             @Override
@@ -102,6 +105,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.home_action_add:
                 startActivityForResult(new Intent(MainActivity.this, EditFixtureActivity.class),
                         REQUEST_ADD_FIXTURE);
+                return true;
+
+            case R.id.home_action_filter:
+                mShowAllFixtures = !mShowAllFixtures;
+                item.setTitle(mShowAllFixtures ? R.string.filter_all : R.string.filter_lge);
+                refresh();
                 return true;
 
             case R.id.home_action_stats:
@@ -192,27 +201,24 @@ public class MainActivity extends AppCompatActivity
     private void refresh()
     {
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        final FragmentTransaction transaction = fragmentManager.beginTransaction();
+        final Fragment fragment = fragmentManager.findFragmentByTag(mVisibleTab);
         if (mVisibleTab.equalsIgnoreCase(FIXTURES_TAG))
         {
             // Fixtures are visible
-            final Fragment fragment = fragmentManager.findFragmentByTag(FIXTURES_TAG);
             if (fragment != null)
             {
                 transaction.remove(fragment).add(R.id.main_content, new FixturesFragment(),
                         FIXTURES_TAG).commitAllowingStateLoss();
-                mVisibleTab = FIXTURES_TAG;
             }
         }
         else
         {
             // Maybe the results are visible
-            final Fragment fragment = fragmentManager.findFragmentByTag(RESULTS_TAG);
             if (fragment != null)
             {
                 transaction.remove(fragment).add(R.id.main_content, new ResultsFragment(),
                         RESULTS_TAG).commitAllowingStateLoss();
-                mVisibleTab = RESULTS_TAG;
             }
         }
     }
@@ -227,5 +233,11 @@ public class MainActivity extends AppCompatActivity
     public void onEditResult(final long id)
     {
         editFixture(id);
+    }
+
+    @Override
+    public boolean getShowAllFixtures()
+    {
+        return mShowAllFixtures;
     }
 }

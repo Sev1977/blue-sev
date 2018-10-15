@@ -3,6 +3,7 @@ package android.personal.fixtures.fragments;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.personal.fixtures.MainActivityInteraction;
 import android.personal.fixtures.R;
 import android.personal.fixtures.adapters.FixtureRecyclerViewAdapter;
 import android.personal.fixtures.database.Database;
@@ -78,8 +79,16 @@ public class FixturesFragment extends Fragment
                     context.toString() + " must implement OnFixturesListInteractionListener");
         }
 
-        mFixtures = FixturesHelper.getAllFixtures(
-                Database.getInstance(getActivity().getApplicationContext()));
+        if (((MainActivityInteraction)getActivity()).getShowAllFixtures())
+        {
+            mFixtures = FixturesHelper.getAllFixtures(
+                    Database.getInstance(getActivity().getApplicationContext()));
+        }
+        else
+        {
+            mFixtures = FixturesHelper.getLeagueFixtures(
+                    Database.getInstance(getActivity().getApplicationContext()));
+        }
         if (mFixtures != null)
         {
             Log.i(TAG, "number of fixtures: " + mFixtures.getCount());
@@ -105,6 +114,7 @@ public class FixturesFragment extends Fragment
     public interface OnFixturesListInteractionListener
     {
         void onFixtureSelected(final long id);
+
         void onEditClicked(final long id);
     }
 }

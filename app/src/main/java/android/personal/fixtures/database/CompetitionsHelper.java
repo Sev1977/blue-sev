@@ -56,6 +56,13 @@ public class CompetitionsHelper
         return fullName;
     }
 
+    /**
+     * Find out if the given competition is a league.
+     *
+     * @param database  The database to search
+     * @param shortName The short name of the competition to search for
+     * @return <code>true</code> if the given competition is a league, <code>false</code> otherwise.
+     */
     public static boolean getIsLeague(final Database database, final String shortName)
     {
         boolean isLeague = false;
@@ -73,5 +80,17 @@ public class CompetitionsHelper
         }
 
         return isLeague;
+    }
+
+    /**
+     * Get the data for [the] league competition(s)
+     *
+     * @param database the database to search
+     * @return A Cursor containing all the records for competitions listed as a league.
+     */
+    public static Cursor getLeague(final Database database)
+    {
+        return database.getColumnsForSelection(Competitions.TABLE_NAME, null,
+                Competitions.COL_NAME_IS_LEAGUE + "=1", null, null);
     }
 }

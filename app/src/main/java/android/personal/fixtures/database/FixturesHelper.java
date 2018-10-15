@@ -2,6 +2,7 @@ package android.personal.fixtures.database;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.personal.fixtures.database.tables.Competitions;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.util.Log;
 
@@ -15,24 +16,65 @@ public class FixturesHelper
 {
     private static final String TAG = FixturesHelper.class.getSimpleName();
 
+    private static String getLeagueName(final Database database)
+    {
+        String name = "";
+        final Cursor league = CompetitionsHelper.getLeague(database);
+        if (league != null)
+        {
+            if (league.getCount() > 1)
+            {
+                Log.w(TAG, "We've got more than 1 league competition, I'm using the first one in" +
+                        " the list");
+            }
+            if (league.moveToFirst())
+            {
+                name = league.getString(Competitions.COL_INDEX_SHORT_NAME);
+            }
+
+            league.close();
+        }
+
+        return name;
+    }
+
     public static Cursor getAllResults(final Database database, final String sortOrder)
     {
         Log.d(TAG, "getAllResults");
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
-        final Cursor allFixtures = database.getSelection(Fixtures.TABLE_NAME,
+        final Cursor allResults = database.getSelection(Fixtures.TABLE_NAME,
                 Fixtures.COL_NAME_DATE + "<?", new String[]{String.valueOf(nowInSeconds)},
                 (sortOrder == null) ? Fixtures.DEFAULT_SORT_ORDER : sortOrder);
-        if (allFixtures != null)
+        if (allResults != null)
         {
-            allFixtures.moveToFirst();
+            allResults.moveToFirst();
         }
-        return allFixtures;
+        return allResults;
+    }
+
+    public static Cursor getLeagueResults(final Database database)
+    {
+        Log.d(TAG, "getLeagueResults");
+
+        // Now we can get all the league results
+        final long now = System.currentTimeMillis();
+        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
+        final Cursor leagueResults = database.getSelection(Fixtures.TABLE_NAME,
+                Fixtures.COL_NAME_DATE + "<? AND " + Fixtures.COL_NAME_COMPETITION + "=?",
+                new String[]{String.valueOf(nowInSeconds), getLeagueName(database)},
+                Fixtures.DEFAULT_SORT_ORDER);
+        if (leagueResults != null)
+        {
+            leagueResults.moveToFirst();
+        }
+        return leagueResults;
     }
 
     public static Cursor getAllFixtures(final Database database)
     {
         Log.d(TAG, "getAllFixtures");
+
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
         final Cursor allFixtures = database.getSelection(Fixtures.TABLE_NAME,
@@ -43,6 +85,24 @@ public class FixturesHelper
             allFixtures.moveToFirst();
         }
         return allFixtures;
+    }
+
+    public static Cursor getLeagueFixtures(final Database database)
+    {
+        Log.d(TAG, "getLeagueFixtures");
+
+        // Now we can get all the league results
+        final long now = System.currentTimeMillis();
+        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
+        final Cursor leagueFixtures = database.getSelection(Fixtures.TABLE_NAME,
+                Fixtures.COL_NAME_DATE + ">? AND " + Fixtures.COL_NAME_COMPETITION + "=?",
+                new String[]{String.valueOf(nowInSeconds), getLeagueName(database)},
+                Fixtures.DEFAULT_SORT_ORDER);
+        if (leagueFixtures != null)
+        {
+            leagueFixtures.moveToFirst();
+        }
+        return leagueFixtures;
     }
 
     public static ArrayList<Integer> getRecentForm(final Database database)
