@@ -65,8 +65,8 @@ public class FixtureActivity extends AppCompatActivity
                 mCurrentFixture = mDatabase.getFullRecordWithId(Fixtures.TABLE_NAME, mFixtureId);
 
                 // Move the Cursor position to the current record.
-                while (mFixtures.getInt(Fixtures.COL_ID_DATE) != mCurrentFixture.getInt(
-                        Fixtures.COL_ID_DATE))
+                final int colIndex = mFixtures.getColumnIndex(BaseColumns._ID);
+                while (mFixtures.getInt(colIndex) != mFixtureId)
                 {
                     mFixtures.moveToNext();
                 }
@@ -195,7 +195,8 @@ public class FixtureActivity extends AppCompatActivity
                 final StringBuilder builder = new StringBuilder();
                 final Cursor goals = mDatabase.getColumnsForSelection(Goals.TABLE_NAME,
                         new String[]{Goals.COL_NAME_PLAYER_NAME, Goals.COL_NAME_PENALTY},
-                        BaseColumns._ID + "=?", new String[]{String.valueOf(mFixtureId)}, null);
+                        Goals.COL_NAME_FIXTURE_ID + "=?", new String[]{String.valueOf(mFixtureId)},
+                        null);
                 if (goals != null)
                 {
                     if (goals.getCount() > 0)
