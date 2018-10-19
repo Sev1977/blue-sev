@@ -48,6 +48,10 @@
     <string name="time_format" translatable="false">kk:mm</string>
     <string name="versus">v</string>
 
+    <!-- Statistics -->
+    <string name="stats_tab_label_graphs">Graphs</string>
+    <string name="stats_tab_label_numbers">Numbers</string>
+
     <!-- Edit item strings -->
     <string name="edit_full_name_label">Full name</string>
     <string name="edit_short_name_label">Short name</string>
@@ -89,5 +93,18 @@
     <string name="form_label">Form</string>
     <string name="league_label">League</string>
     <string name="cup_label">Cup</string>
+
+    <!-- Statistics, graphs choice -->
+    <string-array name="graphs_descriptions">
+        <item>Points</item>
+        <item>Average points</item>
+        <item>Goals scored</item>
+        <item>Average goals scored</item>
+        <item>Goals conceded</item>
+        <item>Average goals conceded</item>
+        <item>Goals difference</item>
+        <item>Average goals difference</item>
+        <item>Wins, draws &amp; losses</item>
+    </string-array>
 
 </resources>

@@ -10,9 +10,9 @@ public class Statistics
 {
     public static final String TABLE_NAME = "statistics";
 
-    private static final String COL_NAME_SEASON_ID = "season_id";
-    private static final String COL_NAME_DESCRIPTION = "description";
-    private static final String COL_NAME_VALUE = "value";
+    public static final String COL_NAME_SEASON_ID = "season_id";
+    public static final String COL_NAME_DESCRIPTION = "description";
+    public static final String COL_NAME_VALUE = "value";
 
     public static void createTable(final SQLiteDatabase database)
     {
