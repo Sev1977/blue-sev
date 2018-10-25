@@ -57,8 +57,16 @@ public class GraphsFragment extends Fragment implements IGraphsCallbacks
 
         mAllCharts[Graph.POINTS.ordinal()] = view.findViewById(R.id.lineChart);
         mAllCharts[Graph.AVG_POINTS.ordinal()] = view.findViewById(R.id.lineChart);
+        mAllCharts[Graph.GOALS_SCORED.ordinal()] = view.findViewById(R.id.lineChart);
+        mAllCharts[Graph.AVG_GOALS_SCORED.ordinal()] = view.findViewById(R.id.lineChart);
+        mAllCharts[Graph.GOALS_CONCEDED.ordinal()] = view.findViewById(R.id.lineChart);
+        mAllCharts[Graph.AVG_GOALS_CONCEDED.ordinal()] = view.findViewById(R.id.lineChart);
+        mAllCharts[Graph.GOAL_DIFFERENCE.ordinal()] = view.findViewById(R.id.barChart);
+        mAllCharts[Graph.AVG_GOAL_DIFFERENCE.ordinal()] = view.findViewById(R.id.lineChart);
         mAllCharts[Graph.WINS_DRAWS_LOSSES.ordinal()] = view.findViewById(
                 R.id.pieChart);
+        mAllCharts[Graph.ATTENDANCE.ordinal()] = view.findViewById(R.id.barChart);
+        mAllCharts[Graph.AVERAGE_ATTENDANCE.ordinal()] = view.findViewById(R.id.lineChart);
 
         return view;
     }

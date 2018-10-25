@@ -10,9 +10,16 @@
     <color name="textColorSecondary">@android:color/secondary_text_dark</color>
     <color name="textColorDisabled">@android:color/tertiary_text_dark</color>
 
-    <color name="result_win">#00cc00</color>
-    <color name="result_defeat">#dd0000</color>
+    <color name="red">#dd0000</color>
+    <color name="green">#00cc00</color>
+
+    <color name="result_win">@color/green</color>
+    <color name="result_defeat">@color/red</color>
     <color name="result_draw">#888888</color>
 
     <color name="form_block_empty">@android:color/white</color>
+
+    <!-- chart colours -->
+    <color name="bar_chart_positive">@color/green</color>
+    <color name="bar_chart_negative">@color/red</color>
 </resources>

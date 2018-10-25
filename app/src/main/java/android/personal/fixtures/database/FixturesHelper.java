@@ -1,7 +1,9 @@
 package android.personal.fixtures.database;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
+import android.personal.fixtures.R;
 import android.personal.fixtures.database.tables.Competitions;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.util.Log;
@@ -270,6 +272,222 @@ public class FixturesHelper
         return averagePoints;
     }
 
+    public static int[] getGoalsScored(final Database database)
+    {
+        Log.d(TAG, "getGoalsScored");
+
+        int[] goalsScored = null;
+        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
+                new String[]{Fixtures.COL_NAME_GOALS_SCORED}, RESULTS_WHERE,
+                new String[]{String.valueOf(nowInSeconds)}, null, null,
+                Fixtures.DEFAULT_SORT_ORDER);
+        if (results != null)
+        {
+            if (results.moveToFirst())
+            {
+                final int numResults = results.getCount();
+                Log.v(TAG, "number of results: " + numResults);
+                goalsScored = new int[numResults];
+
+                int gameIndex = 0;
+                int goalsTotal = 0;
+                do
+                {
+                    goalsTotal += results.getInt(0);
+                    goalsScored[gameIndex++] = goalsTotal;
+
+                } while (results.moveToNext());
+            }
+
+            results.close();
+        }
+
+        Log.d(TAG, "goals scored: " + Arrays.toString(goalsScored));
+
+        return goalsScored;
+    }
+
+    public static float[] getAverageGoalsScored(final Database database)
+    {
+        Log.d(TAG, "getAverageGoalsScored");
+
+        float[] averageGoalsScored = null;
+        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
+                new String[]{Fixtures.COL_NAME_GOALS_SCORED}, RESULTS_WHERE,
+                new String[]{String.valueOf(nowInSeconds)}, null, null,
+                Fixtures.DEFAULT_SORT_ORDER);
+        if (results != null)
+        {
+            if (results.moveToFirst())
+            {
+                final int numResults = results.getCount();
+                Log.v(TAG, "number of results: " + numResults);
+                averageGoalsScored = new float[numResults];
+
+                int gameIndex = 0;
+                int goalsTotal = 0;
+                do
+                {
+                    goalsTotal += results.getInt(0);
+                    averageGoalsScored[gameIndex++] = (float)goalsTotal / (float)gameIndex;
+
+                } while (results.moveToNext());
+            }
+
+            results.close();
+        }
+
+        Log.d(TAG, "average goals scored: " + Arrays.toString(averageGoalsScored));
+
+        return averageGoalsScored;
+    }
+
+    public static int[] getGoalsConceded(final Database database)
+    {
+        Log.d(TAG, "getGoalsConceded");
+
+        int[] goalsConceded = null;
+        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
+                new String[]{Fixtures.COL_NAME_GOALS_CONCEDED}, RESULTS_WHERE,
+                new String[]{String.valueOf(nowInSeconds)}, null, null,
+                Fixtures.DEFAULT_SORT_ORDER);
+        if (results != null)
+        {
+            if (results.moveToFirst())
+            {
+                final int numResults = results.getCount();
+                Log.v(TAG, "number of results: " + numResults);
+                goalsConceded = new int[numResults];
+
+                int gameIndex = 0;
+                int goalsTotal = 0;
+                do
+                {
+                    goalsTotal += results.getInt(0);
+                    goalsConceded[gameIndex++] = goalsTotal;
+
+                } while (results.moveToNext());
+            }
+
+            results.close();
+        }
+
+        Log.d(TAG, "goals conceded: " + Arrays.toString(goalsConceded));
+
+        return goalsConceded;
+    }
+
+    public static float[] getAverageGoalsConceded(final Database database)
+    {
+        Log.d(TAG, "getAverageGoalsConceded");
+
+        float[] averageGoalsConceded = null;
+        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
+                new String[]{Fixtures.COL_NAME_GOALS_CONCEDED}, RESULTS_WHERE,
+                new String[]{String.valueOf(nowInSeconds)}, null, null,
+                Fixtures.DEFAULT_SORT_ORDER);
+        if (results != null)
+        {
+            if (results.moveToFirst())
+            {
+                final int numResults = results.getCount();
+                Log.v(TAG, "number of results: " + numResults);
+                averageGoalsConceded = new float[numResults];
+
+                int gameIndex = 0;
+                int goalsTotal = 0;
+                do
+                {
+                    goalsTotal += results.getInt(0);
+                    averageGoalsConceded[gameIndex++] = (float)goalsTotal / (float)gameIndex;
+
+                } while (results.moveToNext());
+            }
+
+            results.close();
+        }
+
+        Log.d(TAG, "average goals conceded: " + Arrays.toString(averageGoalsConceded));
+
+        return averageGoalsConceded;
+    }
+
+    public static int[] getGoalDifference(final Database database)
+    {
+        Log.d(TAG, "getGoalDifference");
+
+        int[] goalDifference = null;
+        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
+                GOALS_FOR_CONCEDED, RESULTS_WHERE, new String[]{String.valueOf(nowInSeconds)}, null,
+                null, Fixtures.DEFAULT_SORT_ORDER);
+        if (results != null)
+        {
+            if (results.moveToFirst())
+            {
+                final int numResults = results.getCount();
+                Log.v(TAG, "number of results: " + numResults);
+                goalDifference = new int[numResults];
+
+                int gameIndex = 0;
+                int totalGoalsFor = 0;
+                int totalGoalsAgainst = 0;
+                do
+                {
+                    totalGoalsFor += results.getInt(0);
+                    totalGoalsAgainst += results.getInt(1);
+                    goalDifference[gameIndex++] = totalGoalsFor - totalGoalsAgainst;
+                } while (results.moveToNext());
+            }
+
+            results.close();
+        }
+
+        Log.d(TAG, "goal difference: " + Arrays.toString(goalDifference));
+
+        return goalDifference;
+    }
+
+    public static float[] getAverageGoalDifference(final Database database)
+    {
+        Log.d(TAG, "getAverageGoalDifference");
+
+        float[] avgGoalDiff = null;
+        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
+                GOALS_FOR_CONCEDED, RESULTS_WHERE, new String[]{String.valueOf(nowInSeconds)}, null,
+                null, Fixtures.DEFAULT_SORT_ORDER);
+        if (results != null)
+        {
+            if (results.moveToFirst())
+            {
+                final int numResults = results.getCount();
+                Log.v(TAG, "number of results: " + numResults);
+                avgGoalDiff = new float[numResults];
+
+                float gameIndex = 0;
+                float totalGoalsFor = 0;
+                float totalGoalsAgainst = 0;
+                do
+                {
+                    totalGoalsFor += results.getInt(0);
+                    totalGoalsAgainst += results.getInt(1);
+                    avgGoalDiff[(int)gameIndex++] = (totalGoalsFor - totalGoalsAgainst) / gameIndex;
+                } while (results.moveToNext());
+            }
+
+            results.close();
+        }
+
+        Log.d(TAG, "average goal difference: " + Arrays.toString(avgGoalDiff));
+
+        return avgGoalDiff;
+    }
+
     public static int[] getNumberOfWinsDrawsLosses(final Database database)
     {
         int[] countOfWinsDrawsLosses = new int[]{0, 0, 0}; // wins, draws, losses
@@ -302,5 +520,36 @@ public class FixturesHelper
         }
 
         return countOfWinsDrawsLosses;
+    }
+
+    public static int[] getAttendances(final Database database, final Context context)
+    {
+        Log.v(TAG, "getAttendances");
+        int[] attendances = null;
+        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
+                new String[]{Fixtures.COL_NAME_ATTENDANCE},
+                Fixtures.COL_NAME_DATE + "<? AND " + Fixtures.COL_NAME_VENUE + "=? AND " +
+                        Fixtures.COL_NAME_ATTENDANCE + ">0",
+                new String[]{String.valueOf(nowInSeconds), context.getString(R.string.home)}, null,
+                null, Fixtures.DEFAULT_SORT_ORDER);
+        if (results != null)
+        {
+            if (results.moveToFirst())
+            {
+                final int numResults = results.getCount();
+                Log.v(TAG, "number of results: " + numResults);
+                attendances = new int[numResults];
+                int i = 0;
+                do
+                {
+                    attendances[i++] = results.getInt(0);
+                } while (results.moveToNext());
+            }
+
+            results.close();
+        }
+
+        return attendances;
     }
 }

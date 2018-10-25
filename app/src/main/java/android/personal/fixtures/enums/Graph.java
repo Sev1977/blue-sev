@@ -12,9 +12,11 @@ public enum Graph
     AVG_GOALS_SCORED("Average goals scored"),
     GOALS_CONCEDED("Goals conceded"),
     AVG_GOALS_CONCEDED("Average goals conceded"),
-    GOALS_DIFFERENCE("Goals difference"),
-    AVG_GOALS_DIFFERENCE("Average goals difference"),
-    WINS_DRAWS_LOSSES("Wins, draws & losses");
+    GOAL_DIFFERENCE("Goals difference"),
+    AVG_GOAL_DIFFERENCE("Average goals difference"),
+    WINS_DRAWS_LOSSES("Wins, draws & losses"),
+    ATTENDANCE("Attendance"),
+    AVERAGE_ATTENDANCE("Average attendance");
 
     private String mName;
 

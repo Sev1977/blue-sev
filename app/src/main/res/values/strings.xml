@@ -105,6 +105,8 @@
         <item>Goals difference</item>
         <item>Average goals difference</item>
         <item>Wins, draws &amp; losses</item>
+        <item>Attendance</item>
+        <item>Average attendance</item>
     </string-array>
 
 </resources>
