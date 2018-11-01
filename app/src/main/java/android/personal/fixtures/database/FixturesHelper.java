@@ -22,6 +22,7 @@ public class FixturesHelper
     private static final String[] GOALS_FOR_CONCEDED =
             new String[]{Fixtures.COL_NAME_GOALS_SCORED, Fixtures.COL_NAME_GOALS_CONCEDED};
     private static final String RESULTS_WHERE = Fixtures.COL_NAME_DATE + "<?";
+    private static final String FIXTURES_WHERE = Fixtures.COL_NAME_DATE + ">=?";
 
     private static String getLeagueName(final Database database)
     {
@@ -45,14 +46,13 @@ public class FixturesHelper
         return name;
     }
 
-    public static Cursor getAllResults(final Database database, final String sortOrder)
+    public static Cursor getAllResults(final Database database)
     {
         Log.d(TAG, "getAllResults");
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
         final Cursor allResults = database.getSelection(Fixtures.TABLE_NAME, RESULTS_WHERE,
-                new String[]{String.valueOf(nowInSeconds)},
-                (sortOrder == null) ? Fixtures.DEFAULT_SORT_ORDER : sortOrder);
+                new String[]{String.valueOf(nowInSeconds)}, Fixtures.RESULTS_SORT_ORDER);
         if (allResults != null)
         {
             allResults.moveToFirst();
@@ -70,7 +70,7 @@ public class FixturesHelper
         final Cursor leagueResults = database.getSelection(Fixtures.TABLE_NAME,
                 Fixtures.COL_NAME_DATE + "<? AND " + Fixtures.COL_NAME_COMPETITION + "=?",
                 new String[]{String.valueOf(nowInSeconds), getLeagueName(database)},
-                Fixtures.DEFAULT_SORT_ORDER);
+                Fixtures.RESULTS_SORT_ORDER);
         if (leagueResults != null)
         {
             leagueResults.moveToFirst();
@@ -84,7 +84,7 @@ public class FixturesHelper
 
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
-        final Cursor allFixtures = database.getSelection(Fixtures.TABLE_NAME, RESULTS_WHERE,
+        final Cursor allFixtures = database.getSelection(Fixtures.TABLE_NAME, FIXTURES_WHERE,
                 new String[]{String.valueOf(nowInSeconds)}, Fixtures.DEFAULT_SORT_ORDER);
         if (allFixtures != null)
         {

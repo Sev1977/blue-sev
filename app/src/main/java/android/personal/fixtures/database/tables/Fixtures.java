@@ -20,6 +20,7 @@ public class Fixtures
     public static final String COL_NAME_SEASON_ID = "season_id";
 
     public static final String DEFAULT_SORT_ORDER = COL_NAME_DATE + " ASC";
+    public static final String RESULTS_SORT_ORDER = COL_NAME_DATE + " DESC";
 
     public static final String[] ALL_COLUMNS =
             new String[]{COL_NAME_DATE, COL_NAME_COMPETITION, COL_NAME_VENUE, COL_NAME_OPPOSITION,
