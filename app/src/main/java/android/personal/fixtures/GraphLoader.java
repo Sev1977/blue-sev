@@ -289,18 +289,13 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
             final BarData barData = new BarData(barDataSet);
             barChart.setData(barData);
             // Set the left y-axis label colour
-            final YAxis yAxis = barChart.getAxisLeft();
-            yAxis.setDrawLabels(false); // no axis labels
-            yAxis.setDrawAxisLine(false); // no axis line
-            yAxis.setDrawGridLines(false); // no grid lines
-            yAxis.setDrawZeroLine(true); // draw a zero line
+            barChart.getAxisLeft().setTextColor(mTextColor);
             // hide the right y-axis
             barChart.getAxisRight().setEnabled(false);
             // style the x-axis
             final XAxis xAxis = barChart.getXAxis();
             xAxis.setTextColor(mTextColor);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-            xAxis.setDrawAxisLine(false);
         }
     }
 
@@ -437,14 +432,11 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
             final BarData barData = new BarData(barDataSet);
             barChart.setData(barData);
             // hide the left y-axis
-            final YAxis yAxis = barChart.getAxisLeft();
-            yAxis.setEnabled(false);
-            yAxis.setDrawGridLines(false); // no grid lines
+            barChart.getAxisLeft().setEnabled(false);
             // hide the right y-axis
             barChart.getAxisRight().setEnabled(false);
             // style the x-axis
             final XAxis xAxis = barChart.getXAxis();
-            xAxis.setDrawGridLines(false);
             xAxis.setTextColor(mTextColor);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
             xAxis.setValueFormatter(new AttendanceXAxisValueFormatter(attendances));
@@ -478,6 +470,8 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
     {
         if (lineChart != null)
         {
+            lineChart.clear();
+
             // Create the data styling
             final LineDataSet lineDataSet = new LineDataSet(entries, null);
             lineDataSet.setColor(mActivityWeakReference.get().getColor(R.color.colorAccent));
