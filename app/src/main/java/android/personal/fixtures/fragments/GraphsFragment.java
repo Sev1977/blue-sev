@@ -77,6 +77,7 @@ public class GraphsFragment extends Fragment implements IGraphsCallbacks
         {
             if (chart != null)
             {
+                chart.clear();
                 chart.setVisibility(View.GONE);
             }
         }
