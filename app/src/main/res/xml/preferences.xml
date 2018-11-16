@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/pref_key_league_only"
+        android:persistent="true"
+        android:summaryOff="@string/pref_summary_off_league_only"
+        android:summaryOn="@string/pref_summary_on_league_only"
+        android:textOff="@string/filter_all"
+        android:textOn="@string/filter_lge"
+        android:title="@string/pref_title_league_only"/>
+
+    <Preference
+        android:defaultValue="0"
+        android:key="@string/pref_key_season"
+        android:persistent="true"
+        android:summary="None"
+        android:title="@string/pref_title_season"/>
+
+</PreferenceScreen>

@@ -13,13 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/home_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:elevation="4dp"
-            android:theme="@style/actionBar"
-            app:popupTheme="@style/actionBarPopupMenu"/>
+        <include layout="@layout/toolbar_layout"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/main_tab_layout"
@@ -28,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:background="@color/colorPrimary"
-            app:layout_constraintTop_toBottomOf="@id/home_toolbar"
+            app:layout_constraintTop_toBottomOf="@id/my_toolbar"
             app:tabMode="fixed"/>
 
     </android.support.design.widget.AppBarLayout>

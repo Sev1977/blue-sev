@@ -17,6 +17,7 @@
     <string name="edit_season_title">Edit season</string>
     <string name="edit_score_title">Edit score</string>
     <string name="choose_goal_scorers">Select goal scorers</string>
+    <string name="settings_title">Settings</string>
 
     <!-- home screen tabs -->
     <string name="fixtures_tab_label">Fixtures</string>
@@ -30,6 +31,7 @@
     <string name="home_menu_players">Players</string>
     <string name="home_menu_seasons">Seasons</string>
     <string name="home_menu_about">About</string>
+    <string name="home_menu_settings">Settings</string>
 
     <!-- fixture screen menu -->
     <string name="fixture_menu_edit">Edit</string>
@@ -108,5 +110,19 @@
         <item>Attendance</item>
         <item>Average attendance</item>
     </string-array>
+
+    <!--
+        Strings related to Settings
+    -->
+    <!-- only league games, or all games -->
+    <string name="pref_key_league_only">pref_key_league_only</string>
+    <string name="pref_title_league_only">Use only league fixtures</string>
+    <string name="pref_summary_on_league_only">Fixtures/results lists will only show league games
+        and statistics will only reference the league games.</string>
+    <string name="pref_summary_off_league_only">Fixtures/results lists will show all games and
+        statistics will also reference all games.</string>
+    <!-- Default season -->
+    <string name="pref_key_season">pref_key_season</string>
+    <string name="pref_title_season">Selected season</string>
 
 </resources>
