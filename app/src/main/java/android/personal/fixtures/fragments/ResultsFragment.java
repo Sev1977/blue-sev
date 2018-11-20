@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,7 @@ public class ResultsFragment extends Fragment
 
     private Cursor mResults;
     private OnResultsListInteractionListener mListener;
+    private boolean mShowLeagueOnly;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
@@ -41,9 +43,49 @@ public class ResultsFragment extends Fragment
     }
 
     @Override
+    public void onAttach(Context context)
+    {
+        Log.d(TAG, "onAttach");
+        super.onAttach(context);
+        if (context instanceof OnResultsListInteractionListener)
+        {
+            mListener = (OnResultsListInteractionListener)context;
+        }
+        else
+        {
+            throw new RuntimeException(
+                    context.toString() + " must implement OnResultsListInteractionListener");
+        }
+
+        mShowLeagueOnly = ((MainActivityInteraction)getActivity()).getOnlyShowLeagueFixtures();
+        if (mShowLeagueOnly)
+        {
+            mResults = FixturesHelper.getLeagueResults(
+                    Database.getInstance(getActivity().getApplicationContext()));
+        }
+        else
+        {
+            mResults = FixturesHelper.getAllResults(
+                    Database.getInstance(getActivity().getApplicationContext()));
+        }
+        if (mResults != null)
+        {
+            Log.i(TAG, "number of results: " + mResults.getCount());
+        }
+    }
+
+    @Override
+    public void onDetach()
+    {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
     {
+        Log.d(TAG, "onCreateView");
         final View view = inflater.inflate(R.layout.fragment_result_list, container, false);
 
         // Set the adapter
@@ -87,45 +129,11 @@ public class ResultsFragment extends Fragment
             }
         }
 
+        // Update the league/all label
+        ((TextView)view.findViewById(R.id.results_filter_label)).setText(
+                mShowLeagueOnly ? R.string.filter_lge : R.string.filter_all);
+
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context)
-    {
-        Log.v(TAG, "onAttach");
-        super.onAttach(context);
-        if (context instanceof OnResultsListInteractionListener)
-        {
-            mListener = (OnResultsListInteractionListener)context;
-        }
-        else
-        {
-            throw new RuntimeException(
-                    context.toString() + " must implement OnResultsListInteractionListener");
-        }
-
-        if (((MainActivityInteraction)getActivity()).getShowAllFixtures())
-        {
-            mResults = FixturesHelper.getAllResults(
-                    Database.getInstance(getActivity().getApplicationContext()));
-        }
-        else
-        {
-            mResults = FixturesHelper.getLeagueResults(
-                    Database.getInstance(getActivity().getApplicationContext()));
-        }
-        if (mResults != null)
-        {
-            Log.i(TAG, "number of results: " + mResults.getCount());
-        }
-    }
-
-    @Override
-    public void onDetach()
-    {
-        super.onDetach();
-        mListener = null;
     }
 
     /**

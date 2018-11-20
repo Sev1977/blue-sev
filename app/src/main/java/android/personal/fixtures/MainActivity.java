@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.fragments.FixturesFragment;
 import android.personal.fixtures.fragments.ResultsFragment;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity
     private static final String RESULTS_TAG = "resultsTab";
 
     private String mVisibleTab;
-    private boolean mShowAllFixtures;
+    private boolean mOnlyShowLeagueFixtures;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,10 +38,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mShowAllFixtures = true;
+        setSupportActionBar((Toolbar)findViewById(R.id.my_toolbar));
 
-        Toolbar toolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(toolbar);
+        mOnlyShowLeagueFixtures = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                .getBoolean(getString(R.string.pref_key_league_only), false);
 
         /*
          * Create the database
@@ -105,12 +106,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.home_action_add:
                 startActivityForResult(new Intent(MainActivity.this, EditFixtureActivity.class),
                         REQUEST_ADD_FIXTURE);
-                return true;
-
-            case R.id.home_action_filter:
-                mShowAllFixtures = !mShowAllFixtures;
-                item.setTitle(mShowAllFixtures ? R.string.filter_all : R.string.filter_lge);
-                refresh();
                 return true;
 
             case R.id.home_action_stats:
@@ -240,8 +235,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean getShowAllFixtures()
+    public boolean getOnlyShowLeagueFixtures()
     {
-        return mShowAllFixtures;
+        return mOnlyShowLeagueFixtures;
     }
 }

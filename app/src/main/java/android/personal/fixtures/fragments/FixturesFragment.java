@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A fragment representing a list of Fixtures.
@@ -28,6 +29,7 @@ public class FixturesFragment extends Fragment
 
     private Cursor mFixtures;
     private OnFixturesListInteractionListener mListener;
+    private boolean mShowLeagueOnly;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
@@ -36,33 +38,6 @@ public class FixturesFragment extends Fragment
     public FixturesFragment()
     {
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        Log.v(TAG, "onCreate");
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState)
-    {
-        final View view = inflater.inflate(R.layout.fragment_fixture_list, container, false);
-
-        // Set the adapter
-        if (view instanceof RecyclerView)
-        {
-            final Context context = view.getContext();
-            final RecyclerView recyclerView = (RecyclerView)view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(
-                    new FixtureRecyclerViewAdapter(getContext(), mFixtures, mListener));
-        }
-
-        return view;
-    }
-
 
     @Override
     public void onAttach(Context context)
@@ -79,14 +54,15 @@ public class FixturesFragment extends Fragment
                     context.toString() + " must implement OnFixturesListInteractionListener");
         }
 
-        if (((MainActivityInteraction)getActivity()).getShowAllFixtures())
+        mShowLeagueOnly = ((MainActivityInteraction)getActivity()).getOnlyShowLeagueFixtures();
+        if (mShowLeagueOnly)
         {
-            mFixtures = FixturesHelper.getAllFixtures(
+            mFixtures = FixturesHelper.getLeagueFixtures(
                     Database.getInstance(getActivity().getApplicationContext()));
         }
         else
         {
-            mFixtures = FixturesHelper.getLeagueFixtures(
+            mFixtures = FixturesHelper.getAllFixtures(
                     Database.getInstance(getActivity().getApplicationContext()));
         }
         if (mFixtures != null)
@@ -100,6 +76,30 @@ public class FixturesFragment extends Fragment
     {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState)
+    {
+        final View view = inflater.inflate(R.layout.fragment_fixture_list, container, false);
+
+        // Set the adapter
+        final View list = view.findViewById(R.id.list);
+        if (list instanceof RecyclerView)
+        {
+            final Context context = list.getContext();
+            final RecyclerView recyclerView = (RecyclerView)list;
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            recyclerView.setAdapter(
+                    new FixtureRecyclerViewAdapter(getContext(), mFixtures, mListener));
+        }
+
+        // Update the league/all label
+        ((TextView)view.findViewById(R.id.fixtures_filter_label)).setText(
+                mShowLeagueOnly ? R.string.filter_lge : R.string.filter_all);
+
+        return view;
     }
 
     /**
