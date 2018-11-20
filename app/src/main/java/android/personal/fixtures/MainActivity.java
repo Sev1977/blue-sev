@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
 
         mShowAllFixtures = true;
 
-        Toolbar toolbar = findViewById(R.id.home_toolbar);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
         /*
@@ -131,6 +131,10 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.home_action_seasons:
                 startActivity(new Intent(MainActivity.this, SeasonsListActivity.class));
+                return true;
+
+            case R.id.home_action_settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return true;
 
             case R.id.home_action_about:

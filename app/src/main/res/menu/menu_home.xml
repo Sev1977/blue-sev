@@ -31,6 +31,11 @@
         android:title="@string/home_menu_seasons"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/home_action_settings"
+        android:title="@string/home_menu_settings"
+        app:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_preferences"/>
+
     <item android:id="@+id/home_action_about"
         android:title="@string/home_menu_about"
         app:showAsAction="never"/>

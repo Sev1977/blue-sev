@@ -43,9 +43,7 @@ public class FixtureActivity extends AppCompatActivity
         mIsEdited = false;
         mFixtureId = -1;
 
-        final Toolbar myToolbar = findViewById(R.id.fixture_toolbar);
-        setSupportActionBar(myToolbar);
-
+        setSupportActionBar((Toolbar)findViewById(R.id.my_toolbar));
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
         {

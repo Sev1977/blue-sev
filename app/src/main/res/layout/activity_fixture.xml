@@ -8,14 +8,7 @@
     android:background="@drawable/background"
     tools:context="android.personal.fixtures.FixtureActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/fixture_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/actionBar"
-        app:popupTheme="@style/actionBarPopupMenu"/>
+    <include layout="@layout/toolbar_layout"/>
 
     <TextView
         android:id="@+id/dateTime"
@@ -29,7 +22,8 @@
         android:textColor="@color/textColorSecondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fixture_toolbar"/>
+        app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
+        tools:ignore="UnknownIdInLayout"/>
 
     <TextView
         android:id="@+id/competition"
