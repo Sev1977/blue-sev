@@ -45,8 +45,8 @@ public class ResultRecyclerViewAdapter
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.result_list_item,
-                parent, false);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.result_list_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -65,27 +65,28 @@ public class ResultRecyclerViewAdapter
         final Context context = holder.mView.getContext();
         final boolean isHomeMatch = context.getString(R.string.home).equalsIgnoreCase(
                 mResults.getString(Fixtures.COL_ID_VENUE));
+        final int goalsFor = mResults.getInt(Fixtures.COL_ID_GOALS_SCORED);
+        final int goalsAgainst = mResults.getInt(Fixtures.COL_ID_GOALS_CONCEDED);
+
         if (isHomeMatch)
         {
             holder.mHomeTeamView.setText(context.getString(R.string.cardiff_city));
-            holder.mHomeTeamView.setTextAppearance(R.style.fixtureListItemCardiff);
-            holder.mHomeTeamScore.setText(mResults.getString(Fixtures.COL_ID_GOALS_SCORED));
+            holder.mHomeTeamView.setTextAppearance(R.style.matchListItemCardiff);
+            holder.mHomeTeamScore.setText(String.valueOf(goalsFor));
 
             holder.mAwayTeamView.setText(mResults.getString(Fixtures.COL_ID_OPPOSITION));
-            holder.mAwayTeamView.setTextAppearance(R.style.fixtureListItemOpposition);
-            holder.mAwayTeamScore.setText(
-                    String.valueOf(mResults.getInt(Fixtures.COL_ID_GOALS_CONCEDED)));
+            holder.mAwayTeamView.setTextAppearance(R.style.matchListItemOpposition);
+            holder.mAwayTeamScore.setText(String.valueOf(goalsAgainst));
         }
         else
         {
             holder.mHomeTeamView.setText(mResults.getString(Fixtures.COL_ID_OPPOSITION));
-            holder.mHomeTeamView.setTextAppearance(R.style.fixtureListItemOpposition);
-            holder.mHomeTeamScore.setText(
-                    String.valueOf(mResults.getInt(Fixtures.COL_ID_GOALS_CONCEDED)));
+            holder.mHomeTeamView.setTextAppearance(R.style.matchListItemOpposition);
+            holder.mHomeTeamScore.setText(String.valueOf(goalsAgainst));
 
             holder.mAwayTeamView.setText(context.getString(R.string.cardiff_city));
-            holder.mAwayTeamView.setTextAppearance(R.style.fixtureListItemCardiff);
-            holder.mAwayTeamScore.setText(mResults.getString(Fixtures.COL_ID_GOALS_SCORED));
+            holder.mAwayTeamView.setTextAppearance(R.style.matchListItemCardiff);
+            holder.mAwayTeamScore.setText(String.valueOf(goalsFor));
         }
 
         holder.mEditAction.setOnClickListener(new View.OnClickListener()
@@ -111,6 +112,19 @@ public class ResultRecyclerViewAdapter
                 }
             }
         });
+
+        if (goalsFor > goalsAgainst)
+        {
+            holder.mIndicator.setBackgroundColor(context.getColor(R.color.result_win));
+        }
+        else if (goalsFor < goalsAgainst)
+        {
+            holder.mIndicator.setBackgroundColor(context.getColor(R.color.result_defeat));
+        }
+        else
+        {
+            holder.mIndicator.setBackgroundColor(context.getColor(R.color.result_draw));
+        }
     }
 
     @Override
@@ -130,6 +144,7 @@ public class ResultRecyclerViewAdapter
         final TextView mAwayTeamView;
         final TextView mAwayTeamScore;
         final ImageView mEditAction;
+        final View mIndicator;
 
         ViewHolder(View view)
         {
@@ -142,6 +157,7 @@ public class ResultRecyclerViewAdapter
             mAwayTeamView = view.findViewById(R.id.resultAwayTeam);
             mAwayTeamScore = view.findViewById(R.id.resultAwayScore);
             mEditAction = view.findViewById(R.id.resultEditAction);
+            mIndicator = view.findViewById(R.id.resultIndicator);
         }
 
         @Override

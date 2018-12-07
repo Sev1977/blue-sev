@@ -48,13 +48,29 @@
     </style>
 
     <!-- Fixture list item styles -->
-    <style name="fixtureListItemOpposition">
+    <style name="matchListItemOpposition">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:textColor">@color/textColorSecondary</item>
         <item name="android:textSize">18sp</item>
     </style>
-    <style name="fixtureListItemCardiff" parent="fixtureListItemOpposition">
+    <style name="matchListItemCardiff" parent="matchListItemOpposition">
         <item name="android:textColor">@color/textColorPrimary</item>
         <item name="android:textStyle">bold</item>
+    </style>
+    <style name="matchListItemDateAndComp">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="resultListItemScore">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/linear_text_spacing</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
     </style>
 
     <style name="toggleButton">

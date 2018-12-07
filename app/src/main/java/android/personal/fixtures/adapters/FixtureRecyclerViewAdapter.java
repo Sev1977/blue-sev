@@ -68,18 +68,18 @@ public class FixtureRecyclerViewAdapter
         if (isHomeMatch)
         {
             holder.mHomeTeamView.setText(context.getString(R.string.cardiff_city));
-            holder.mHomeTeamView.setTextAppearance(R.style.fixtureListItemCardiff);
+            holder.mHomeTeamView.setTextAppearance(R.style.matchListItemCardiff);
 
             holder.mAwayTeamView.setText(mFixtures.getString(Fixtures.COL_ID_OPPOSITION));
-            holder.mAwayTeamView.setTextAppearance(R.style.fixtureListItemOpposition);
+            holder.mAwayTeamView.setTextAppearance(R.style.matchListItemOpposition);
         }
         else
         {
             holder.mHomeTeamView.setText(mFixtures.getString(Fixtures.COL_ID_OPPOSITION));
-            holder.mHomeTeamView.setTextAppearance(R.style.fixtureListItemOpposition);
+            holder.mHomeTeamView.setTextAppearance(R.style.matchListItemOpposition);
 
             holder.mAwayTeamView.setText(context.getString(R.string.cardiff_city));
-            holder.mAwayTeamView.setTextAppearance(R.style.fixtureListItemCardiff);
+            holder.mAwayTeamView.setTextAppearance(R.style.matchListItemCardiff);
         }
         holder.mEditAction.setOnClickListener(new View.OnClickListener()
         {
