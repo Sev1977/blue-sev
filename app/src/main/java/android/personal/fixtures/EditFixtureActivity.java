@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.personal.fixtures.database.ClubsHelper;
 import android.personal.fixtures.database.CompetitionsHelper;
 import android.personal.fixtures.database.Database;
+import android.personal.fixtures.database.StatsUpdate;
 import android.personal.fixtures.database.tables.Clubs;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.personal.fixtures.database.tables.Goals;
@@ -247,6 +248,9 @@ public class EditFixtureActivity extends AppCompatActivity
             case R.id.edit_fixture_action_save:
                 if (saveFixture())
                 {
+                    // Start a new thread to update the statistics
+                    new Thread(new StatsUpdate(getApplicationContext(), mSeasonId),
+                            "StatsUpdateThread").start();
                     setResult(RESULT_OK);
                     finish();
                 }
