@@ -3,7 +3,7 @@
     <dimen name="default_activity_horizontal_margin">16dp</dimen>
     <dimen name="default_activity_vertical_margin">16dp</dimen>
     <dimen name="default_activity_margin">16dp</dimen>
-    <dimen name="fixtures_list_item_padding">12dp</dimen>
+    <dimen name="fixtures_list_item_padding">8dp</dimen>
     <dimen name="clubs_list_item_padding">12dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="title_margin">32dp</dimen>

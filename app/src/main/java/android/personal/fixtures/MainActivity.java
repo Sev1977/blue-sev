@@ -20,8 +20,6 @@ public class MainActivity extends AppCompatActivity
         implements FixturesFragment.OnFixturesListInteractionListener,
         ResultsFragment.OnResultsListInteractionListener, MainActivityInteraction
 {
-    private static final String TAG = MainActivity.class.getSimpleName();
-
     private static final int REQUEST_ADD_FIXTURE = 0;
     private static final int REQUEST_VIEW_FIXTURE = 1;
     private static final int REQUEST_EDIT_FIXTURE = 2;
@@ -40,8 +38,9 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar((Toolbar)findViewById(R.id.my_toolbar));
 
-        mOnlyShowLeagueFixtures = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                .getBoolean(getString(R.string.pref_key_league_only), false);
+        mOnlyShowLeagueFixtures = PreferenceManager.getDefaultSharedPreferences(
+                getApplicationContext()).getBoolean(getString(R.string.pref_key_league_only),
+                false);
 
         /*
          * Create the database
