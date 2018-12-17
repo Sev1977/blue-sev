@@ -28,7 +28,7 @@ public class Database extends SQLiteOpenHelper
 {
     private static final String TAG = Database.class.getSimpleName();
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     private static final String DATABASE_NAME = "fixtures_db";
 

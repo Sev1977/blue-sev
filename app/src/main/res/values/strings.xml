@@ -110,6 +110,45 @@
         <item>Attendance</item>
         <item>Average attendance</item>
     </string-array>
+    <!-- Stats numbers filters -->
+    <string-array name="numbers_filters">
+        <item>All</item>
+        <item>Home games</item>
+        <item>Away games</item>
+        <item>Last 6 games</item>
+        <item>Last 6 home games</item>
+        <item>Last 6 away games</item>
+    </string-array>
+    <string-array name="game_type_filters">
+        <item>All</item>
+        <item>League</item>
+    </string-array>
+    <!-- Numerical statistic descriptions -->
+    <string-array name="numerical_stats_descriptions">
+        <item>1. Points</item>
+        <item>2. Number of wins</item>
+        <item>3. Number of draws</item>
+        <item>4. Number of defeats</item>
+        <item>5. Goals scored</item>
+        <item>6. Goals conceded</item>
+        <item>7. Goals difference</item>
+        <item>8. Average attendance</item>
+        <item>9. Minimum attendance</item>
+        <item>10.Maximum attendance</item>
+        <item>11.Top scorer</item>
+        <item>12.Win percentage</item>
+        <item>13.Current unbeaten run</item>
+        <item>14.Current winning run</item>
+        <item>15.Current losing run</item>
+        <item>16.Longest unbeaten run</item>
+        <item>17.Longest winning run</item>
+        <item>18.Longest losing run</item>
+        <item>19.Number of games since failing to score</item>
+        <item>20.Number of games since conceding</item>
+        <item>21.Number of games when failed to score</item>
+        <item>22.Total clean sheets</item>
+        <item>23.Total nil-nil draws</item>
+    </string-array>
 
     <!--
         Strings related to Settings
