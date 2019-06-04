@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/goalScorerName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:clickable="true"
@@ -21,9 +21,10 @@
         android:layout_marginStart="8dp"/>
 
     <ImageButton
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:id="@+id/goalDeleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_delete"/>
+        android:src="@drawable/ic_scorer_remove"/>
 
 </LinearLayout>
