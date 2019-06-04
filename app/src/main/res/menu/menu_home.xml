@@ -3,9 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/home_action_add"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_action_add"
         android:title="@string/action_add"
         app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/home_action_settings"
+        android:title="@string/home_menu_settings"
+        app:showAsAction="ifRoom"
+        android:icon="@mipmap/ic_action_settings"/>
 
     <item android:id="@+id/home_action_stats"
         android:title="@string/home_menu_stats"
@@ -26,11 +31,6 @@
     <item android:id="@+id/home_action_seasons"
         android:title="@string/home_menu_seasons"
         app:showAsAction="never"/>
-
-    <item android:id="@+id/home_action_settings"
-        android:title="@string/home_menu_settings"
-        app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_preferences"/>
 
     <item android:id="@+id/home_action_about"
         android:title="@string/home_menu_about"
