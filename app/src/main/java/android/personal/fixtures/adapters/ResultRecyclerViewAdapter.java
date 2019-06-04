@@ -89,18 +89,6 @@ public class ResultRecyclerViewAdapter
             holder.mAwayTeamScore.setText(String.valueOf(goalsFor));
         }
 
-        holder.mEditAction.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(final View view)
-            {
-                if (mListener != null)
-                {
-                    mListener.onEditResult(holder.mFixtureId);
-                }
-            }
-        });
-
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -143,7 +131,6 @@ public class ResultRecyclerViewAdapter
         final TextView mHomeTeamScore;
         final TextView mAwayTeamView;
         final TextView mAwayTeamScore;
-        final ImageView mEditAction;
         final View mIndicator;
 
         ViewHolder(View view)
@@ -156,7 +143,6 @@ public class ResultRecyclerViewAdapter
             mHomeTeamScore = view.findViewById(R.id.resultHomeScore);
             mAwayTeamView = view.findViewById(R.id.resultAwayTeam);
             mAwayTeamScore = view.findViewById(R.id.resultAwayScore);
-            mEditAction = view.findViewById(R.id.resultEditAction);
             mIndicator = view.findViewById(R.id.resultIndicator);
         }
 
