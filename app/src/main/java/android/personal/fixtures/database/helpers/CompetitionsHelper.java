@@ -1,6 +1,7 @@
-package android.personal.fixtures.database;
+package android.personal.fixtures.database.helpers;
 
 import android.database.Cursor;
+import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.tables.Competitions;
 import android.provider.BaseColumns;
 
@@ -88,7 +89,7 @@ public class CompetitionsHelper
      * @param database the database to search
      * @return A Cursor containing all the records for competitions listed as a league.
      */
-    public static Cursor getLeague(final Database database)
+    static Cursor getAllLeagues(final Database database)
     {
         return database.getColumnsForSelection(Competitions.TABLE_NAME, null,
                 Competitions.COL_NAME_IS_LEAGUE + "=1", null, null);

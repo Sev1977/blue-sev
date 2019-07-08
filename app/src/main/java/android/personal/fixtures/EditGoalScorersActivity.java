@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.personal.fixtures.database.Database;
-import android.personal.fixtures.database.PlayersHelper;
+import android.personal.fixtures.database.helpers.PlayersHelper;
 import android.personal.fixtures.database.tables.Goals;
 import android.provider.BaseColumns;
 import android.support.v7.app.ActionBar;

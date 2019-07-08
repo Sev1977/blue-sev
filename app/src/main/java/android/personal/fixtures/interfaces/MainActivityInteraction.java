@@ -1,4 +1,4 @@
-package android.personal.fixtures;
+package android.personal.fixtures.interfaces;
 
 /**
  *

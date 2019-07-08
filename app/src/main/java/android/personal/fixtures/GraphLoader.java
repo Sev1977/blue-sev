@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.personal.fixtures.database.Database;
-import android.personal.fixtures.database.FixturesHelper;
+import android.personal.fixtures.database.helpers.FixturesHelper;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.personal.fixtures.enums.Graph;
 import android.personal.fixtures.interfaces.IGraphsCallbacks;

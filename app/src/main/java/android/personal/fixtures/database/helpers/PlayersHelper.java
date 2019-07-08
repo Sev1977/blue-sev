@@ -1,6 +1,7 @@
-package android.personal.fixtures.database;
+package android.personal.fixtures.database.helpers;
 
 import android.database.Cursor;
+import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.tables.Players;
 import android.provider.BaseColumns;
 

@@ -3,11 +3,11 @@ package android.personal.fixtures.fragments;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.personal.fixtures.MainActivityInteraction;
 import android.personal.fixtures.R;
 import android.personal.fixtures.adapters.ResultRecyclerViewAdapter;
 import android.personal.fixtures.database.Database;
-import android.personal.fixtures.database.FixturesHelper;
+import android.personal.fixtures.database.helpers.FixturesHelper;
+import android.personal.fixtures.interfaces.MainActivityInteraction;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -65,8 +65,8 @@ public class ResultsFragment extends Fragment
         }
         else
         {
-            mResults = FixturesHelper.getAllResults(
-                    Database.getInstance(getActivity().getApplicationContext()));
+            final Context appContext = getActivity().getApplicationContext();
+            mResults = FixturesHelper.getAllResults(Database.getInstance(appContext), appContext);
         }
         if (mResults != null)
         {

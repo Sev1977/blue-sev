@@ -1,9 +1,11 @@
-package android.personal.fixtures.database;
+package android.personal.fixtures.database.helpers;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.personal.fixtures.R;
+import android.personal.fixtures.Settings;
+import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.tables.Competitions;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.util.Log;
@@ -27,7 +29,7 @@ public class FixturesHelper
     private static String getLeagueName(final Database database)
     {
         String name = "";
-        final Cursor league = CompetitionsHelper.getLeague(database);
+        final Cursor league = CompetitionsHelper.getAllLeagues(database);
         if (league != null)
         {
             if (league.getCount() > 1)
@@ -46,13 +48,16 @@ public class FixturesHelper
         return name;
     }
 
-    public static Cursor getAllResults(final Database database)
+    public static Cursor getAllResults(final Database database, final Context appContext)
     {
         Log.d(TAG, "getAllResults");
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
-        final Cursor allResults = database.getSelection(Fixtures.TABLE_NAME, RESULTS_WHERE,
-                new String[]{String.valueOf(nowInSeconds)}, Fixtures.RESULTS_SORT_ORDER);
+        final Cursor allResults = database.getSelection(Fixtures.TABLE_NAME,
+                RESULTS_WHERE + " AND " + Fixtures.COL_NAME_SEASON_ID + "=?",
+                new String[]{String.valueOf(nowInSeconds),
+                        String.valueOf(Settings.getSelectedSeasonId(appContext))},
+                Fixtures.RESULTS_SORT_ORDER);
         if (allResults != null)
         {
             allResults.moveToFirst();
@@ -78,22 +83,30 @@ public class FixturesHelper
         return leagueResults;
     }
 
-    public static Cursor getAllFixtures(final Database database)
+    public static Cursor getAllFixtures(final Database database, final Context appContext)
     {
         Log.d(TAG, "getAllFixtures");
 
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
-        final Cursor allFixtures = database.getSelection(Fixtures.TABLE_NAME, FIXTURES_WHERE,
-                new String[]{String.valueOf(nowInSeconds)}, Fixtures.DEFAULT_SORT_ORDER);
+        final Cursor allFixtures = database.getSelection(Fixtures.TABLE_NAME, FIXTURES_WHERE + " " +
+                        "AND " + Fixtures.COL_NAME_SEASON_ID + "=?",
+                new String[]{String.valueOf(nowInSeconds),
+                        String.valueOf(Settings.getSelectedSeasonId(appContext))},
+                Fixtures.DEFAULT_SORT_ORDER);
         if (allFixtures != null)
         {
             allFixtures.moveToFirst();
+            //            DatabaseUtils.dumpCursor(allFixtures);
         }
         return allFixtures;
     }
 
-    public static Cursor getLeagueFixtures(final Database database)
+    /**
+     * Get all the league fixtures for the selected season, so get all fixtures where the date is in
+     * the future, the season is the selected season and the competition is a league.
+     */
+    public static Cursor getLeagueFixtures(final Database database, final Context appContext)
     {
         Log.d(TAG, "getLeagueFixtures");
 
@@ -101,8 +114,9 @@ public class FixturesHelper
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
         final Cursor leagueFixtures = database.getSelection(Fixtures.TABLE_NAME,
-                Fixtures.COL_NAME_DATE + ">? AND " + Fixtures.COL_NAME_COMPETITION + "=?",
-                new String[]{String.valueOf(nowInSeconds), getLeagueName(database)},
+                Fixtures.COL_NAME_DATE + ">? AND " + Fixtures.COL_NAME_SEASON_ID + "=?",
+                new String[]{String.valueOf(nowInSeconds),
+                        String.valueOf(Settings.getSelectedSeasonId(appContext))},
                 Fixtures.DEFAULT_SORT_ORDER);
         if (leagueFixtures != null)
         {

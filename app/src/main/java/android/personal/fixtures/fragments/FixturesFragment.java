@@ -3,11 +3,11 @@ package android.personal.fixtures.fragments;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.personal.fixtures.MainActivityInteraction;
 import android.personal.fixtures.R;
 import android.personal.fixtures.adapters.FixtureRecyclerViewAdapter;
 import android.personal.fixtures.database.Database;
-import android.personal.fixtures.database.FixturesHelper;
+import android.personal.fixtures.database.helpers.FixturesHelper;
+import android.personal.fixtures.interfaces.MainActivityInteraction;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,15 +55,17 @@ public class FixturesFragment extends Fragment
         }
 
         mShowLeagueOnly = ((MainActivityInteraction)getActivity()).getOnlyShowLeagueFixtures();
+        final Context appContext = getActivity().getApplicationContext();
         if (mShowLeagueOnly)
         {
-            mFixtures = FixturesHelper.getLeagueFixtures(
-                    Database.getInstance(getActivity().getApplicationContext()));
+            Log.d(TAG, "Show league fixtures only");
+            mFixtures = FixturesHelper.getLeagueFixtures(Database.getInstance(appContext),
+                    appContext);
         }
         else
         {
-            mFixtures = FixturesHelper.getAllFixtures(
-                    Database.getInstance(getActivity().getApplicationContext()));
+            Log.d(TAG, "Show all fixtures");
+            mFixtures = FixturesHelper.getAllFixtures(Database.getInstance(appContext), appContext);
         }
         if (mFixtures != null)
         {

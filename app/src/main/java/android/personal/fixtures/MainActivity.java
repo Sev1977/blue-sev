@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.fragments.FixturesFragment;
 import android.personal.fixtures.fragments.ResultsFragment;
-import android.preference.PreferenceManager;
+import android.personal.fixtures.interfaces.MainActivityInteraction;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -38,9 +38,7 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar((Toolbar)findViewById(R.id.my_toolbar));
 
-        mOnlyShowLeagueFixtures = PreferenceManager.getDefaultSharedPreferences(
-                getApplicationContext()).getBoolean(getString(R.string.pref_key_league_only),
-                false);
+        mOnlyShowLeagueFixtures = Settings.showLeagueOnly(getApplicationContext());
 
         /*
          * Create the database

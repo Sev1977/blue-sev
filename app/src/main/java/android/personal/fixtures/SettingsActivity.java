@@ -58,10 +58,7 @@ public class SettingsActivity extends AppCompatActivity
             mSeason = findPreference(getString(R.string.pref_key_season));
             if (mSeasonsData != null)
             {
-                final int whichSeason = mDefaultSharedPreferences.getInt(
-                        getString(R.string.pref_key_season), 0);
-                mSeasonsData.moveToPosition(whichSeason);
-                mSeason.setSummary(mSeasonsData.getString(Seasons.COL_ID_NAME));
+                SetSeasonName(mDefaultSharedPreferences, getString(R.string.pref_key_season));
             }
             mSeason.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
             {
@@ -76,8 +73,10 @@ public class SettingsActivity extends AppCompatActivity
                                 @Override
                                 public void onClick(final DialogInterface dialog, final int which)
                                 {
+                                    mSeasonsData.moveToPosition(which);
+                                    int seasonId = mSeasonsData.getInt(0);
                                     mDefaultSharedPreferences.edit().putInt(
-                                            getString(R.string.pref_key_season), which).apply();
+                                            getString(R.string.pref_key_season), seasonId).apply();
                                 }
                             }).setPositiveButton(android.R.string.ok, null).create().show();
                     return true;
@@ -100,7 +99,20 @@ public class SettingsActivity extends AppCompatActivity
         {
             if (getString(R.string.pref_key_season).equalsIgnoreCase(key))
             {
-                mSeasonsData.moveToPosition(sharedPreferences.getInt(key, 0));
+                SetSeasonName(sharedPreferences, key);
+            }
+        }
+
+        private void SetSeasonName(final SharedPreferences sharedPreferences, final String key)
+        {
+            final int seasonId = sharedPreferences.getInt(key, 0);
+            mSeasonsData.moveToFirst();
+            while ((mSeasonsData.getInt(0) != seasonId) && !mSeasonsData.isAfterLast())
+            {
+                mSeasonsData.moveToNext();
+            }
+            if (!mSeasonsData.isAfterLast())
+            {
                 mSeason.setSummary(mSeasonsData.getString(Seasons.COL_ID_NAME));
             }
         }

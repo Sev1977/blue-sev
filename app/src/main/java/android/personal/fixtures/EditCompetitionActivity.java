@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.personal.fixtures.database.Database;
-import android.personal.fixtures.database.FixturesHelper;
+import android.personal.fixtures.database.helpers.FixturesHelper;
 import android.personal.fixtures.database.tables.Competitions;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
