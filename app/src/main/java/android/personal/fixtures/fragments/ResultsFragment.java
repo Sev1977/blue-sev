@@ -4,9 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.personal.fixtures.R;
+import android.personal.fixtures.Settings;
 import android.personal.fixtures.adapters.ResultRecyclerViewAdapter;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.helpers.FixturesHelper;
+import android.personal.fixtures.database.helpers.SeasonsHelper;
 import android.personal.fixtures.interfaces.MainActivityInteraction;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -98,6 +100,12 @@ public class ResultsFragment extends Fragment
             recyclerView.setAdapter(
                     new ResultRecyclerViewAdapter(getContext(), mResults, mListener));
         }
+
+        // Put the current season in the label
+        final int seasonId = Settings.getSelectedSeasonId(list.getContext());
+        final String name = SeasonsHelper.getSeasonName(
+                Database.getInstance(getActivity().getApplicationContext()), seasonId);
+        ((TextView)view.findViewById(R.id.results_season_label)).setText(name);
 
         // setup the form views.
         final ArrayList<Integer> form = FixturesHelper.getRecentForm(
