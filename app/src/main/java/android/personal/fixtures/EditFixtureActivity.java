@@ -245,6 +245,14 @@ public class EditFixtureActivity extends AppCompatActivity
     {
         switch (item.getItemId())
         {
+            case R.id.edit_fixture_action_delete:
+                if (deleteFixture())
+                {
+                    setResult(RESULT_OK);
+                    finish();
+                }
+                return true;
+
             case R.id.edit_fixture_action_save:
                 if (saveFixture())
                 {
@@ -362,6 +370,24 @@ public class EditFixtureActivity extends AppCompatActivity
         {
             return mDatabase.addRecord(Fixtures.TABLE_NAME, values) != -1;
         }
+    }
+
+    private boolean deleteFixture()
+    {
+        // If the date is in the future, we can safely delete the fixture without any knock on
+        // effect, otherwise, if the fixture is in the past, we'd have to recalculate all the
+        // statistics again.  Therefore, we won't allow the user to delete a fixture from teh last.
+
+        final Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(mYear, mMonth, mDay, mHours, mMinutes);
+        final long dateTime = calendar.getTimeInMillis();
+        if (dateTime <= System.currentTimeMillis())
+        {
+            return false;
+        }
+
+        return mDatabase.deleteRecord(Fixtures.TABLE_NAME, mFixtureId);
     }
 
     /**

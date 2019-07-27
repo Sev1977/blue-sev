@@ -168,8 +168,14 @@ public class Database extends SQLiteOpenHelper
 
     public boolean updateRecord(final String tableName, final long id, final ContentValues values)
     {
-        return getWritableDatabase().update(tableName, values, BaseColumns._ID + "=" + id, null) ==
-                1;
+        return getWritableDatabase().update(tableName, values, BaseColumns._ID + "=?",
+                new String[]{String.valueOf(id)}) == 1;
+    }
+
+    public boolean deleteRecord(final String tableName, final long id)
+    {
+        return getWritableDatabase().delete(tableName, BaseColumns._ID + "=?",
+                new String[]{String.valueOf(id)}) == 1;
     }
 
     public Cursor getFullRecordWithId(final String tableName, final long id)
