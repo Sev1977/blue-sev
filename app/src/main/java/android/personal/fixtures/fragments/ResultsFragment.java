@@ -60,14 +60,14 @@ public class ResultsFragment extends Fragment
         }
 
         mShowLeagueOnly = ((MainActivityInteraction)getActivity()).getOnlyShowLeagueFixtures();
+        final Context appContext = getActivity().getApplicationContext();
         if (mShowLeagueOnly)
         {
-            mResults = FixturesHelper.getLeagueResults(
-                    Database.getInstance(getActivity().getApplicationContext()));
+            mResults = FixturesHelper.getLeagueResults(Database.getInstance(appContext),
+                    appContext);
         }
         else
         {
-            final Context appContext = getActivity().getApplicationContext();
             mResults = FixturesHelper.getAllResults(Database.getInstance(appContext), appContext);
         }
         if (mResults != null)
