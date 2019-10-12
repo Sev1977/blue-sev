@@ -84,6 +84,7 @@
     <string name="goal_scorer_dialog_label_penalty">Penalty</string>
 
     <!-- Fixtures/results filter labels -->
+    <string name="action_filter">Filter</string>
     <string name="filter_all">All games</string>
     <string name="filter_lge">League games</string>
 
@@ -163,5 +164,6 @@
     <!-- Default season -->
     <string name="pref_key_season">pref_key_season</string>
     <string name="pref_title_season">Selected season</string>
+    <string name="title_activity_filter">Filters</string>
 
 </resources>

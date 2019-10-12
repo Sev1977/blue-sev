@@ -105,6 +105,10 @@ public class MainActivity extends AppCompatActivity
                         REQUEST_ADD_FIXTURE);
                 return true;
 
+            case R.id.home_action_filter:
+                startActivity(new Intent(MainActivity.this, FilterActivity.class));
+                return true;
+
             case R.id.home_action_stats:
                 startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
                 return true;
