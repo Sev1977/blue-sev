@@ -151,7 +151,8 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
 
     private void loadPointsChart()
     {
-        final int[] pointsData = FixturesHelper.getPointsProgress(mDatabase);
+        final int[] pointsData = FixturesHelper.getPointsProgress(mDatabase,
+                mActivityWeakReference.get());
         if (pointsData != null)
         {
             final List<Entry> entries = new ArrayList<>(pointsData.length);

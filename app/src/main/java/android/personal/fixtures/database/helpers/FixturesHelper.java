@@ -217,15 +217,12 @@ public class FixturesHelper
                 Fixtures.COL_NAME_COMPETITION + "=?", new String[]{oldName});
     }
 
-    public static int[] getPointsProgress(final Database database)
+    public static int[] getPointsProgress(final Database database, final Context context)
     {
         Log.d(TAG, "getPointsProgress");
 
         int[] pointsProgress = null;
-        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
-                GOALS_FOR_CONCEDED, RESULTS_WHERE, new String[]{String.valueOf(nowInSeconds)}, null,
-                null, Fixtures.DEFAULT_SORT_ORDER);
+        final Cursor results = getLeagueResults(database, context);
         if (results != null)
         {
             if (results.moveToFirst())
@@ -238,12 +235,14 @@ public class FixturesHelper
                 int pointsTotal = 0;
                 do
                 {
-                    if (results.getInt(0) > results.getInt(1))
+                    if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) >
+                            results.getInt(Fixtures.COL_ID_GOALS_CONCEDED))
                     {
                         Log.v(TAG, "win");
                         pointsProgress[gameIndex] = pointsTotal + 3;
                     }
-                    else if (results.getInt(0) == results.getInt(1))
+                    else if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) ==
+                            results.getInt(Fixtures.COL_ID_GOALS_CONCEDED))
                     {
                         Log.v(TAG, "draw");
                         pointsProgress[gameIndex] = pointsTotal + 1;

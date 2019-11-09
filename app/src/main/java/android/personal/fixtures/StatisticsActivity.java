@@ -69,7 +69,6 @@ public class StatisticsActivity extends AppCompatActivity
             @Override
             public void onTabReselected(final TabLayout.Tab tab)
             {
-                // do nothing
             }
         });
     }
