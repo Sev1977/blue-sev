@@ -168,7 +168,8 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
 
     private void loadAveragePointsChart()
     {
-        final float[] pointsData = FixturesHelper.getPointsAverage(mDatabase);
+        final float[] pointsData = FixturesHelper.getPointsAverage(mDatabase,
+                mActivityWeakReference.get());
         if (pointsData != null)
         {
             final List<Entry> entries = new ArrayList<>(pointsData.length);
@@ -184,7 +185,8 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
 
     private void loadGoalsScoredChart()
     {
-        final int[] goalsScored = FixturesHelper.getGoalsScored(mDatabase);
+        final int[] goalsScored = FixturesHelper.getGoalsScored(mDatabase,
+                mActivityWeakReference.get());
         if (goalsScored != null)
         {
             final List<Entry> entries = new ArrayList<>(goalsScored.length);
@@ -200,7 +202,8 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
 
     private void loadAverageGoalsScoredChart()
     {
-        final float[] averageGoalsScored = FixturesHelper.getAverageGoalsScored(mDatabase);
+        final float[] averageGoalsScored = FixturesHelper.getAverageGoalsScored(mDatabase,
+                mActivityWeakReference.get());
         if (averageGoalsScored != null)
         {
             final List<Entry> entries = new ArrayList<>(averageGoalsScored.length);
@@ -217,7 +220,8 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
 
     private void loadGoalsConcededChart()
     {
-        final int[] goalsConceded = FixturesHelper.getGoalsConceded(mDatabase);
+        final int[] goalsConceded = FixturesHelper.getGoalsConceded(mDatabase,
+                mActivityWeakReference.get());
         if (goalsConceded != null)
         {
             final List<Entry> entries = new ArrayList<>(goalsConceded.length);
@@ -234,7 +238,8 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
 
     private void loadAverageGoalsConcededChart()
     {
-        final float[] averageGoalsConceded = FixturesHelper.getAverageGoalsConceded(mDatabase);
+        final float[] averageGoalsConceded = FixturesHelper.getAverageGoalsConceded(mDatabase,
+                mActivityWeakReference.get());
         if (averageGoalsConceded != null)
         {
             final List<Entry> entries = new ArrayList<>(averageGoalsConceded.length);
@@ -252,7 +257,8 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
     private void loadGoalDifferenceChart()
     {
         // Create the goals difference data
-        final int[] goalDifference = FixturesHelper.getGoalDifference(mDatabase);
+        final int[] goalDifference = FixturesHelper.getGoalDifference(mDatabase,
+                mActivityWeakReference.get());
         if (goalDifference != null)
         {
             // Create the bar chart
@@ -307,7 +313,8 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
 
     private void loadAverageGoalDifferenceChart()
     {
-        final float[] averageGoalDifference = FixturesHelper.getAverageGoalDifference(mDatabase);
+        final float[] averageGoalDifference = FixturesHelper.getAverageGoalDifference(mDatabase,
+                mActivityWeakReference.get());
         if (averageGoalDifference != null)
         {
             final List<Entry> entries = new ArrayList<>(averageGoalDifference.length);
@@ -325,7 +332,8 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
     private void loadWinsDrawsLossesChart()
     {
         // Create the league position data
-        final int[] results = FixturesHelper.getNumberOfWinsDrawsLosses(mDatabase);
+        final int[] results = FixturesHelper.getNumberOfWinsDrawsLosses(mDatabase,
+                mActivityWeakReference.get());
         if (results != null)
         {
             // Create the line chart
@@ -416,7 +424,7 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
     {
         // Create the attendance data
         final int[] attendances = FixturesHelper.getAttendances(mDatabase,
-                mActivityWeakReference.get().getApplicationContext());
+                mActivityWeakReference.get());
         if (attendances != null)
         {
             // Create the bar chart
@@ -457,7 +465,7 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
     {
         // Get the attendances
         final int[] attendances = FixturesHelper.getAttendances(mDatabase,
-                mActivityWeakReference.get().getApplicationContext());
+                mActivityWeakReference.get());
         if (attendances != null)
         {
             final List<Entry> entries = new ArrayList<>(attendances.length);

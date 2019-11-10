@@ -65,7 +65,8 @@ public class FixturesHelper
         return allResults;
     }
 
-    public static Cursor getLeagueResults(final Database database, final Context appContext)
+    public static Cursor getLeagueResults(final Database database, final Context appContext,
+            final String sorting)
     {
         Log.d(TAG, "getLeagueResults");
 
@@ -99,8 +100,7 @@ public class FixturesHelper
                 Fixtures.COL_NAME_DATE + "<? AND " + Fixtures.COL_NAME_COMPETITION +
                         "=? AND " + Fixtures.COL_NAME_SEASON_ID + "=?",
                 new String[]{String.valueOf(nowInSeconds), leagueName,
-                        String.valueOf(seasonId)},
-                Fixtures.RESULTS_SORT_ORDER);
+                        String.valueOf(seasonId)}, sorting);
         if (leagueResults != null)
         {
             leagueResults.moveToFirst();
@@ -222,7 +222,7 @@ public class FixturesHelper
         Log.d(TAG, "getPointsProgress");
 
         int[] pointsProgress = null;
-        final Cursor results = getLeagueResults(database, context);
+        final Cursor results = getLeagueResults(database, context, Fixtures.DEFAULT_SORT_ORDER);
         if (results != null)
         {
             if (results.moveToFirst())
@@ -266,15 +266,12 @@ public class FixturesHelper
         return pointsProgress;
     }
 
-    public static float[] getPointsAverage(final Database database)
+    public static float[] getPointsAverage(final Database database, final Context context)
     {
         Log.d(TAG, "getPointsAverage");
 
         float[] averagePoints = null;
-        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
-                GOALS_FOR_CONCEDED, RESULTS_WHERE, new String[]{String.valueOf(nowInSeconds)}, null,
-                null, Fixtures.DEFAULT_SORT_ORDER);
+        final Cursor results = getLeagueResults(database, context, Fixtures.DEFAULT_SORT_ORDER);
         if (results != null)
         {
             if (results.moveToFirst())
@@ -287,12 +284,14 @@ public class FixturesHelper
                 int pointsTotal = 0;
                 do
                 {
-                    if (results.getInt(0) > results.getInt(1))
+                    if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) >
+                            results.getInt(Fixtures.COL_ID_GOALS_CONCEDED))
                     {
                         Log.v(TAG, "win");
                         pointsTotal += 3;
                     }
-                    else if (results.getInt(0) == results.getInt(1))
+                    else if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) ==
+                            results.getInt(Fixtures.COL_ID_GOALS_CONCEDED))
                     {
                         Log.v(TAG, "draw");
                         pointsTotal += 1;
@@ -315,16 +314,12 @@ public class FixturesHelper
         return averagePoints;
     }
 
-    public static int[] getGoalsScored(final Database database)
+    public static int[] getGoalsScored(final Database database, final Context context)
     {
         Log.d(TAG, "getGoalsScored");
 
         int[] goalsScored = null;
-        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
-                new String[]{Fixtures.COL_NAME_GOALS_SCORED}, RESULTS_WHERE,
-                new String[]{String.valueOf(nowInSeconds)}, null, null,
-                Fixtures.DEFAULT_SORT_ORDER);
+        final Cursor results = getLeagueResults(database, context, Fixtures.DEFAULT_SORT_ORDER);
         if (results != null)
         {
             if (results.moveToFirst())
@@ -337,7 +332,7 @@ public class FixturesHelper
                 int goalsTotal = 0;
                 do
                 {
-                    goalsTotal += results.getInt(0);
+                    goalsTotal += results.getInt(Fixtures.COL_ID_GOALS_SCORED);
                     goalsScored[gameIndex++] = goalsTotal;
 
                 } while (results.moveToNext());
@@ -351,16 +346,12 @@ public class FixturesHelper
         return goalsScored;
     }
 
-    public static float[] getAverageGoalsScored(final Database database)
+    public static float[] getAverageGoalsScored(final Database database, final Context context)
     {
         Log.d(TAG, "getAverageGoalsScored");
 
         float[] averageGoalsScored = null;
-        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
-                new String[]{Fixtures.COL_NAME_GOALS_SCORED}, RESULTS_WHERE,
-                new String[]{String.valueOf(nowInSeconds)}, null, null,
-                Fixtures.DEFAULT_SORT_ORDER);
+        final Cursor results = getLeagueResults(database, context, Fixtures.DEFAULT_SORT_ORDER);
         if (results != null)
         {
             if (results.moveToFirst())
@@ -373,7 +364,7 @@ public class FixturesHelper
                 int goalsTotal = 0;
                 do
                 {
-                    goalsTotal += results.getInt(0);
+                    goalsTotal += results.getInt(Fixtures.COL_ID_GOALS_SCORED);
                     averageGoalsScored[gameIndex++] = (float)goalsTotal / (float)gameIndex;
 
                 } while (results.moveToNext());
@@ -387,16 +378,12 @@ public class FixturesHelper
         return averageGoalsScored;
     }
 
-    public static int[] getGoalsConceded(final Database database)
+    public static int[] getGoalsConceded(final Database database, final Context context)
     {
         Log.d(TAG, "getGoalsConceded");
 
         int[] goalsConceded = null;
-        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
-                new String[]{Fixtures.COL_NAME_GOALS_CONCEDED}, RESULTS_WHERE,
-                new String[]{String.valueOf(nowInSeconds)}, null, null,
-                Fixtures.DEFAULT_SORT_ORDER);
+        final Cursor results = getLeagueResults(database, context, Fixtures.DEFAULT_SORT_ORDER);
         if (results != null)
         {
             if (results.moveToFirst())
@@ -409,7 +396,7 @@ public class FixturesHelper
                 int goalsTotal = 0;
                 do
                 {
-                    goalsTotal += results.getInt(0);
+                    goalsTotal += results.getInt(Fixtures.COL_ID_GOALS_CONCEDED);
                     goalsConceded[gameIndex++] = goalsTotal;
 
                 } while (results.moveToNext());
@@ -423,16 +410,12 @@ public class FixturesHelper
         return goalsConceded;
     }
 
-    public static float[] getAverageGoalsConceded(final Database database)
+    public static float[] getAverageGoalsConceded(final Database database, final Context context)
     {
         Log.d(TAG, "getAverageGoalsConceded");
 
         float[] averageGoalsConceded = null;
-        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
-                new String[]{Fixtures.COL_NAME_GOALS_CONCEDED}, RESULTS_WHERE,
-                new String[]{String.valueOf(nowInSeconds)}, null, null,
-                Fixtures.DEFAULT_SORT_ORDER);
+        final Cursor results = getLeagueResults(database, context, Fixtures.DEFAULT_SORT_ORDER);
         if (results != null)
         {
             if (results.moveToFirst())
@@ -445,7 +428,7 @@ public class FixturesHelper
                 int goalsTotal = 0;
                 do
                 {
-                    goalsTotal += results.getInt(0);
+                    goalsTotal += results.getInt(Fixtures.COL_ID_GOALS_CONCEDED);
                     averageGoalsConceded[gameIndex++] = (float)goalsTotal / (float)gameIndex;
 
                 } while (results.moveToNext());
@@ -459,15 +442,12 @@ public class FixturesHelper
         return averageGoalsConceded;
     }
 
-    public static int[] getGoalDifference(final Database database)
+    public static int[] getGoalDifference(final Database database, final Context context)
     {
         Log.d(TAG, "getGoalDifference");
 
         int[] goalDifference = null;
-        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
-                GOALS_FOR_CONCEDED, RESULTS_WHERE, new String[]{String.valueOf(nowInSeconds)}, null,
-                null, Fixtures.DEFAULT_SORT_ORDER);
+        final Cursor results = getLeagueResults(database, context, Fixtures.DEFAULT_SORT_ORDER);
         if (results != null)
         {
             if (results.moveToFirst())
@@ -481,8 +461,8 @@ public class FixturesHelper
                 int totalGoalsAgainst = 0;
                 do
                 {
-                    totalGoalsFor += results.getInt(0);
-                    totalGoalsAgainst += results.getInt(1);
+                    totalGoalsFor += results.getInt(Fixtures.COL_ID_GOALS_SCORED);
+                    totalGoalsAgainst += results.getInt(Fixtures.COL_ID_GOALS_CONCEDED);
                     goalDifference[gameIndex++] = totalGoalsFor - totalGoalsAgainst;
                 } while (results.moveToNext());
             }
@@ -495,15 +475,12 @@ public class FixturesHelper
         return goalDifference;
     }
 
-    public static float[] getAverageGoalDifference(final Database database)
+    public static float[] getAverageGoalDifference(final Database database, final Context context)
     {
         Log.d(TAG, "getAverageGoalDifference");
 
         float[] avgGoalDiff = null;
-        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
-                GOALS_FOR_CONCEDED, RESULTS_WHERE, new String[]{String.valueOf(nowInSeconds)}, null,
-                null, Fixtures.DEFAULT_SORT_ORDER);
+        final Cursor results = getLeagueResults(database, context, Fixtures.DEFAULT_SORT_ORDER);
         if (results != null)
         {
             if (results.moveToFirst())
@@ -517,8 +494,8 @@ public class FixturesHelper
                 float totalGoalsAgainst = 0;
                 do
                 {
-                    totalGoalsFor += results.getInt(0);
-                    totalGoalsAgainst += results.getInt(1);
+                    totalGoalsFor += results.getInt(Fixtures.COL_ID_GOALS_SCORED);
+                    totalGoalsAgainst += results.getInt(Fixtures.COL_ID_GOALS_CONCEDED);
                     avgGoalDiff[(int)gameIndex++] = (totalGoalsFor - totalGoalsAgainst) / gameIndex;
                 } while (results.moveToNext());
             }
@@ -531,24 +508,23 @@ public class FixturesHelper
         return avgGoalDiff;
     }
 
-    public static int[] getNumberOfWinsDrawsLosses(final Database database)
+    public static int[] getNumberOfWinsDrawsLosses(final Database database, final Context context)
     {
         int[] countOfWinsDrawsLosses = new int[]{0, 0, 0}; // wins, draws, losses
-        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
-                GOALS_FOR_CONCEDED, RESULTS_WHERE, new String[]{String.valueOf(nowInSeconds)}, null,
-                null, Fixtures.DEFAULT_SORT_ORDER);
+        final Cursor results = getLeagueResults(database, context, Fixtures.DEFAULT_SORT_ORDER);
         if (results != null)
         {
             if (results.moveToFirst())
             {
                 do
                 {
-                    if (results.getInt(0) > results.getInt(1))
+                    if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) >
+                            results.getInt(Fixtures.COL_ID_GOALS_CONCEDED))
                     {
                         countOfWinsDrawsLosses[0]++;
                     }
-                    else if (results.getInt(0) == results.getInt(1))
+                    else if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) ==
+                            results.getInt(Fixtures.COL_ID_GOALS_CONCEDED))
                     {
                         countOfWinsDrawsLosses[1]++;
                     }
@@ -569,25 +545,27 @@ public class FixturesHelper
     {
         Log.v(TAG, "getAttendances");
         int[] attendances = null;
-        final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        final Cursor results = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
-                new String[]{Fixtures.COL_NAME_ATTENDANCE},
-                Fixtures.COL_NAME_DATE + "<? AND " + Fixtures.COL_NAME_VENUE + "=? AND " +
-                        Fixtures.COL_NAME_ATTENDANCE + ">0",
-                new String[]{String.valueOf(nowInSeconds), context.getString(R.string.home)}, null,
-                null, Fixtures.DEFAULT_SORT_ORDER);
+        final Cursor results = getLeagueResults(database, context, Fixtures.DEFAULT_SORT_ORDER);
         if (results != null)
         {
             if (results.moveToFirst())
             {
-                final int numResults = results.getCount();
-                Log.v(TAG, "number of results: " + numResults);
-                attendances = new int[numResults];
-                int i = 0;
+                ArrayList<Integer> temp = new ArrayList<>();
                 do
                 {
-                    attendances[i++] = results.getInt(0);
+                    if ((results.getString(Fixtures.COL_ID_VENUE).equalsIgnoreCase("Home")) &&
+                            (results.getInt(Fixtures.COL_ID_ATTENDANCE) > 0))
+                    {
+                        temp.add(results.getInt(Fixtures.COL_ID_ATTENDANCE));
+                    }
                 } while (results.moveToNext());
+
+                final int count = temp.size();
+                attendances = new int[count];
+                for (int index = 0; index<count; index++)
+                {
+                    attendances[index] = temp.get(index);
+                }
             }
 
             results.close();

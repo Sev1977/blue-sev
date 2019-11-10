@@ -9,6 +9,7 @@ import android.personal.fixtures.adapters.ResultRecyclerViewAdapter;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.helpers.FixturesHelper;
 import android.personal.fixtures.database.helpers.SeasonsHelper;
+import android.personal.fixtures.database.tables.Fixtures;
 import android.personal.fixtures.interfaces.MainActivityInteraction;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,7 +65,7 @@ public class ResultsFragment extends Fragment
         if (mShowLeagueOnly)
         {
             mResults = FixturesHelper.getLeagueResults(Database.getInstance(appContext),
-                    appContext);
+                    appContext, Fixtures.RESULTS_SORT_ORDER);
         }
         else
         {
