@@ -44,6 +44,26 @@ public class ClubsHelper
         return getName(database, Clubs.COL_NAME_FULL_NAME, clubId);
     }
 
+    public static String getFullNameFromShortName(final Database database, final String shortName)
+    {
+        String fullName = null;
+
+        final Cursor club = database.getReadableDatabase().query(Clubs.TABLE_NAME,
+                new String[]{Clubs.COL_NAME_FULL_NAME}, Clubs.COL_NAME_SHORT_NAME + "=?",
+                new String[]{shortName}, null, null, null);
+
+        if (club != null)
+        {
+            if (club.moveToFirst())
+            {
+                fullName = club.getString(0);
+            }
+            club.close();
+        }
+
+        return fullName;
+    }
+
     public static String getShortNameFromId(final Database database, final long clubId)
     {
         return getName(database, Clubs.COL_NAME_SHORT_NAME, clubId);

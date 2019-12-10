@@ -11,8 +11,11 @@ public class Fixtures
     public static final String TABLE_NAME = "fixtures";
 
     public static final String COL_NAME_DATE = "name";
+    /** Short name of the competition */
     public static final String COL_NAME_COMPETITION = "competition";
+    /** "Home" or "Away" */
     public static final String COL_NAME_VENUE = "venue";
+    /** Short name of the club */
     public static final String COL_NAME_OPPOSITION = "opposition";
     public static final String COL_NAME_GOALS_SCORED = "goals_scored";
     public static final String COL_NAME_GOALS_CONCEDED = "goals_conceded";

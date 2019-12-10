@@ -1,9 +1,11 @@
 package android.personal.fixtures;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.personal.fixtures.database.Database;
+import android.personal.fixtures.database.helpers.ClubsHelper;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.personal.fixtures.database.tables.Goals;
 import android.provider.BaseColumns;
@@ -16,6 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -168,8 +173,9 @@ public class FixtureActivity extends AppCompatActivity
                             .format(calendar.getTime()));
 
             // Set the opposition
-            ((TextView)findViewById(R.id.opposition)).setText(
-                    mCurrentFixture.getString(Fixtures.COL_ID_OPPOSITION));
+            final String shortName = mCurrentFixture.getString(Fixtures.COL_ID_OPPOSITION);
+            final String fullName = ClubsHelper.getFullNameFromShortName(mDatabase, shortName);
+            ((TextView)findViewById(R.id.opposition)).setText(fullName);
 
             // Set the venue
             ((TextView)findViewById(R.id.homeOrAway)).setText(
@@ -181,6 +187,8 @@ public class FixtureActivity extends AppCompatActivity
 
             // Show the score, scorers and attendance.  If it's a fixture, the views will be empty.
             String score = "";
+            final Resources resources = getResources();
+            int scoreColour = resources.getColor(R.color.result_draw);
             String scorers = "";
             String attendance = "";
             if (calendar.getTimeInMillis() < now)
@@ -189,6 +197,14 @@ public class FixtureActivity extends AppCompatActivity
                 final int scored = mCurrentFixture.getInt(Fixtures.COL_ID_GOALS_SCORED);
                 final int conceded = mCurrentFixture.getInt(Fixtures.COL_ID_GOALS_CONCEDED);
                 score = getString(R.string.score_format, scored, conceded);
+                if (scored > conceded)
+                {
+                    scoreColour = resources.getColor(R.color.result_win);
+                }
+                else if (scored < conceded)
+                {
+                    scoreColour = resources.getColor(R.color.result_defeat);
+                }
 
                 // Set the goal scorers
                 final StringBuilder builder = new StringBuilder();
@@ -205,11 +221,11 @@ public class FixtureActivity extends AppCompatActivity
                             builder.append(goals.getString(0));
                             if (goals.getInt(1) == 1)
                             {
-                                builder.append("(P)");
+                                builder.append(" (pen)");
                             }
                             if (!goals.isLast())
                             {
-                                builder.append(", ");
+                                builder.append(",\r\n");
                             }
                         } while (goals.moveToNext());
                     }
@@ -218,9 +234,15 @@ public class FixtureActivity extends AppCompatActivity
                 scorers = builder.toString();
 
                 // Set the attendance
-                attendance = String.valueOf(mCurrentFixture.getInt(Fixtures.COL_ID_ATTENDANCE));
+                DecimalFormat formatter = (DecimalFormat)NumberFormat.getInstance(Locale.UK);
+                DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+                symbols.setGroupingSeparator(',');
+                formatter.setDecimalFormatSymbols(symbols);
+                attendance = formatter.format(mCurrentFixture.getInt(Fixtures.COL_ID_ATTENDANCE));
             }
-            ((TextView)findViewById(R.id.score)).setText(score);
+            final TextView scoreView = findViewById(R.id.score);
+            scoreView.setText(score);
+            scoreView.setTextColor(scoreColour);
             ((TextView)findViewById(R.id.scorers)).setText(scorers);
             ((TextView)findViewById(R.id.attendance)).setText(attendance);
 
