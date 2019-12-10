@@ -179,15 +179,16 @@ public class FixtureActivity extends AppCompatActivity
             ((TextView)findViewById(R.id.competition)).setText(
                     mCurrentFixture.getString(Fixtures.COL_ID_COMPETITION));
 
-            // If this is a result, i.e. the date is in the past, show the score, scorers and
-            // attendance.  If it's in the future, hide those views.
+            // Show the score, scorers and attendance.  If it's a fixture, the views will be empty.
+            String score = "";
+            String scorers = "";
+            String attendance = "";
             if (calendar.getTimeInMillis() < now)
             {
                 // Set the score
                 final int scored = mCurrentFixture.getInt(Fixtures.COL_ID_GOALS_SCORED);
                 final int conceded = mCurrentFixture.getInt(Fixtures.COL_ID_GOALS_CONCEDED);
-                ((TextView)findViewById(R.id.score)).setText(
-                        getString(R.string.score_format, scored, conceded));
+                score = getString(R.string.score_format, scored, conceded);
 
                 // Set the goal scorers
                 final StringBuilder builder = new StringBuilder();
@@ -214,18 +215,14 @@ public class FixtureActivity extends AppCompatActivity
                     }
                     goals.close();
                 }
-                ((TextView)findViewById(R.id.scorers)).setText(builder.toString());
+                scorers = builder.toString();
 
                 // Set the attendance
-                ((TextView)findViewById(R.id.attendance)).setText(
-                        String.valueOf(mCurrentFixture.getInt(Fixtures.COL_ID_ATTENDANCE)));
+                attendance = String.valueOf(mCurrentFixture.getInt(Fixtures.COL_ID_ATTENDANCE));
             }
-            else
-            {
-                findViewById(R.id.score).setVisibility(View.INVISIBLE);
-                findViewById(R.id.scorers).setVisibility(View.INVISIBLE);
-                findViewById(R.id.attendance).setVisibility(View.INVISIBLE);
-            }
+            ((TextView)findViewById(R.id.score)).setText(score);
+            ((TextView)findViewById(R.id.scorers)).setText(scorers);
+            ((TextView)findViewById(R.id.attendance)).setText(attendance);
 
             mCurrentFixture.close();
         }
