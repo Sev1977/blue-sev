@@ -70,28 +70,8 @@ public class FixturesHelper
     {
         Log.d(TAG, "getLeagueResults");
 
+        final String leagueName = SeasonsHelper.getSelectedSeasonShortName(database, appContext);
         final int seasonId = Settings.getSelectedSeasonId(appContext);
-        String leagueName = SeasonsHelper.getSeasonName(database, seasonId);
-        leagueName = leagueName.substring(0, leagueName.indexOf(" "));
-
-        final Cursor comps = CompetitionsHelper.getAllLeagues(database);
-        if (comps != null)
-        {
-            if (comps.moveToFirst())
-            {
-                do
-                {
-                    String shortName = comps.getString(Competitions.COL_INDEX_SHORT_NAME);
-                    if (shortName.contains(leagueName))
-                    {
-                        leagueName = shortName;
-                        break;
-                    }
-                } while (comps.moveToNext());
-            }
-
-            comps.close();
-        }
 
         // Now we can get all the results for this season's league competition.
         final long now = System.currentTimeMillis();
@@ -122,7 +102,7 @@ public class FixturesHelper
         if (allFixtures != null)
         {
             allFixtures.moveToFirst();
-            //            DatabaseUtils.dumpCursor(allFixtures);
+//            DatabaseUtils.dumpCursor(allFixtures);
         }
         return allFixtures;
     }
@@ -135,13 +115,16 @@ public class FixturesHelper
     {
         Log.d(TAG, "getLeagueFixtures");
 
+        final String leagueName = SeasonsHelper.getSelectedSeasonShortName(database, appContext);
+        final int seasonId = Settings.getSelectedSeasonId(appContext);
+
         // Now we can get all the league results
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
         final Cursor leagueFixtures = database.getSelection(Fixtures.TABLE_NAME,
-                Fixtures.COL_NAME_DATE + ">? AND " + Fixtures.COL_NAME_SEASON_ID + "=?",
-                new String[]{String.valueOf(nowInSeconds),
-                        String.valueOf(Settings.getSelectedSeasonId(appContext))},
+                Fixtures.COL_NAME_DATE + ">? AND " + Fixtures.COL_NAME_COMPETITION +
+                        "=? AND " + Fixtures.COL_NAME_SEASON_ID + "=?",
+                new String[]{String.valueOf(nowInSeconds), leagueName, String.valueOf(seasonId)},
                 Fixtures.DEFAULT_SORT_ORDER);
         if (leagueFixtures != null)
         {
