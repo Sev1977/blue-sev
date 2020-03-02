@@ -32,13 +32,19 @@ public class SeasonsHelper
      * Get the short name for the currently selected season.
      * @param database
      * @param appContext
+     * @param getFullName
      * @return
      */
-    static String getSelectedSeasonShortName(final Database database, final Context appContext)
+    public static String getSelectedSeasonName(final Database database, final Context appContext,
+            final boolean getFullName)
     {
         // Get the long name for the current season.
         final int seasonId = Settings.getSelectedSeasonId(appContext);
-        String leagueName = SeasonsHelper.getSeasonName(database, seasonId);
+        String leagueName = getSeasonName(database, seasonId);
+        // If we're asking for the full name, we can return it right now.
+        if (getFullName)
+            return leagueName;
+
         leagueName = leagueName.substring(0, leagueName.indexOf(" "));
 
         // Now get all the league competitions and find the one with the long name.

@@ -42,7 +42,7 @@ public class PlayersFragment extends Fragment
         super.onCreate(savedInstanceState);
 
         mPlayers = Database.getInstance(getActivity().getApplicationContext()).getAllRecords(
-                Players.TABLE_NAME, Players.DEFAULT_SORT_ORDER);
+                Players.TABLE_NAME, Players.NAME_SORT_ORDER);
     }
 
     @Override

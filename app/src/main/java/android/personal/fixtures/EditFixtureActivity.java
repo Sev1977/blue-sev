@@ -8,6 +8,7 @@ import android.personal.fixtures.database.helpers.ClubsHelper;
 import android.personal.fixtures.database.helpers.CompetitionsHelper;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.StatsUpdate;
+import android.personal.fixtures.database.helpers.SeasonsHelper;
 import android.personal.fixtures.database.tables.Clubs;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.personal.fixtures.database.tables.Goals;
@@ -155,6 +156,9 @@ public class EditFixtureActivity extends AppCompatActivity
 
         mDatabase = Database.getInstance(getApplicationContext());
 
+        mSeasonButton = findViewById(R.id.editFixtureSeason);
+        mSeasonButton.setOnClickListener(mOnChoiceButtonClicked);
+
         mDateButton = findViewById(R.id.editFixtureDate);
         mTimeButton = findViewById(R.id.editFixtureTime);
 
@@ -173,9 +177,6 @@ public class EditFixtureActivity extends AppCompatActivity
         mGoalScorersButton.setOnClickListener(mScorersButtonClickListener);
 
         mAttendanceInput = findViewById(R.id.editFixtureAttendance);
-
-        mSeasonButton = findViewById(R.id.editFixtureSeason);
-        mSeasonButton.setOnClickListener(mOnChoiceButtonClicked);
 
         mIsEditMode = false;
 
@@ -221,6 +222,11 @@ public class EditFixtureActivity extends AppCompatActivity
 
                 fixture.close();
             }
+        }
+        else
+        {
+            // Use the current season as the default for a new fixture/result
+            mSeasonButton.setText(SeasonsHelper.getSelectedSeasonName(mDatabase, this, true));
         }
 
         mMinutes = calendar.get(Calendar.MINUTE);
@@ -422,6 +428,10 @@ public class EditFixtureActivity extends AppCompatActivity
                 }
             };
 
+    /**
+     *
+     * @param view
+     */
     public void showDatePicker(View view)
     {
         final DatePickerFragment fragment = new DatePickerFragment();
@@ -444,6 +454,10 @@ public class EditFixtureActivity extends AppCompatActivity
                 }
             };
 
+    /**
+     *
+     * @param view
+     */
     public void showTimePicker(View view)
     {
         final TimePickerFragment fragment = new TimePickerFragment();
@@ -454,6 +468,9 @@ public class EditFixtureActivity extends AppCompatActivity
         fragment.show(getFragmentManager(), "timePicker");
     }
 
+    /**
+     *
+     */
     private void updateDateButtonText()
     {
         final Calendar calendar = Calendar.getInstance();
@@ -462,6 +479,9 @@ public class EditFixtureActivity extends AppCompatActivity
                 .format(calendar.getTime()));
     }
 
+    /**
+     *
+     */
     private void updateTimeButtonText()
     {
         final Calendar calendar = Calendar.getInstance();
@@ -470,6 +490,9 @@ public class EditFixtureActivity extends AppCompatActivity
                 .format(calendar.getTime()));
     }
 
+    /**
+     *
+     */
     private void updateSeasonButtonText()
     {
         final Cursor season = mDatabase.getColumnsForSelection(Seasons.TABLE_NAME,
@@ -478,11 +501,20 @@ public class EditFixtureActivity extends AppCompatActivity
         mSeasonButton.setText(season.getString(0));
     }
 
+    /**
+     *
+     * @param scored
+     * @param conceded
+     */
     private void updateScoreButtonText(final int scored, final int conceded)
     {
         mScoreButton.setText(getString(R.string.score_format, scored, conceded));
     }
 
+    /**
+     *
+     * @return
+     */
     private String getGoalScorers()
     {
         final Cursor goals = mDatabase.getColumnsForSelection(Goals.TABLE_NAME,

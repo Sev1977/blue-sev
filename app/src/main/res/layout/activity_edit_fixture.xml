@@ -36,7 +36,8 @@
         android:layout_marginStart="@dimen/linear_text_spacing"
         app:layout_constraintBaseline_toBaselineOf="@id/editFixtureSeasonLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/editFixtureSeasonLabel"/>
+        app:layout_constraintStart_toEndOf="@id/editFixtureSeasonLabel"
+        android:textAllCaps="false"/>
 
     <TextView
         android:id="@+id/editFixtureDateLabel"
@@ -58,7 +59,8 @@
         android:onClick="showDatePicker"
         app:layout_constraintBaseline_toBaselineOf="@id/editFixtureDateLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editFixtureDateLabel"/>
+        app:layout_constraintStart_toEndOf="@+id/editFixtureDateLabel"
+        android:textAllCaps="false"/>
 
     <TextView
         android:id="@+id/editFixtureTimeLabel"
@@ -78,7 +80,6 @@
         android:layout_marginEnd="@dimen/default_activity_margin"
         android:layout_marginStart="@dimen/linear_text_spacing"
         android:onClick="showTimePicker"
-        android:text="15:00"
         app:layout_constraintBaseline_toBaselineOf="@id/editFixtureTimeLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editFixtureTimeLabel"/>
@@ -102,7 +103,8 @@
         android:layout_marginStart="@dimen/linear_text_spacing"
         app:layout_constraintBaseline_toBaselineOf="@id/editFixtureCompetitionLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editFixtureCompetitionLabel"/>
+        app:layout_constraintStart_toEndOf="@+id/editFixtureCompetitionLabel"
+        android:textAllCaps="false"/>
 
     <TextView
         android:id="@+id/editFixtureOpponentLabel"
@@ -123,7 +125,8 @@
         android:layout_marginStart="@dimen/linear_text_spacing"
         app:layout_constraintBaseline_toBaselineOf="@id/editFixtureOpponentLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editFixtureOpponentLabel"/>
+        app:layout_constraintStart_toEndOf="@+id/editFixtureOpponentLabel"
+        android:textAllCaps="false"/>
 
     <TextView
         android:id="@+id/editFixtureVenueLabel"
@@ -204,7 +207,8 @@
         android:layout_marginTop="@dimen/default_activity_vertical_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editFixtureScorersLabel"/>
+        app:layout_constraintTop_toBottomOf="@+id/editFixtureScorersLabel"
+        android:textAllCaps="false"/>
 
     <TextView
         android:id="@+id/editFixtureAttendanceLabel"
