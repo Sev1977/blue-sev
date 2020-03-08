@@ -4,11 +4,10 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.personal.fixtures.database.helpers.ClubsHelper;
-import android.personal.fixtures.database.helpers.CompetitionsHelper;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.StatsUpdate;
-import android.personal.fixtures.database.helpers.SeasonsHelper;
+import android.personal.fixtures.database.helpers.ClubsHelper;
+import android.personal.fixtures.database.helpers.CompetitionsHelper;
 import android.personal.fixtures.database.tables.Clubs;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.personal.fixtures.database.tables.Goals;
@@ -193,7 +192,6 @@ public class EditFixtureActivity extends AppCompatActivity
             {
                 // Get the season name
                 mSeasonId = fixture.getLong(Fixtures.COL_ID_SEASON_ID);
-                updateSeasonButtonText();
                 // Get the date
                 final int unixTimestamp = fixture.getInt(Fixtures.COL_ID_DATE);
                 calendar.setTimeInMillis(TimeUnit.SECONDS.toMillis(unixTimestamp));
@@ -226,8 +224,10 @@ public class EditFixtureActivity extends AppCompatActivity
         else
         {
             // Use the current season as the default for a new fixture/result
-            mSeasonButton.setText(SeasonsHelper.getSelectedSeasonName(mDatabase, this, true));
+            mSeasonId = Settings.getSelectedSeasonId(this);
         }
+
+        updateSeasonButtonText();
 
         mMinutes = calendar.get(Calendar.MINUTE);
         mHours = calendar.get(Calendar.HOUR_OF_DAY);
@@ -334,7 +334,7 @@ public class EditFixtureActivity extends AppCompatActivity
 
     private boolean saveFixture()
     {
-        if (TextUtils.isEmpty(mOpponentButton.getText()) || (mSeasonId == -1))
+        if (TextUtils.isEmpty(mOpponentButton.getText()) || (mSeasonId == 0))
         {
             return false;
         }
@@ -495,14 +495,16 @@ public class EditFixtureActivity extends AppCompatActivity
      */
     private void updateSeasonButtonText()
     {
-        final Cursor season = mDatabase.getColumnsForSelection(Seasons.TABLE_NAME,
-                new String[]{Seasons.COL_NAME_NAME}, BaseColumns._ID + "=?",
-                new String[]{String.valueOf(mSeasonId)}, Seasons.DEFAULT_SORT_ORDER);
-        mSeasonButton.setText(season.getString(0));
+        if (mSeasonId != 0)
+        {
+            final Cursor season = mDatabase.getColumnsForSelection(Seasons.TABLE_NAME,
+                    new String[]{Seasons.COL_NAME_NAME}, BaseColumns._ID + "=?",
+                    new String[]{String.valueOf(mSeasonId)}, Seasons.DEFAULT_SORT_ORDER);
+            mSeasonButton.setText(season.getString(0));
+        }
     }
 
     /**
-     *
      * @param scored
      * @param conceded
      */
@@ -512,7 +514,6 @@ public class EditFixtureActivity extends AppCompatActivity
     }
 
     /**
-     *
      * @return
      */
     private String getGoalScorers()
