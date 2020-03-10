@@ -3,11 +3,10 @@ package android.personal.fixtures.fragments;
 import android.os.Bundle;
 import android.personal.fixtures.R;
 import android.support.v4.app.DialogFragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.NumberPicker;
 
 /**
  * Use the {@link EditScoreFragment#newInstance} factory method to create an instance of this
@@ -18,10 +17,10 @@ public class EditScoreFragment extends DialogFragment
     public static final String EXTRA_CARDIFF_SCORE = "cardiff_score";
     public static final String EXTRA_OPPONENT_SCORE = "opponent_score";
 
-    private int mCardiffScore;
-    private int mOpponentScore;
-    private EditText mCardiffScoreView;
-    private EditText mOpponentScoreView;
+    private int mCardiffScore = 0;
+    private int mOpponentScore = 0;
+    private NumberPicker mCardiffScorePicker;
+    private NumberPicker mOpponentScorePicker;
 
     private ScoreDialogListener mListener;
 
@@ -34,7 +33,7 @@ public class EditScoreFragment extends DialogFragment
      * Use this factory method to create a new instance of this fragment using the provided
      * parameters.
      *
-     * @param cardiffGoals Number of goals scored by Cardiff.
+     * @param cardiffGoals  Number of goals scored by Cardiff.
      * @param opponentGoals Number of goals scored by the opponent.
      * @return A new instance of fragment EditScoreFragment.
      */
@@ -70,27 +69,23 @@ public class EditScoreFragment extends DialogFragment
     {
         // Inflate the layout for this fragment
         final View layout = inflater.inflate(R.layout.fragment_edit_score, container, false);
-        mCardiffScoreView = layout.findViewById(R.id.homeScoreInput);
-        mCardiffScoreView.setText(String.valueOf(mCardiffScore));
-        mOpponentScoreView = layout.findViewById(R.id.awayScoreInput);
-        mOpponentScoreView.setText(String.valueOf(mOpponentScore));
+        mCardiffScorePicker = layout.findViewById(R.id.cardiffScorePicker);
+        mCardiffScorePicker.setMinValue(0);
+        mCardiffScorePicker.setMaxValue(10);
+        mCardiffScorePicker.setValue(mCardiffScore);
+        mOpponentScorePicker = layout.findViewById(R.id.opponentScorePicker);
+        mOpponentScorePicker.setMinValue(0);
+        mOpponentScorePicker.setMaxValue(10);
+        mOpponentScorePicker.setValue(mOpponentScore);
         layout.findViewById(R.id.editScoreOkButton).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(final View view)
             {
-                final int[] score = new int[]{0, 0};
-                if (!TextUtils.isEmpty(mCardiffScoreView.getText()))
-                {
-                    score[0] = Integer.valueOf(mCardiffScoreView.getText().toString());
-                }
-                if (!TextUtils.isEmpty(mOpponentScoreView.getText()))
-                {
-                    score[1] = Integer.valueOf(mOpponentScoreView.getText().toString());
-                }
                 if (mListener != null)
                 {
-                    mListener.onOkClicked(score);
+                    mListener.onOkClicked(mCardiffScorePicker.getValue(),
+                            mOpponentScorePicker.getValue());
                 }
             }
         });
@@ -100,6 +95,6 @@ public class EditScoreFragment extends DialogFragment
 
     public interface ScoreDialogListener
     {
-        void onOkClicked(final int[] score);
+        void onOkClicked(final int cardiffScore, final int opponentScore);
     }
 }

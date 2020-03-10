@@ -429,7 +429,6 @@ public class EditFixtureActivity extends AppCompatActivity
             };
 
     /**
-     *
      * @param view
      */
     public void showDatePicker(View view)
@@ -455,7 +454,6 @@ public class EditFixtureActivity extends AppCompatActivity
             };
 
     /**
-     *
      * @param view
      */
     public void showTimePicker(View view)
@@ -549,9 +547,9 @@ public class EditFixtureActivity extends AppCompatActivity
     }
 
     @Override
-    public void onOkClicked(final int[] score)
+    public void onOkClicked(final int cardiffScore, final int opponentScore)
     {
-        updateScoreButtonText(score[0], score[1]);
+        updateScoreButtonText(cardiffScore, opponentScore);
         getSupportFragmentManager().beginTransaction().remove(
                 getSupportFragmentManager().findFragmentByTag("score_dialog")).commit();
     }
