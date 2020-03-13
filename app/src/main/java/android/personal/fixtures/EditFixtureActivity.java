@@ -89,6 +89,7 @@ public class EditFixtureActivity extends AppCompatActivity
 
                 case R.id.editFixtureOpponent:
                 {
+                    chooser = new Intent(EditFixtureActivity.this, OpponentChooserActivity.class);
                     final CharSequence competitionName = mCompetitionButton.getText();
                     if (!TextUtils.isEmpty(competitionName) && CompetitionsHelper.getIsLeague(
                             mDatabase, competitionName.toString()))
@@ -380,9 +381,11 @@ public class EditFixtureActivity extends AppCompatActivity
 
     private boolean deleteFixture()
     {
-        // If the date is in the future, we can safely delete the fixture without any knock on
-        // effect, otherwise, if the fixture is in the past, we'd have to recalculate all the
-        // statistics again.  Therefore, we won't allow the user to delete a fixture from teh last.
+        /*
+         * If the date is in the future, we can safely delete the fixture without any knock on
+         * effect, otherwise, if the fixture is in the past, we'd have to recalculate all the
+         * statistics again.  Therefore, we won't allow the user to delete a fixture from the past.
+         */
 
         final Calendar calendar = Calendar.getInstance();
         calendar.clear();
