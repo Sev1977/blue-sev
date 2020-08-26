@@ -28,9 +28,14 @@ public class Database extends SQLiteOpenHelper
 {
     private static final String TAG = Database.class.getSimpleName();
 
-    private static final int DATABASE_VERSION = 5;
+    /*
+     * Version 6: 5-Apr-2020, added Player.IsCurrent
+     */
+    private static final int DATABASE_VERSION = 6;
 
     private static final String DATABASE_NAME = "fixtures_db";
+
+    private static final String DROP_TABLE = "DROP TABLE IF EXISTS %s";
 
     private static final AtomicInteger openCounter = new AtomicInteger();
 
@@ -51,6 +56,10 @@ public class Database extends SQLiteOpenHelper
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * @param c
+     * @return
+     */
     public static synchronized Database getInstance(final Context c)
     {
         if (instance == null)
@@ -79,6 +88,7 @@ public class Database extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
+        Log.i(TAG, "onUpgrade, oldVersion(" + oldVersion + ") newVersion(" + newVersion + ")");
         for (String tableName : ALL_TABLE_NAMES)
         {
             /*
@@ -89,7 +99,7 @@ public class Database extends SQLiteOpenHelper
             /*
              * Re-create the table
              */
-            db.execSQL("DROP TABLE IF EXISTS " + tableName);
+            db.execSQL(String.format(DROP_TABLE, tableName));
             switch (tableName)
             {
                 case Clubs.TABLE_NAME:
@@ -135,6 +145,11 @@ public class Database extends SQLiteOpenHelper
         }
     }
 
+    /**
+     * @param database
+     * @param tableName
+     * @return
+     */
     private List<ContentValues> dumpExistingData(final SQLiteDatabase database,
             final String tableName)
     {
@@ -161,27 +176,47 @@ public class Database extends SQLiteOpenHelper
         return existingData;
     }
 
+    /**
+     * @param tableName
+     * @param data
+     * @return
+     */
     public long addRecord(final String tableName, final ContentValues data)
     {
         return getWritableDatabase().insert(tableName, null, data);
     }
 
+    /**
+     * @param tableName
+     * @param id
+     * @return
+     */
     public boolean updateRecord(final String tableName, final long id, final ContentValues values)
     {
         return getWritableDatabase().update(tableName, values, BaseColumns._ID + "=?",
                 new String[]{String.valueOf(id)}) == 1;
     }
 
+    /**
+     * @param tableName
+     * @param id
+     * @return
+     */
     public boolean deleteRecord(final String tableName, final long id)
     {
         return getWritableDatabase().delete(tableName, BaseColumns._ID + "=?",
                 new String[]{String.valueOf(id)}) == 1;
     }
 
+    /**
+     * @param tableName
+     * @param id
+     * @return
+     */
     public Cursor getFullRecordWithId(final String tableName, final long id)
     {
-        final Cursor record = getReadableDatabase().query(tableName, null, BaseColumns._ID + "=" + id,
-                null, null, null, null);
+        final Cursor record = getReadableDatabase().query(tableName, null,
+                BaseColumns._ID + "=" + id, null, null, null, null);
         if (record != null)
         {
             record.moveToFirst();
@@ -189,6 +224,11 @@ public class Database extends SQLiteOpenHelper
         return record;
     }
 
+    /**
+     * @param tableName
+     * @param sorting
+     * @return
+     */
     public Cursor getAllRecords(final String tableName, final String sorting)
     {
         final Cursor records = getReadableDatabase().query(tableName, null, null, null, null, null,
@@ -200,6 +240,12 @@ public class Database extends SQLiteOpenHelper
         return records;
     }
 
+    /**
+     * @param tableName
+     * @param columns
+     * @param sorting
+     * @return
+     */
     public Cursor getColumnsForAllRecords(final String tableName, final String[] columns,
             final String sorting)
     {
@@ -212,6 +258,13 @@ public class Database extends SQLiteOpenHelper
         return records;
     }
 
+    /**
+     * @param tableName
+     * @param selection
+     * @param selectionArgs
+     * @param sorting
+     * @return
+     */
     public Cursor getSelection(final String tableName, final String selection,
             final String[] selectionArgs, final String sorting)
     {
@@ -224,6 +277,14 @@ public class Database extends SQLiteOpenHelper
         return records;
     }
 
+    /**
+     * @param tableName
+     * @param columns
+     * @param selection
+     * @param selectionArgs
+     * @param sorting
+     * @return
+     */
     public Cursor getColumnsForSelection(final String tableName, final String[] columns,
             final String selection, final String[] selectionArgs, final String sorting)
     {

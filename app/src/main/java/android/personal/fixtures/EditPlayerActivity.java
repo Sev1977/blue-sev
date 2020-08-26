@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Switch;
 
 public class EditPlayerActivity extends AppCompatActivity
 {
@@ -21,7 +22,8 @@ public class EditPlayerActivity extends AppCompatActivity
     private Database mDatabase;
 
     private EditText mForenameInput;
-    private EditText mSurameInput;
+    private EditText mSurnameInput;
+    private Switch mCurrentSwitch;
 
     private boolean mIsEditMode;
     private long mPlayerId;
@@ -43,7 +45,8 @@ public class EditPlayerActivity extends AppCompatActivity
         mDatabase = Database.getInstance(getApplicationContext());
 
         mForenameInput = findViewById(R.id.player_forename_input);
-        mSurameInput = findViewById(R.id.player_surname_input);
+        mSurnameInput = findViewById(R.id.player_surname_input);
+        mCurrentSwitch = findViewById((R.id.player_current_switch));
 
         mIsEditMode = false;
 
@@ -57,8 +60,10 @@ public class EditPlayerActivity extends AppCompatActivity
             {
                 mForenameInput.setText(
                         player.getString(player.getColumnIndex(Players.COL_NAME_FORENAME)));
-                mSurameInput.setText(
+                mSurnameInput.setText(
                         player.getString(player.getColumnIndex(Players.COL_NAME_SURNAME)));
+                mCurrentSwitch.setChecked(
+                        1 == player.getInt(player.getColumnIndex(Players.COL_NAME_CURRENT)));
                 player.close();
             }
         }
@@ -102,17 +107,19 @@ public class EditPlayerActivity extends AppCompatActivity
         {
             return false;
         }
-        if (TextUtils.isEmpty(mSurameInput.getText()))
+        if (TextUtils.isEmpty(mSurnameInput.getText()))
         {
             return false;
         }
 
-        final String forname = mForenameInput.getText().toString();
-        final String surname = mSurameInput.getText().toString();
+        final String forename = mForenameInput.getText().toString();
+        final String surname = mSurnameInput.getText().toString();
+        final boolean isCurrent = mCurrentSwitch.isChecked();
 
         final ContentValues values = new ContentValues();
-        values.put(Players.COL_NAME_FORENAME, forname);
+        values.put(Players.COL_NAME_FORENAME, forename);
         values.put(Players.COL_NAME_SURNAME, surname);
+        values.put(Players.COL_NAME_CURRENT, isCurrent ? 1 : 0);
 
         if (mIsEditMode)
         {

@@ -24,7 +24,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/edit_full_name_label"
-        android:textColor="@color/textColorPrimary"
+        style="@style/editScreenLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_club_toolbar"/>
 
@@ -46,7 +46,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/edit_short_name_label"
-        android:textColor="@color/textColorPrimary"
+        style="@style/editScreenLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/club_full_name_input"/>
 
@@ -68,7 +68,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/edit_code_label"
-        android:textColor="@color/textColorPrimary"
+        style="@style/editScreenLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/club_short_name_input"/>
 
@@ -91,6 +91,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/edit_club_is_league_label"
+        style="@style/editScreenLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/club_code_input"/>
 

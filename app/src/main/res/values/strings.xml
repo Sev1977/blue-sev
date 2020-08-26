@@ -73,6 +73,7 @@
     <string name="edit_season_label">Season:</string>
     <string name="edit_score_cardiff_goals">Cardiff:</string>
     <string name="edit_score_opponent_goals">Opponent:</string>
+    <string name="edit_comp_is_league">This is a league</string>
 
     <!-- Chooser titles -->
     <string name="competition_chooser_title">Choose competition</string>
@@ -87,6 +88,10 @@
     <string name="action_filter">Filter</string>
     <string name="filter_all">All games</string>
     <string name="filter_lge">League games</string>
+
+    <!-- Player screen strings -->
+    <string name="player_is_current">Current</string>
+    <string name="player_edit_current">Currently at the club</string>
 
     <!-- Common strings -->
     <string name="action_add">Add</string>
