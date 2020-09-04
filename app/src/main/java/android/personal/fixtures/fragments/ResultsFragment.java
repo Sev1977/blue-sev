@@ -102,15 +102,17 @@ public class ResultsFragment extends Fragment
                     new ResultRecyclerViewAdapter(getContext(), mResults, mListener));
         }
 
+        final Context appContext = getActivity().getApplicationContext();
+
         // Put the current season in the label
         final int seasonId = Settings.getSelectedSeasonId(list.getContext());
         final String name = SeasonsHelper.getSeasonName(
-                Database.getInstance(getActivity().getApplicationContext()), seasonId);
+                Database.getInstance(appContext), seasonId);
         ((TextView)view.findViewById(R.id.results_season_label)).setText(name);
 
         // setup the form views.
         final ArrayList<Integer> form = FixturesHelper.getRecentForm(
-                Database.getInstance(getActivity().getApplicationContext()));
+                Database.getInstance(appContext), appContext);
         if (form.size() > 0)
         {
             final ArrayList<ImageView> formViews = new ArrayList<>();

@@ -69,15 +69,16 @@ public class FixturesHelper
     {
         Log.d(TAG, "getLeagueResults");
 
-        final String shortLeagueName = SeasonsHelper.getSelectedSeasonName(database, appContext, false);
+        final String shortLeagueName = SeasonsHelper.getSelectedSeasonName(database, appContext,
+                false);
         final int seasonId = Settings.getSelectedSeasonId(appContext);
 
         // Now we can get all the results for this season's league competition.
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
         final Cursor leagueResults = database.getSelection(Fixtures.TABLE_NAME,
-                Fixtures.COL_NAME_DATE + "<? AND " + Fixtures.COL_NAME_COMPETITION +
-                        "=? AND " + Fixtures.COL_NAME_SEASON_ID + "=?",
+                Fixtures.COL_NAME_DATE + "<? AND " + Fixtures.COL_NAME_COMPETITION + "=? AND " +
+                        Fixtures.COL_NAME_SEASON_ID + "=?",
                 new String[]{String.valueOf(nowInSeconds), shortLeagueName,
                         String.valueOf(seasonId)}, sorting);
         if (leagueResults != null)
@@ -93,8 +94,8 @@ public class FixturesHelper
 
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
-        final Cursor allFixtures = database.getSelection(Fixtures.TABLE_NAME, FIXTURES_WHERE + " " +
-                        "AND " + Fixtures.COL_NAME_SEASON_ID + "=?",
+        final Cursor allFixtures = database.getSelection(Fixtures.TABLE_NAME,
+                FIXTURES_WHERE + " " + "AND " + Fixtures.COL_NAME_SEASON_ID + "=?",
                 new String[]{String.valueOf(nowInSeconds),
                         String.valueOf(Settings.getSelectedSeasonId(appContext))},
                 Fixtures.DEFAULT_SORT_ORDER);
@@ -114,17 +115,18 @@ public class FixturesHelper
     {
         Log.d(TAG, "getLeagueFixtures");
 
-        final String shortLeagueName = SeasonsHelper.getSelectedSeasonName(database, appContext, false);
+        final String shortLeagueName = SeasonsHelper.getSelectedSeasonName(database, appContext,
+                false);
         final int seasonId = Settings.getSelectedSeasonId(appContext);
 
         // Now we can get all the league results
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
         final Cursor leagueFixtures = database.getSelection(Fixtures.TABLE_NAME,
-                Fixtures.COL_NAME_DATE + ">? AND " + Fixtures.COL_NAME_COMPETITION +
-                        "=? AND " + Fixtures.COL_NAME_SEASON_ID + "=?",
-                new String[]{String.valueOf(nowInSeconds), shortLeagueName, String.valueOf(seasonId)},
-                Fixtures.DEFAULT_SORT_ORDER);
+                Fixtures.COL_NAME_DATE + ">? AND " + Fixtures.COL_NAME_COMPETITION + "=? AND " +
+                        Fixtures.COL_NAME_SEASON_ID + "=?",
+                new String[]{String.valueOf(nowInSeconds), shortLeagueName,
+                        String.valueOf(seasonId)}, Fixtures.DEFAULT_SORT_ORDER);
         if (leagueFixtures != null)
         {
             leagueFixtures.moveToFirst();
@@ -133,19 +135,25 @@ public class FixturesHelper
     }
 
     /**
-     *
      * @param database
+     * @param appContext
      * @return
      */
-    public static ArrayList<Integer> getRecentForm(final Database database)
+    public static ArrayList<Integer> getRecentForm(final Database database,
+            final Context appContext)
     {
         final ArrayList<Integer> form = new ArrayList<>();
 
+        /* Fixtures table contains results and fixtures, so I need to use the timestamp now
+         * to get past results. However, I need to limit the result of the query to the current
+         * season. */
+        final int seasonId = Settings.getSelectedSeasonId(appContext);
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
         final Cursor cursor = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
-                GOALS_FOR_CONCEDED, RESULTS_WHERE, new String[]{String.valueOf(nowInSeconds)}, null,
-                null, Fixtures.COL_NAME_DATE + " DESC LIMIT 6");
+                GOALS_FOR_CONCEDED, RESULTS_WHERE + " AND " + Fixtures.COL_NAME_SEASON_ID + "=?",
+                new String[]{String.valueOf(nowInSeconds), String.valueOf(seasonId)}, null, null,
+                Fixtures.COL_NAME_DATE + " DESC LIMIT 6");
         if (cursor != null)
         {
             if (cursor.moveToFirst())
@@ -217,14 +225,14 @@ public class FixturesHelper
                 int pointsTotal = 0;
                 do
                 {
-                    if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) >
-                            results.getInt(Fixtures.COL_ID_GOALS_CONCEDED))
+                    if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) > results.getInt(
+                            Fixtures.COL_ID_GOALS_CONCEDED))
                     {
                         Log.v(TAG, "win");
                         pointsProgress[gameIndex] = pointsTotal + 3;
                     }
-                    else if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) ==
-                            results.getInt(Fixtures.COL_ID_GOALS_CONCEDED))
+                    else if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) == results.getInt(
+                            Fixtures.COL_ID_GOALS_CONCEDED))
                     {
                         Log.v(TAG, "draw");
                         pointsProgress[gameIndex] = pointsTotal + 1;
@@ -266,14 +274,14 @@ public class FixturesHelper
                 int pointsTotal = 0;
                 do
                 {
-                    if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) >
-                            results.getInt(Fixtures.COL_ID_GOALS_CONCEDED))
+                    if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) > results.getInt(
+                            Fixtures.COL_ID_GOALS_CONCEDED))
                     {
                         Log.v(TAG, "win");
                         pointsTotal += 3;
                     }
-                    else if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) ==
-                            results.getInt(Fixtures.COL_ID_GOALS_CONCEDED))
+                    else if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) == results.getInt(
+                            Fixtures.COL_ID_GOALS_CONCEDED))
                     {
                         Log.v(TAG, "draw");
                         pointsTotal += 1;
@@ -500,13 +508,13 @@ public class FixturesHelper
             {
                 do
                 {
-                    if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) >
-                            results.getInt(Fixtures.COL_ID_GOALS_CONCEDED))
+                    if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) > results.getInt(
+                            Fixtures.COL_ID_GOALS_CONCEDED))
                     {
                         countOfWinsDrawsLosses[0]++;
                     }
-                    else if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) ==
-                            results.getInt(Fixtures.COL_ID_GOALS_CONCEDED))
+                    else if (results.getInt(Fixtures.COL_ID_GOALS_SCORED) == results.getInt(
+                            Fixtures.COL_ID_GOALS_CONCEDED))
                     {
                         countOfWinsDrawsLosses[1]++;
                     }
@@ -544,7 +552,7 @@ public class FixturesHelper
 
                 final int count = temp.size();
                 attendances = new int[count];
-                for (int index = 0; index<count; index++)
+                for (int index = 0; index < count; index++)
                 {
                     attendances[index] = temp.get(index);
                 }
