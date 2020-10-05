@@ -82,6 +82,14 @@ public class EditPlayerActivity extends AppCompatActivity
     {
         switch (item.getItemId())
         {
+            case R.id.edit_action_delete:
+                if (deletePlayer())
+                {
+                    setResult(RESULT_OK);
+                    finish();
+                }
+                return true;
+
             case R.id.edit_action_save:
                 if (savePlayer())
                 {
@@ -129,5 +137,10 @@ public class EditPlayerActivity extends AppCompatActivity
         {
             return mDatabase.addRecord(Players.TABLE_NAME, values) != -1;
         }
+    }
+
+    private boolean deletePlayer()
+    {
+        return mDatabase.deleteRecord(Players.TABLE_NAME, mPlayerId);
     }
 }
