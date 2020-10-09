@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.fragments.FixturesFragment;
 import android.personal.fixtures.fragments.ResultsFragment;
-import android.personal.fixtures.interfaces.MainActivityInteraction;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +17,7 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements FixturesFragment.OnFixturesListInteractionListener,
-        ResultsFragment.OnResultsListInteractionListener, MainActivityInteraction
+        ResultsFragment.OnResultsListInteractionListener
 {
     private static final int REQUEST_ADD_FIXTURE = 0;
     private static final int REQUEST_VIEW_FIXTURE = 1;
@@ -28,7 +27,6 @@ public class MainActivity extends AppCompatActivity
     private static final String RESULTS_TAG = "resultsTab";
 
     private String mVisibleTab;
-    private boolean mOnlyShowLeagueFixtures;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,8 +35,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         setSupportActionBar((Toolbar)findViewById(R.id.my_toolbar));
-
-        mOnlyShowLeagueFixtures = Settings.showLeagueOnly(getApplicationContext());
 
         /*
          * Create the database
@@ -233,11 +229,5 @@ public class MainActivity extends AppCompatActivity
     public void onEditResult(final long id)
     {
         editFixture(id);
-    }
-
-    @Override
-    public boolean getOnlyShowLeagueFixtures()
-    {
-        return mOnlyShowLeagueFixtures;
     }
 }

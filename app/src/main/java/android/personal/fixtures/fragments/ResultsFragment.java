@@ -10,7 +10,6 @@ import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.helpers.FixturesHelper;
 import android.personal.fixtures.database.helpers.SeasonsHelper;
 import android.personal.fixtures.database.tables.Fixtures;
-import android.personal.fixtures.interfaces.MainActivityInteraction;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -60,12 +59,12 @@ public class ResultsFragment extends Fragment
                     context.toString() + " must implement OnResultsListInteractionListener");
         }
 
-        mShowLeagueOnly = ((MainActivityInteraction)getActivity()).getOnlyShowLeagueFixtures();
         final Context appContext = getActivity().getApplicationContext();
+        mShowLeagueOnly = Settings.showLeagueOnly(appContext);
         if (mShowLeagueOnly)
         {
-            mResults = FixturesHelper.getLeagueResults(Database.getInstance(appContext),
-                    appContext, Fixtures.RESULTS_SORT_ORDER);
+            mResults = FixturesHelper.getLeagueResults(Database.getInstance(appContext), appContext,
+                    Fixtures.RESULTS_SORT_ORDER);
         }
         else
         {
@@ -106,8 +105,7 @@ public class ResultsFragment extends Fragment
 
         // Put the current season in the label
         final int seasonId = Settings.getSelectedSeasonId(list.getContext());
-        final String name = SeasonsHelper.getSeasonName(
-                Database.getInstance(appContext), seasonId);
+        final String name = SeasonsHelper.getSeasonName(Database.getInstance(appContext), seasonId);
         ((TextView)view.findViewById(R.id.results_season_label)).setText(name);
 
         // setup the form views.

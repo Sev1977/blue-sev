@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.personal.fixtures.Settings;
 import android.personal.fixtures.database.Database;
-import android.personal.fixtures.database.tables.Competitions;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.util.Log;
 
@@ -24,28 +23,6 @@ public class FixturesHelper
             new String[]{Fixtures.COL_NAME_GOALS_SCORED, Fixtures.COL_NAME_GOALS_CONCEDED};
     private static final String RESULTS_WHERE = Fixtures.COL_NAME_DATE + "<?";
     private static final String FIXTURES_WHERE = Fixtures.COL_NAME_DATE + ">=?";
-
-    private static String getLeagueName(final Database database)
-    {
-        String name = "";
-        final Cursor league = CompetitionsHelper.getAllLeagues(database);
-        if (league != null)
-        {
-            if (league.getCount() > 1)
-            {
-                Log.w(TAG, "We've got more than 1 league competition, I'm using the first one in" +
-                        " the list");
-            }
-            if (league.moveToFirst())
-            {
-                name = league.getString(Competitions.COL_INDEX_SHORT_NAME);
-            }
-
-            league.close();
-        }
-
-        return name;
-    }
 
     public static Cursor getAllResults(final Database database, final Context appContext)
     {
@@ -146,13 +123,27 @@ public class FixturesHelper
 
         /* Fixtures table contains results and fixtures, so I need to use the timestamp now
          * to get past results. However, I need to limit the result of the query to the current
-         * season. */
+         * season. Also need to consider the setting that says whether we're viewing all games
+         * or just the league games. */
         final int seasonId = Settings.getSelectedSeasonId(appContext);
         final long now = System.currentTimeMillis();
         final long nowInSeconds = TimeUnit.MILLISECONDS.toSeconds(now);
+        String whereClause = RESULTS_WHERE + " AND " + Fixtures.COL_NAME_SEASON_ID + "=?";
+        String[] whereArgs;
+        if (Settings.showLeagueOnly(appContext))
+        {
+            whereClause += " AND " + Fixtures.COL_NAME_COMPETITION + "=?";
+            final String shortLeagueName = SeasonsHelper.getSelectedSeasonName(database, appContext,
+                    false);
+            whereArgs = new String[]{String.valueOf(nowInSeconds), String.valueOf(seasonId),
+                    shortLeagueName};
+        }
+        else
+        {
+            whereArgs = new String[]{String.valueOf(nowInSeconds), String.valueOf(seasonId)};
+        }
         final Cursor cursor = database.getReadableDatabase().query(Fixtures.TABLE_NAME,
-                GOALS_FOR_CONCEDED, RESULTS_WHERE + " AND " + Fixtures.COL_NAME_SEASON_ID + "=?",
-                new String[]{String.valueOf(nowInSeconds), String.valueOf(seasonId)}, null, null,
+                GOALS_FOR_CONCEDED, whereClause, whereArgs, null, null,
                 Fixtures.COL_NAME_DATE + " DESC LIMIT 6");
         if (cursor != null)
         {

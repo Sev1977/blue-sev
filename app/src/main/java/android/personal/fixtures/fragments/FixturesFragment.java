@@ -9,7 +9,6 @@ import android.personal.fixtures.adapters.FixtureRecyclerViewAdapter;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.helpers.FixturesHelper;
 import android.personal.fixtures.database.helpers.SeasonsHelper;
-import android.personal.fixtures.interfaces.MainActivityInteraction;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,8 +55,8 @@ public class FixturesFragment extends Fragment
                     context.toString() + " must implement OnFixturesListInteractionListener");
         }
 
-        mShowLeagueOnly = ((MainActivityInteraction)getActivity()).getOnlyShowLeagueFixtures();
         final Context appContext = getActivity().getApplicationContext();
+        mShowLeagueOnly = Settings.showLeagueOnly(appContext);
         if (mShowLeagueOnly)
         {
             Log.d(TAG, "Show league fixtures only");

@@ -22,7 +22,7 @@ public class Settings
      * @param appContext
      * @return
      */
-    static boolean showLeagueOnly(final Context appContext)
+    public static boolean showLeagueOnly(final Context appContext)
     {
         return PreferenceManager.getDefaultSharedPreferences(appContext).getBoolean(
                 appContext.getString(R.string.pref_key_league_only), false);
