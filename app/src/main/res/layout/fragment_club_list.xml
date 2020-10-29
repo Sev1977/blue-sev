@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/clubs_recycler_view"
-    android:name="android.personal.fixtures.ClubFragment"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="4dp"
-    android:scrollbars="vertical"
-    android:verticalScrollbarPosition="right"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".fragments.ClubsFragment"
-    tools:listitem="@layout/clubs_list_item"/>
+    android:orientation="vertical"
+    tools:context=".fragments.ClubsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Only show current" />
+
+        <Switch
+            android:id="@+id/clubs_list_filter_switch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/clubs_recycler_view"
+        android:name="android.personal.fixtures.ClubFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:verticalScrollbarPosition="right"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/clubs_list_item" />
+
+</LinearLayout>

@@ -6,14 +6,17 @@ import android.os.Bundle;
 import android.personal.fixtures.R;
 import android.personal.fixtures.adapters.ClubRecyclerViewAdapter;
 import android.personal.fixtures.database.Database;
+import android.personal.fixtures.database.helpers.ClubsHelper;
 import android.personal.fixtures.database.tables.Clubs;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 /**
  * A fragment representing a list of Clubs.
@@ -26,11 +29,13 @@ public class ClubsFragment extends Fragment
     private static final String TAG = ClubsFragment.class.getSimpleName();
 
     private Cursor mClubs;
+    private RecyclerView mList;
     private OnClubListInteractionListener mListener;
+    private Database mDatabase;
 
     /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
+     * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
+     * screen orientation changes).
      */
     public ClubsFragment()
     {
@@ -41,8 +46,9 @@ public class ClubsFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
 
-        mClubs = Database.getInstance(getActivity().getApplicationContext()).getAllRecords(
-                Clubs.TABLE_NAME, Clubs.DEFAULT_SORT_ORDER);
+        mDatabase = Database.getInstance(getContext());
+
+        mClubs = mDatabase.getAllRecords(Clubs.TABLE_NAME, Clubs.DEFAULT_SORT_ORDER);
     }
 
     @Override
@@ -52,17 +58,41 @@ public class ClubsFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_club_list, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView)
+        final View list = view.findViewById(R.id.clubs_recycler_view);
+        if (list instanceof RecyclerView)
         {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView)view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new ClubRecyclerViewAdapter(mClubs, mListener));
+            Context context = list.getContext();
+            mList = (RecyclerView)list;
+            mList.setLayoutManager(new LinearLayoutManager(context));
+            mList.setAdapter(new ClubRecyclerViewAdapter(mClubs, mListener));
         }
+
+        ((Switch)view.findViewById(R.id.clubs_list_filter_switch)).setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(final CompoundButton compoundButton,
+                            final boolean b)
+                    {
+                        if (b)
+                        {
+                            Snackbar.make(compoundButton, "Only show current league opponents",
+                                    Snackbar.LENGTH_SHORT).show();
+                            mClubs = ClubsHelper.getAllLeagueClubs(mDatabase);
+                        }
+                        else
+                        {
+                            Snackbar.make(compoundButton, "Show all clubs", Snackbar.LENGTH_SHORT)
+                                    .show();
+                            mClubs = mDatabase.getAllRecords(Clubs.TABLE_NAME,
+                                    Clubs.DEFAULT_SORT_ORDER);
+                        }
+                        mList.setAdapter(new ClubRecyclerViewAdapter(mClubs, mListener));
+                    }
+                });
 
         return view;
     }
-
 
     @Override
     public void onAttach(Context context)
@@ -93,7 +123,7 @@ public class ClubsFragment extends Fragment
      * <p/>
      * See the Android Training lesson
      * <a href="http://developer.android.com/training/basics/fragments/communicating.html">
-     *     Communicating with Other Fragments</a> for more information.
+     * Communicating with Other Fragments</a> for more information.
      */
     public interface OnClubListInteractionListener
     {
