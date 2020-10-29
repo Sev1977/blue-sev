@@ -94,6 +94,11 @@
     <string name="player_edit_current">Currently at the club</string>
     <string name="player_name" translatable="false">%s %s</string>
 
+    <!-- Competitions screen strings -->
+    <string name="comps_filter_all">All</string>
+    <string name="comps_filter_leagues">Leagues</string>
+    <string name="comps_filter_cups">Cups</string>
+
     <!-- Common strings -->
     <string name="action_add">Add</string>
     <string name="action_save">Save</string>
