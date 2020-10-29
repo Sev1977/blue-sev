@@ -6,14 +6,17 @@ import android.os.Bundle;
 import android.personal.fixtures.R;
 import android.personal.fixtures.adapters.PlayerRecyclerViewAdapter;
 import android.personal.fixtures.database.Database;
+import android.personal.fixtures.database.helpers.PlayersHelper;
 import android.personal.fixtures.database.tables.Players;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 /**
  * A fragment representing a list of players.
@@ -26,11 +29,13 @@ public class PlayersFragment extends Fragment
     private static final String TAG = PlayersFragment.class.getSimpleName();
 
     private Cursor mPlayers;
+    private RecyclerView mList;
     private OnPlayersListInteractionListener mListener;
+    private Database mDatabase;
 
     /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
+     * Mandatory empty constructor for the fragment manager to instantiate the fragment (e.g. upon
+     * screen orientation changes).
      */
     public PlayersFragment()
     {
@@ -41,8 +46,9 @@ public class PlayersFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
 
-        mPlayers = Database.getInstance(getActivity().getApplicationContext()).getAllRecords(
-                Players.TABLE_NAME, Players.NAME_SORT_ORDER);
+        mDatabase = Database.getInstance(getContext());
+
+        mPlayers = mDatabase.getAllRecords(Players.TABLE_NAME, Players.NAME_SORT_ORDER);
     }
 
     @Override
@@ -52,17 +58,40 @@ public class PlayersFragment extends Fragment
         final View view = inflater.inflate(R.layout.fragment_player_list, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView)
+        final View list = view.findViewById(R.id.players_recycler_view);
+        if (list instanceof RecyclerView)
         {
-            final Context context = view.getContext();
-            final RecyclerView recyclerView = (RecyclerView)view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new PlayerRecyclerViewAdapter(mPlayers, mListener));
+            mList = (RecyclerView)list;
+            mList.setLayoutManager(new LinearLayoutManager(list.getContext()));
+            mList.setAdapter(new PlayerRecyclerViewAdapter(mPlayers, mListener));
         }
+
+        ((Switch)view.findViewById(R.id.players_list_filter_switch)).setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(final CompoundButton compoundButton,
+                            final boolean b)
+                    {
+                        if (b)
+                        {
+                            Snackbar.make(compoundButton, "Only show current players",
+                                    Snackbar.LENGTH_SHORT).show();
+                            mPlayers = PlayersHelper.getCurrentPlayers(mDatabase);
+                        }
+                        else
+                        {
+                            Snackbar.make(compoundButton, "Show all players", Snackbar.LENGTH_SHORT)
+                                    .show();
+                            mPlayers = mDatabase.getAllRecords(Players.TABLE_NAME,
+                                    Players.NAME_SORT_ORDER);
+                        }
+                        mList.setAdapter(new PlayerRecyclerViewAdapter(mPlayers, mListener));
+                    }
+                });
 
         return view;
     }
-
 
     @Override
     public void onAttach(Context context)

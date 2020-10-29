@@ -47,9 +47,9 @@ public class PlayerRecyclerViewAdapter
         mPlayers.moveToPosition(position);
         holder.mPlayerId = mPlayers.getLong(0);
         holder.mIdView.setText(String.valueOf(position + 1));
-        holder.mNameView.setText(
-                mPlayers.getString(mPlayers.getColumnIndex(Players.COL_NAME_FORENAME)) + " " +
-                        mPlayers.getString(mPlayers.getColumnIndex(Players.COL_NAME_SURNAME)));
+        holder.mNameView.setText(holder.mView.getContext().getString(R.string.player_name,
+                mPlayers.getString(mPlayers.getColumnIndex(Players.COL_NAME_FORENAME)),
+                mPlayers.getString(mPlayers.getColumnIndex(Players.COL_NAME_SURNAME))));
         holder.mCurrent.setVisibility(
                 mPlayers.getInt(mPlayers.getColumnIndex(Players.COL_NAME_CURRENT)) == 1 ?
                         View.VISIBLE : View.INVISIBLE);

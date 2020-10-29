@@ -92,6 +92,7 @@
     <!-- Player screen strings -->
     <string name="player_is_current">Current</string>
     <string name="player_edit_current">Currently at the club</string>
+    <string name="player_name" translatable="false">%s %s</string>
 
     <!-- Common strings -->
     <string name="action_add">Add</string>

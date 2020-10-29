@@ -52,4 +52,20 @@ public class PlayersHelper
 
         return names;
     }
+
+    /**
+     * Get all the players currently at the club.
+     */
+    public static Cursor getCurrentPlayers(final Database database)
+    {
+        final Cursor players = database.getReadableDatabase().query(Players.TABLE_NAME, null,
+                Players.COL_NAME_CURRENT + "=1", null, null, null, Players.NAME_SORT_ORDER);
+
+        if (players != null)
+        {
+            players.moveToFirst();
+        }
+
+        return players;
+    }
 }

@@ -61,9 +61,8 @@ public class ClubsFragment extends Fragment
         final View list = view.findViewById(R.id.clubs_recycler_view);
         if (list instanceof RecyclerView)
         {
-            Context context = list.getContext();
             mList = (RecyclerView)list;
-            mList.setLayoutManager(new LinearLayoutManager(context));
+            mList.setLayoutManager(new LinearLayoutManager(list.getContext()));
             mList.setAdapter(new ClubRecyclerViewAdapter(mClubs, mListener));
         }
 
