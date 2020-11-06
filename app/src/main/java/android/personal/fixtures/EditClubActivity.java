@@ -103,17 +103,27 @@ public class EditClubActivity extends AppCompatActivity
                     setResult(RESULT_OK);
                     finish();
                 }
-                return true;
+                break;
+
+            case R.id.edit_action_delete:
+                if (deleteClub())
+                {
+                    setResult(RESULT_OK);
+                    finish();
+                }
+                break;
 
             case android.R.id.home:
                 finish();
-                return true;
+                break;
 
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
+
+        return true;
     }
 
     private boolean saveClub()
@@ -149,5 +159,10 @@ public class EditClubActivity extends AppCompatActivity
         {
             return mDatabase.addRecord(Clubs.TABLE_NAME, values) != -1;
         }
+    }
+
+    private boolean deleteClub()
+    {
+        return mDatabase.deleteRecord(Clubs.TABLE_NAME, mClubId);
     }
 }

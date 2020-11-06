@@ -99,17 +99,32 @@ public class EditCompetitionActivity extends AppCompatActivity
                     setResult(RESULT_OK);
                     finish();
                 }
-                return true;
+                break;
+
+            case R.id.edit_action_delete:
+                if (deleteCompetition())
+                {
+                    setResult(RESULT_OK);
+                    finish();
+                }
+                break;
 
             case android.R.id.home:
                 finish();
-                return true;
+                break;
 
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
+
+        return true;
+    }
+
+    private boolean deleteCompetition()
+    {
+        return mDatabase.deleteRecord(Competitions.TABLE_NAME, mCompetitionId);
     }
 
     private boolean saveCompetition()
