@@ -87,7 +87,7 @@ public class ChooserListActivity extends AppCompatActivity
                             R.string.player_chooser_title);
                     cursor = PlayersHelper.getAllNamesWithIds(
                             Database.getInstance(ChooserListActivity
-                                    .this));
+                                    .this), true);
                     break;
             }
         }
