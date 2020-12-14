@@ -425,7 +425,7 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
         // Create the attendance data
         final int[] attendances = FixturesHelper.getAttendances(mDatabase,
                 mActivityWeakReference.get());
-        if (attendances != null)
+        if ((attendances != null) && (attendances.length > 0))
         {
             // Create the bar chart
             final BarChart barChart = (BarChart)mCallbacks.getSelectedChart();
@@ -466,7 +466,7 @@ public class GraphLoader extends AsyncTask<Graph, Void, Void>
         // Get the attendances
         final int[] attendances = FixturesHelper.getAttendances(mDatabase,
                 mActivityWeakReference.get());
-        if (attendances != null)
+        if ((attendances != null) && (attendances.length > 0))
         {
             final List<Entry> entries = new ArrayList<>(attendances.length);
             int gameNumber = 0;
