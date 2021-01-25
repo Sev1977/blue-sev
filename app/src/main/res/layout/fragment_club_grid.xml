@@ -5,6 +5,5 @@
     android:name="android.personal.fixtures.OppoChoiceFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="4dp"
     tools:context=".fragments.OppoChoiceFragment"
     tools:listitem="@layout/club_picker_grid_item" />
