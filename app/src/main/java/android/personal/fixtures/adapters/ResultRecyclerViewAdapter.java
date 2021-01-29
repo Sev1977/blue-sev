@@ -19,8 +19,8 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Cursor} and makes a call to the
- * specified {@link OnResultsListInteractionListener}.
+ * {@link RecyclerView.Adapter} that can display a {@link Cursor} and makes a call to the specified
+ * {@link OnResultsListInteractionListener}.
  */
 public class ResultRecyclerViewAdapter
         extends RecyclerView.Adapter<ResultRecyclerViewAdapter.ViewHolder>
@@ -30,7 +30,7 @@ public class ResultRecyclerViewAdapter
     private final Cursor mResults;
     private final int mItemCount;
     private final OnResultsListInteractionListener mListener;
-    private SimpleDateFormat mDateFormat;
+    private final SimpleDateFormat mDateFormat;
 
     public ResultRecyclerViewAdapter(final Context context, final Cursor results,
             final OnResultsListInteractionListener listener)
@@ -103,15 +103,15 @@ public class ResultRecyclerViewAdapter
 
         if (goalsFor > goalsAgainst)
         {
-            holder.mIndicator.setBackgroundColor(context.getColor(R.color.result_win));
+            holder.mIndicator.setColorFilter(context.getColor(R.color.result_win));
         }
         else if (goalsFor < goalsAgainst)
         {
-            holder.mIndicator.setBackgroundColor(context.getColor(R.color.result_defeat));
+            holder.mIndicator.setColorFilter(context.getColor(R.color.result_defeat));
         }
         else
         {
-            holder.mIndicator.setBackgroundColor(context.getColor(R.color.result_draw));
+            holder.mIndicator.setColorFilter(context.getColor(R.color.result_draw));
         }
     }
 
@@ -121,7 +121,7 @@ public class ResultRecyclerViewAdapter
         return mItemCount;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder
+    public static class ViewHolder extends RecyclerView.ViewHolder
     {
         public long mFixtureId;
         final View mView;
@@ -131,7 +131,7 @@ public class ResultRecyclerViewAdapter
         final TextView mHomeTeamScore;
         final TextView mAwayTeamView;
         final TextView mAwayTeamScore;
-        final View mIndicator;
+        final ImageView mIndicator;
 
         ViewHolder(View view)
         {

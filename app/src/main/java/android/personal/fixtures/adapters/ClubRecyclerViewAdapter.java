@@ -10,11 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Cursor} and makes a call to the
- * specified {@link OnClubListInteractionListener}.
+ * {@link RecyclerView.Adapter} that can display a {@link Cursor} and makes a call to the specified
+ * {@link OnClubListInteractionListener}.
  */
 public class ClubRecyclerViewAdapter
         extends RecyclerView.Adapter<ClubRecyclerViewAdapter.ViewHolder>
@@ -53,8 +54,8 @@ public class ClubRecyclerViewAdapter
                 mClubs.getString(mClubs.getColumnIndex(Clubs.COL_NAME_SHORT_NAME)));
         holder.mCodeView.setText(mClubs.getString(mClubs.getColumnIndex(Clubs.COL_NAME_CODE)));
         holder.mIsLeagueView.setVisibility(
-                mClubs.getInt(mClubs.getColumnIndex(Clubs.COL_NAME_IS_LEAGUE)) == 1 ? View.VISIBLE :
-                        View.INVISIBLE);
+                mClubs.getInt(mClubs.getColumnIndex(Clubs.COL_NAME_IS_LEAGUE)) == 1
+                        ? View.VISIBLE : View.INVISIBLE);
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
@@ -77,7 +78,7 @@ public class ClubRecyclerViewAdapter
         return mItemCount;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder
+    public static class ViewHolder extends RecyclerView.ViewHolder
     {
         public long mClubId;
         final View mView;
@@ -85,7 +86,7 @@ public class ClubRecyclerViewAdapter
         final TextView mFullNameView;
         final TextView mShortNameView;
         final TextView mCodeView;
-        final TextView mIsLeagueView;
+        final ImageView mIsLeagueView;
 
         ViewHolder(View view)
         {
@@ -95,7 +96,7 @@ public class ClubRecyclerViewAdapter
             mFullNameView = view.findViewById(R.id.full_name);
             mShortNameView = view.findViewById(R.id.short_name);
             mCodeView = view.findViewById(R.id.code);
-            mIsLeagueView = view.findViewById(R.id.is_league_view);
+            mIsLeagueView = view.findViewById(R.id.is_league);
         }
 
         @Override

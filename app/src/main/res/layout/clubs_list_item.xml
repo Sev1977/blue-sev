@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/list_item_horizontal_margin"
-    android:layout_marginTop="4dp"
+    android:layout_marginTop="@dimen/list_item_vertical_margin"
     android:layout_marginEnd="@dimen/list_item_horizontal_margin"
-    android:layout_marginBottom="4dp"
+    android:layout_marginBottom="@dimen/list_item_vertical_margin"
     android:background="@drawable/list_item"
     android:paddingStart="@dimen/list_item_horizontal_padding"
-    android:paddingTop="8dp"
+    android:paddingTop="@dimen/list_item_vertical_padding"
     android:paddingEnd="@dimen/list_item_horizontal_padding"
-    android:paddingBottom="8dp">
+    android:paddingBottom="@dimen/list_item_vertical_padding">
 
     <TextView
         android:id="@+id/item_number"
@@ -20,14 +20,12 @@
         android:layout_centerVertical="true"
         android:textAppearance="?attr/textAppearanceListItem" />
 
-    <TextView
-        android:id="@+id/is_league_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/is_league"
+        style="@style/currentIconStyle"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:text="League"
-        android:textColor="@android:color/white"/>
+        android:src="@drawable/ic_current" />
 
     <TextView
         android:id="@+id/full_name"
@@ -35,7 +33,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="@dimen/text_margin"
-        android:layout_toStartOf="@+id/is_league_view"
+        android:layout_marginEnd="@dimen/text_margin"
+        android:layout_toStartOf="@+id/is_league"
         android:layout_toEndOf="@id/item_number"
         android:textAppearance="?attr/textAppearanceListItem" />
 

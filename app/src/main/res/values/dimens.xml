@@ -9,8 +9,11 @@
     <dimen name="title_margin">32dp</dimen>
     <dimen name="list_item_border_size">1dp</dimen>
     <dimen name="list_item_horizontal_margin">8dp</dimen>
+    <dimen name="list_item_vertical_margin">2dp</dimen>
     <dimen name="list_item_horizontal_padding">16dp</dimen>
+    <dimen name="list_item_vertical_padding">12dp</dimen>
     <dimen name="linear_text_spacing">8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="grid_item_horizontal_padding">12dp</dimen>
+    <dimen name="list_page_filter_padding">12dp</dimen>
 </resources>

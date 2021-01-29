@@ -11,22 +11,22 @@
         android:id="@+id/competitions_list_filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="@dimen/list_page_filter_padding">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="6dp"
             android:layout_weight="1"
-            android:text="Filter:"
+            android:text="@string/comps_filter_title"
             android:textAlignment="viewEnd" />
 
         <TextView
             android:id="@+id/competitions_filter_label"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/comps_filter_all" />
 
     </LinearLayout>

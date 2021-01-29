@@ -33,8 +33,13 @@
         <item name="android:layout_marginEnd">2dp</item>
     </style>
 
-    <style name="editActivityTextStyle">
+    <!-- 'Current' icon style -->
+    <style name="currentIconStyle">
+        <item name="android:layout_width">18dp</item>
+        <item name="android:layout_height">18dp</item>
     </style>
+
+    <style name="editActivityTextStyle"></style>
 
     <style name="editActivityTitleStyle" parent="editActivityTextStyle">
         <item name="android:textColor">@color/textColorPrimary</item>
@@ -71,6 +76,7 @@
     </style>
 
     <style name="resultListItemScore">
+        <item name="android:layout_weight">0</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/linear_text_spacing</item>
@@ -96,8 +102,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

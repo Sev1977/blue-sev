@@ -1,31 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:layout_marginEnd="@dimen/list_item_horizontal_margin"
     android:layout_marginStart="@dimen/list_item_horizontal_margin"
-    android:layout_marginTop="4dp"
+    android:layout_marginTop="@dimen/list_item_vertical_margin"
+    android:layout_marginEnd="@dimen/list_item_horizontal_margin"
+    android:layout_marginBottom="@dimen/list_item_vertical_margin"
     android:background="@drawable/list_item"
-    android:orientation="horizontal"
-    android:paddingBottom="8dp"
-    android:paddingEnd="@dimen/list_item_horizontal_padding"
     android:paddingStart="@dimen/list_item_horizontal_padding"
-    android:paddingTop="8dp">
+    android:paddingTop="@dimen/list_item_vertical_padding"
+    android:paddingEnd="@dimen/list_item_horizontal_padding"
+    android:paddingBottom="@dimen/list_item_vertical_padding">
 
     <TextView
         android:id="@+id/item_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:text="1"
-        android:textAppearance="?attr/textAppearanceListItem"/>
+        android:textAppearance="?attr/textAppearanceListItem" />
+
+    <!-- TEMP GONE BECAUSE THERE'S NO COLUMN IN THE DB RECORD FOR THIS -->
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/is_current"
+        style="@style/currentIconStyle"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_current" />
 
     <TextView
         android:id="@+id/season_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/text_margin"
+        android:layout_marginEnd="@dimen/text_margin"
+        android:layout_toStartOf="@+id/is_current"
+        android:layout_toEndOf="@id/item_number"
         android:text="Name"
-        android:textAppearance="?attr/textAppearanceListItem"/>
+        android:textAppearance="?attr/textAppearanceListItem" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -93,11 +93,19 @@
     <string name="player_is_current">Current</string>
     <string name="player_edit_current">Currently at the club</string>
     <string name="player_name" translatable="false">%s %s</string>
+    <string name="players_filter_label">Only show current</string>
 
     <!-- Competitions screen strings -->
     <string name="comps_filter_all">All</string>
     <string name="comps_filter_leagues">Leagues</string>
     <string name="comps_filter_cups">Cups</string>
+    <string name="comps_filter_title">Filter:</string>
+
+    <!-- Seasons screen strings -->
+    <string name="season_is_current">Current</string>
+
+    <!-- Clubs list strings -->
+    <string name="clubs_filter_label">Only show league opponents</string>
 
     <!-- Common strings -->
     <string name="action_add">Add</string>

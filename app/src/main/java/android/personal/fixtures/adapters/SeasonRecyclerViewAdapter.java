@@ -2,6 +2,7 @@ package android.personal.fixtures.adapters;
 
 import android.database.Cursor;
 import android.personal.fixtures.R;
+import android.personal.fixtures.database.tables.Players;
 import android.personal.fixtures.database.tables.Seasons;
 import android.personal.fixtures.fragments.SeasonsFragment.OnSeasonListInteractionListener;
 import android.support.v7.widget.RecyclerView;
@@ -9,11 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Cursor} and makes a call to the
- * specified {@link OnSeasonListInteractionListener}.
+ * {@link RecyclerView.Adapter} that can display a {@link Cursor} and makes a call to the specified
+ * {@link OnSeasonListInteractionListener}.
  */
 public class SeasonRecyclerViewAdapter
         extends RecyclerView.Adapter<SeasonRecyclerViewAdapter.ViewHolder>
@@ -47,6 +49,9 @@ public class SeasonRecyclerViewAdapter
         holder.mSeasonId = mSeasons.getLong(0);
         holder.mIdView.setText(String.valueOf(position + 1));
         holder.mNameView.setText(mSeasons.getString(Seasons.COL_ID_NAME));
+//        holder.mCurrent.setVisibility(
+//                mSeasons.getInt(mSeasons.getColumnIndex(Seasons.COL)) == 1
+//                        ? View.VISIBLE : View.INVISIBLE);
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
@@ -69,12 +74,13 @@ public class SeasonRecyclerViewAdapter
         return mItemCount;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder
+    public static class ViewHolder extends RecyclerView.ViewHolder
     {
         public long mSeasonId;
         final View mView;
         final TextView mIdView;
         final TextView mNameView;
+        final ImageView mCurrent;
 
         ViewHolder(View view)
         {
@@ -82,6 +88,7 @@ public class SeasonRecyclerViewAdapter
             mView = view;
             mIdView = view.findViewById(R.id.item_number);
             mNameView = view.findViewById(R.id.season_name);
+            mCurrent = view.findViewById(R.id.is_current);
         }
 
         @Override
