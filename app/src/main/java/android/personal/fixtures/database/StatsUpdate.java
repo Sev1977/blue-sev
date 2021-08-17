@@ -223,10 +223,14 @@ public class StatsUpdate implements Runnable
                             updateWinningStreaks(values.get(allHomeAwayIndex));
                             // Update the win percentages
                             allGames[WIN_PERCENTAGE] = allGames[NUMBER_OF_WINS] / numberOfGames;
-                            values.get(ALL_HOME)[WIN_PERCENTAGE] = values.get(
-                                    ALL_HOME)[NUMBER_OF_WINS] / numberOfHomeGames;
-                            values.get(ALL_AWAY)[WIN_PERCENTAGE] = values.get(
-                                    ALL_AWAY)[NUMBER_OF_WINS] / numberOfAwayGames;
+                            values.get(ALL_HOME)[WIN_PERCENTAGE] =
+                                    numberOfHomeGames > 0
+                                            ? values.get(ALL_HOME)[NUMBER_OF_WINS] / numberOfHomeGames
+                                            : 0;
+                            values.get(ALL_AWAY)[WIN_PERCENTAGE] =
+                                    numberOfAwayGames > 0
+                                            ? values.get(ALL_AWAY)[NUMBER_OF_WINS] / numberOfAwayGames
+                                            : 0;
 
                             if (isLeagueGame)
                             {
