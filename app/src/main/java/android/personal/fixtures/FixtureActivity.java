@@ -221,7 +221,7 @@ public class FixtureActivity extends AppCompatActivity
                             builder.append(goals.getString(0));
                             if (goals.getInt(1) == 1)
                             {
-                                builder.append(" (pen)");
+                                builder.append(" (p)");
                             }
                             if (!goals.isLast())
                             {

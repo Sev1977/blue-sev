@@ -244,8 +244,10 @@ public class StatsUpdate implements Runnable
                                         allLeagueGames[NUMBER_OF_WINS] / numberOfLeagueGames;
                                 values.get(LGE_ALL_HOME)[WIN_PERCENTAGE] = values.get(
                                         LGE_ALL_HOME)[NUMBER_OF_WINS] / numberOfLeagueHomeGames;
-                                values.get(LGE_ALL_AWAY)[WIN_PERCENTAGE] = values.get(
-                                        LGE_ALL_AWAY)[NUMBER_OF_WINS] / numberOfLeagueAwayGames;
+                                values.get(LGE_ALL_AWAY)[WIN_PERCENTAGE] =
+                                        numberOfLeagueAwayGames > 0
+                                            ? values.get(LGE_ALL_AWAY)[NUMBER_OF_WINS] / numberOfLeagueAwayGames
+                                            : 0;
                             }
                         }
                         else if (goalsFor == goalsAgainst)

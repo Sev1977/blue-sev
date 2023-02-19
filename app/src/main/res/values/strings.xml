@@ -32,6 +32,7 @@
     <string name="home_menu_seasons">Seasons</string>
     <string name="home_menu_about">About</string>
     <string name="home_menu_settings">Settings</string>
+    <string name="home_menu_export_import">Export/Import</string>
 
     <!-- fixture screen menu -->
     <string name="fixture_menu_edit">Edit</string>
@@ -184,5 +185,7 @@
     <string name="pref_key_season">pref_key_season</string>
     <string name="pref_title_season">Selected season</string>
     <string name="title_activity_filter">Filters</string>
+    <string name="pref_key_show_current_players">pref_current_players_only</string>
+    <string name="pref_key_show_current_opponents">pref_current_opponents_only</string>
 
 </resources>

@@ -42,18 +42,16 @@ public class PlayerListActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId())
+        if (item.getItemId() == R.id.players_list_action_add)
         {
-            case R.id.players_list_action_add:
-                startActivityForResult(new Intent(this, EditPlayerActivity.class),
-                        REQUEST_CODE_ADD_PLAYER);
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
+            startActivityForResult(new Intent(this, EditPlayerActivity.class),
+                    REQUEST_CODE_ADD_PLAYER);
+            return true;
         }
+
+        // If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onTabUnselected(final TabLayout.Tab tab)
             {
+                // do nothing
             }
 
             @Override
@@ -127,6 +128,10 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.home_action_settings:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                return true;
+
+            case R.id.home_action_export_import:
+                exportImport();
                 return true;
 
             case R.id.home_action_about:
@@ -217,6 +222,15 @@ public class MainActivity extends AppCompatActivity
                         RESULTS_TAG).commitAllowingStateLoss();
             }
         }
+    }
+
+    /**
+     * Show a dialog asking the user to choose to either export the database or import it, then
+     * action then request. End with a completion dialog for success or failure.
+     */
+    private void exportImport()
+    {
+
     }
 
     @Override

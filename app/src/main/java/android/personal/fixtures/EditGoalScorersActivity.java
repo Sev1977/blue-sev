@@ -40,12 +40,7 @@ public class EditGoalScorersActivity extends AppCompatActivity
         @Override
         public void onClick(final View view)
         {
-            mSelectedNameView = (TextView)view;
-            final Intent chooser = new Intent(EditGoalScorersActivity.this,
-                    ChooserListActivity.class);
-            chooser.putExtra(ChooserListActivity.EXTRA_ITEM_TYPE,
-                    ChooserListActivity.ITEM_TYPE_PLAYER);
-            startActivityForResult(chooser, REQUEST_PLAYER);
+            OnNameClicked(view);
         }
     };
     private final View.OnClickListener mDeleteGoalListener = new View.OnClickListener()
@@ -59,6 +54,16 @@ public class EditGoalScorersActivity extends AppCompatActivity
             mList.removeView(listItem);
         }
     };
+
+    protected void OnNameClicked(final View view)
+    {
+        mSelectedNameView = (TextView)view;
+        final Intent chooser = new Intent(EditGoalScorersActivity.this,
+                ChooserListActivity.class);
+        chooser.putExtra(ChooserListActivity.EXTRA_ITEM_TYPE,
+                ChooserListActivity.ITEM_TYPE_PLAYER);
+        startActivityForResult(chooser, REQUEST_PLAYER);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -163,8 +168,12 @@ public class EditGoalScorersActivity extends AppCompatActivity
         final LinearLayout layout = (LinearLayout)getLayoutInflater().inflate(
                 R.layout.goal_scorers_list_item, null, false);
         mList.addView(layout);
-        layout.findViewById(NAME_VIEW_ID).setOnClickListener(mNameClickListener);
+        View nameView = layout.findViewById(NAME_VIEW_ID);
+        nameView.setOnClickListener(mNameClickListener);
         layout.findViewById(R.id.goalDeleteButton).setOnClickListener(mDeleteGoalListener);
+
+        if (view != null)
+            OnNameClicked(nameView);
     }
 
     public String saveGoalScorers()
