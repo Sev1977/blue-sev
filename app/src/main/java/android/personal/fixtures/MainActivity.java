@@ -1,5 +1,7 @@
 package android.personal.fixtures;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.personal.fixtures.database.Database;
@@ -10,15 +12,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends AppCompatActivity
         implements FixturesFragment.OnFixturesListInteractionListener,
         ResultsFragment.OnResultsListInteractionListener
 {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private static final int REQUEST_ADD_FIXTURE = 0;
     private static final int REQUEST_VIEW_FIXTURE = 1;
     private static final int REQUEST_EDIT_FIXTURE = 2;
@@ -34,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setSupportActionBar((Toolbar)findViewById(R.id.my_toolbar));
+        setSupportActionBar(findViewById(R.id.my_toolbar));
 
         /*
          * Create the database
@@ -131,7 +137,7 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.home_action_export_import:
-                exportImport();
+                onExportImportClicked();
                 return true;
 
             case R.id.home_action_about:
@@ -226,11 +232,33 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * Show a dialog asking the user to choose to either export the database or import it, then
-     * action then request. End with a completion dialog for success or failure.
+     * action the request. End with a completion dialog for success or failure.
      */
-    private void exportImport()
+    private void onExportImportClicked()
     {
-
+        final CharSequence[] options = new CharSequence[]
+                {
+                    getString(R.string.export_option),
+                    getString(R.string.import_option)
+                };
+        final AtomicInteger choice = new AtomicInteger(0); // default is to export.
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle(R.string.export_data_popup_title)
+                .setSingleChoiceItems(options, 0, (dialogInterface, i) -> choice.set(i))
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) ->
+                {
+                    if (choice.get() == 0)
+                    {
+                        exportData();
+                    }
+                    else
+                    {
+                        importData();
+                    }
+                })
+                .create()
+                .show();
     }
 
     @Override
@@ -243,5 +271,24 @@ public class MainActivity extends AppCompatActivity
     public void onEditResult(final long id)
     {
         editFixture(id);
+    }
+
+    /**
+     * Export the database contents to a CSV file. The user needs to choose where to put it.
+     */
+    public void exportData()
+    {
+        Log.v(TAG, "export");
+        // Create a string for the data in each table in the database.
+
+        // Create a new CSV file for each data string.
+    }
+
+    /**
+     * Import data from a CSV file. The user will choose which file.
+     */
+    public void importData()
+    {
+        Log.v(TAG, "import");
     }
 }

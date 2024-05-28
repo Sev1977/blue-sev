@@ -41,7 +41,7 @@ public class Database extends SQLiteOpenHelper
 
     private static Database instance;
 
-    private static final String[] ALL_TABLE_NAMES =
+    public static final String[] ALL_TABLE_NAMES =
             new String[]{Clubs.TABLE_NAME, Competitions.TABLE_NAME, Fixtures.TABLE_NAME,
                     Goals.TABLE_NAME, Players.TABLE_NAME, PlayerSeasons.TABLE_NAME,
                     Seasons.TABLE_NAME, Statistics.TABLE_NAME};

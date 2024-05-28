@@ -60,27 +60,24 @@ public class SettingsActivity extends AppCompatActivity
             {
                 SetSeasonName(mDefaultSharedPreferences, getString(R.string.pref_key_season));
             }
-            mSeason.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+            mSeason.setOnPreferenceClickListener(preference ->
             {
-                @Override
-                public boolean onPreferenceClick(final Preference preference)
-                {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("Choose season").setSingleChoiceItems(mSeasonsData,
-                            mSeasonsData.getPosition(), Seasons.COL_NAME_NAME,
-                            new DialogInterface.OnClickListener()
-                            {
-                                @Override
-                                public void onClick(final DialogInterface dialog, final int which)
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Choose season")
+                        .setSingleChoiceItems(mSeasonsData, mSeasonsData.getPosition(),
+                                Seasons.COL_NAME_NAME, (dialog, which) ->
                                 {
                                     mSeasonsData.moveToPosition(which);
                                     int seasonId = mSeasonsData.getInt(0);
-                                    mDefaultSharedPreferences.edit().putInt(
-                                            getString(R.string.pref_key_season), seasonId).apply();
-                                }
-                            }).setPositiveButton(android.R.string.ok, null).create().show();
-                    return true;
-                }
+                                    mDefaultSharedPreferences.edit()
+                                            .putInt(getString(R.string.pref_key_season),
+                                                    seasonId)
+                                            .apply();
+                                })
+                        .setPositiveButton(android.R.string.ok, null)
+                        .create()
+                        .show();
+                return true;
             });
 
             mDefaultSharedPreferences.registerOnSharedPreferenceChangeListener(this);
