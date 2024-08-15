@@ -14,9 +14,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 public class SettingsActivity extends AppCompatActivity
 {
+    static String TAG = SettingsActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -103,9 +106,11 @@ public class SettingsActivity extends AppCompatActivity
         private void SetSeasonName(final SharedPreferences sharedPreferences, final String key)
         {
             final int seasonId = sharedPreferences.getInt(key, 0);
+            Log.v(TAG, "Pref season ID: " + seasonId);
             mSeasonsData.moveToFirst();
-            while ((mSeasonsData.getInt(0) != seasonId) && !mSeasonsData.isAfterLast())
+            while (!mSeasonsData.isAfterLast() && (mSeasonsData.getInt(0) != seasonId))
             {
+                Log.v(TAG, "Season ID: " + mSeasonsData.getInt(0));
                 mSeasonsData.moveToNext();
             }
             if (!mSeasonsData.isAfterLast())
