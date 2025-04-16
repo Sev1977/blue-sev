@@ -1,12 +1,13 @@
 package android.personal.fixtures;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.fragments.FixturesFragment;
 import android.personal.fixtures.fragments.ResultsFragment;
+import android.personal.fixtures.utils.DataExporter;
+import android.personal.fixtures.utils.DataImporter;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_ADD_FIXTURE = 0;
     private static final int REQUEST_VIEW_FIXTURE = 1;
     private static final int REQUEST_EDIT_FIXTURE = 2;
+    private static final int REQUEST_CHOOSE_EXPORT_DIRECTORY = 3;
+    private static final int REQUEST_CHOOSE_IMPORT_DIRECTORY = 4;
 
     private static final String FIXTURES_TAG = "fixturesTab";
     private static final String RESULTS_TAG = "resultsTab";
@@ -174,6 +177,20 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
 
+            case REQUEST_CHOOSE_EXPORT_DIRECTORY:
+                if (resultCode == RESULT_OK)
+                {
+                    new DataExporter(this, data.getData().getPath()).execute();
+                }
+                break;
+
+            case REQUEST_CHOOSE_IMPORT_DIRECTORY:
+                if (resultCode == RESULT_OK)
+                {
+                    new DataImporter(this, data.getData().getPath()).execute();
+                }
+                break;
+
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -279,9 +296,9 @@ public class MainActivity extends AppCompatActivity
     public void exportData()
     {
         Log.v(TAG, "export");
-        // Create a string for the data in each table in the database.
-
-        // Create a new CSV file for each data string.
+        // Choose a directory using the system's file picker.
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        startActivityForResult(intent, REQUEST_CHOOSE_EXPORT_DIRECTORY);
     }
 
     /**
@@ -290,5 +307,8 @@ public class MainActivity extends AppCompatActivity
     public void importData()
     {
         Log.v(TAG, "import");
+        // Choose a directory using the system's file picker.
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        startActivityForResult(intent, REQUEST_CHOOSE_IMPORT_DIRECTORY);
     }
 }
