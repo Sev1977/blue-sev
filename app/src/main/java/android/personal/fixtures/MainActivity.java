@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.personal.fixtures.database.Database;
+import android.personal.fixtures.fragments.FixturePopupFragment;
 import android.personal.fixtures.fragments.FixturesFragment;
 import android.personal.fixtures.fragments.ResultsFragment;
 import android.personal.fixtures.utils.DataExporter;
@@ -217,9 +218,13 @@ public class MainActivity extends AppCompatActivity
 
     private void viewFixture(final long id)
     {
-        final Intent edit = new Intent(MainActivity.this, FixtureActivity.class);
-        edit.putExtra(FixtureActivity.EXTRA_FIXTURE_ID, id);
-        startActivityForResult(edit, REQUEST_VIEW_FIXTURE);
+//        final Intent edit = new Intent(MainActivity.this, FixtureActivity.class);
+//        edit.putExtra(FixtureActivity.EXTRA_FIXTURE_ID, id);
+//        startActivityForResult(edit, REQUEST_VIEW_FIXTURE);
+
+        final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        final FixturePopupFragment fixtureDialog = FixturePopupFragment.newInstance(id);
+        fixtureDialog.show(transaction, "fixture_popup");
     }
 
     private void refresh()

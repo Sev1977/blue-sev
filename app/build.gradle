@@ -39,6 +39,9 @@ android {
         }
     }
     namespace 'android.personal.fixtures'
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {

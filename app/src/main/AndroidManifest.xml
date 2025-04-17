@@ -10,85 +10,85 @@
         <activity
             android:name=".FilterActivity"
             android:label="@string/title_activity_filter"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".FixtureActivity"
-            android:parentActivityName=".MainActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".EditFixtureActivity"
-            android:label="@string/fixture_edit_title"
-            android:exported="false"/>
+            android:exported="false"
+            android:label="@string/fixture_edit_title" />
         <activity
             android:name=".StatisticsActivity"
+            android:exported="false"
             android:label="@string/stats_title"
-            android:parentActivityName=".MainActivity"
-            android:exported="false"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ClubListActivity"
+            android:exported="false"
             android:label="@string/clubs_title"
-            android:parentActivityName=".MainActivity"
-            android:exported="false"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".EditClubActivity"
+            android:exported="false"
             android:label="@string/club_edit_title"
-            android:parentActivityName=".ClubListActivity"
-            android:exported="false"/>
+            android:parentActivityName=".ClubListActivity" />
         <activity
             android:name=".CompetitionListActivity"
+            android:exported="false"
             android:label="@string/competitions_title"
-            android:parentActivityName=".MainActivity"
-            android:exported="false"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".EditCompetitionActivity"
+            android:exported="false"
             android:label="@string/competition_edit_title"
-            android:parentActivityName=".CompetitionListActivity"
-            android:exported="false"/>
+            android:parentActivityName=".CompetitionListActivity" />
         <activity
             android:name=".PlayerListActivity"
+            android:exported="false"
             android:label="@string/players_title"
-            android:parentActivityName=".MainActivity"
-            android:exported="false"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".EditPlayerActivity"
+            android:exported="false"
             android:label="@string/edit_player_title"
-            android:parentActivityName=".PlayerListActivity"
-            android:exported="false"/>
+            android:parentActivityName=".PlayerListActivity" />
         <activity
             android:name=".SeasonsListActivity"
+            android:exported="false"
             android:label="@string/seasons_title"
-            android:parentActivityName=".MainActivity"
-            android:exported="false"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".EditSeasonActivity"
+            android:exported="false"
             android:label="@string/edit_season_title"
-            android:parentActivityName=".SeasonsListActivity"
-            android:exported="false"/>
+            android:parentActivityName=".SeasonsListActivity" />
         <activity
             android:name=".ChooserListActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".EditGoalScorersActivity"
+            android:exported="false"
             android:label="@string/choose_goal_scorers"
-            android:parentActivityName=".EditFixtureActivity"
-            android:exported="false"/>
+            android:parentActivityName=".EditFixtureActivity" />
         <activity
             android:name=".SettingsActivity"
+            android:exported="false"
             android:label="@string/settings_title"
-            android:parentActivityName=".MainActivity"
-            android:exported="false"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".OpponentChooserActivity"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>
