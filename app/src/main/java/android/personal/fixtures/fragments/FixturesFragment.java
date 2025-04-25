@@ -123,7 +123,5 @@ public class FixturesFragment extends Fragment
     public interface OnFixturesListInteractionListener
     {
         void onFixtureSelected(final long id);
-
-        void onEditClicked(final long id);
     }
 }

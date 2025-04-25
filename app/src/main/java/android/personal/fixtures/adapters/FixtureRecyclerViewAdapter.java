@@ -81,17 +81,6 @@ public class FixtureRecyclerViewAdapter
             holder.mAwayTeamView.setText(context.getString(R.string.cardiff_city));
             holder.mAwayTeamView.setTextAppearance(R.style.matchListItemCardiff);
         }
-        holder.mEditAction.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(final View view)
-            {
-                if (mListener != null)
-                {
-                    mListener.onEditClicked(holder.mFixtureId);
-                }
-            }
-        });
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
@@ -122,7 +111,6 @@ public class FixtureRecyclerViewAdapter
         final TextView mCompetitionView;
         final TextView mHomeTeamView;
         final TextView mAwayTeamView;
-        final ImageView mEditAction;
 
         ViewHolder(View view)
         {
@@ -132,7 +120,6 @@ public class FixtureRecyclerViewAdapter
             mCompetitionView = view.findViewById(R.id.fixtureCompetition);
             mHomeTeamView = view.findViewById(R.id.fixtureHomeTeam);
             mAwayTeamView = view.findViewById(R.id.fixtureAwayTeam);
-            mEditAction = view.findViewById(R.id.fixtureEditAction);
         }
 
         @Override

@@ -157,7 +157,5 @@ public class ResultsFragment extends Fragment
     public interface OnResultsListInteractionListener
     {
         void onResultSelected(final long id);
-
-        void onEditResult(final long id);
     }
 }

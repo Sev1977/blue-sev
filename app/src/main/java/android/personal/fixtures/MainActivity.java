@@ -203,12 +203,6 @@ public class MainActivity extends AppCompatActivity
         viewFixture(id);
     }
 
-    @Override
-    public void onEditClicked(final long id)
-    {
-        editFixture(id);
-    }
-
     private void editFixture(final long id)
     {
         final Intent edit = new Intent(MainActivity.this, EditFixtureActivity.class);
@@ -287,12 +281,6 @@ public class MainActivity extends AppCompatActivity
     public void onResultSelected(final long id)
     {
         viewFixture(id);
-    }
-
-    @Override
-    public void onEditResult(final long id)
-    {
-        editFixture(id);
     }
 
     /**
