@@ -1,11 +1,13 @@
 package android.personal.fixtures;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.tables.Players;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -14,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 public class EditPlayerActivity extends AppCompatActivity
 {
@@ -83,16 +86,30 @@ public class EditPlayerActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.edit_action_delete:
-                if (deletePlayer())
-                {
-                    setResult(RESULT_OK);
-                    finish();
-                }
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.are_you_sure)
+                        .setMessage(R.string.edit_delete_player_query)
+                        .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                            if (deletePlayer())
+                            {
+                                Toast.makeText(getApplicationContext(),
+                                        R.string.edit_player_deleted, Toast.LENGTH_SHORT).show();
+                                setResult(RESULT_OK);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, (dialog, which) -> {})
+                        .create()
+                        .show();
                 break;
+            }
 
             case R.id.edit_action_save:
                 if (savePlayer())
                 {
+                    Toast.makeText(this, R.string.edit_changes_saved, Toast.LENGTH_SHORT)
+                            .show();
                     setResult(RESULT_OK);
                     finish();
                 }

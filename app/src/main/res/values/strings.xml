@@ -78,6 +78,9 @@
     <string name="edit_score_cardiff_goals">Cardiff:</string>
     <string name="edit_score_opponent_goals">Opponent:</string>
     <string name="edit_comp_is_league">This is a league</string>
+    <string name="edit_changes_saved">Changes saved</string>
+    <string name="edit_player_deleted">Player deleted</string>
+    <string name="edit_delete_player_query">Are you sure you want to delete this player?</string>
 
     <!-- Chooser titles -->
     <string name="competition_chooser_title">Choose competition</string>
@@ -119,6 +122,7 @@
     <string name="form_label">Form</string>
     <string name="league_label">League</string>
     <string name="cup_label">Cup</string>
+    <string name="are_you_sure">Are you sure?</string>
 
     <!-- Statistics, graphs choice -->
     <string-array name="graphs_descriptions">
