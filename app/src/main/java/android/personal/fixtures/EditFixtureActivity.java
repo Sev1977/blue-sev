@@ -8,6 +8,7 @@ import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.StatsUpdate;
 import android.personal.fixtures.database.helpers.ClubsHelper;
 import android.personal.fixtures.database.helpers.CompetitionsHelper;
+import android.personal.fixtures.database.helpers.PlayersHelper;
 import android.personal.fixtures.database.tables.Clubs;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.personal.fixtures.database.tables.Goals;
@@ -520,7 +521,7 @@ public class EditFixtureActivity extends AppCompatActivity
     private String getGoalScorers()
     {
         final Cursor goals = mDatabase.getColumnsForSelection(Goals.TABLE_NAME,
-                new String[]{Goals.COL_NAME_PLAYER_NAME, Goals.COL_NAME_PENALTY},
+                new String[]{Goals.COL_NAME_PLAYER_ID, Goals.COL_NAME_PENALTY},
                 Goals.COL_NAME_FIXTURE_ID + "=?", new String[]{String.valueOf(mFixtureId)}, null);
         if (goals != null)
         {
@@ -529,7 +530,9 @@ public class EditFixtureActivity extends AppCompatActivity
             {
                 do
                 {
-                    scorers.append(goals.getString(0));
+                    String playerName =
+                            PlayersHelper.getFullNameFromId(mDatabase, goals.getLong(0));
+                    scorers.append(playerName);
                     if (goals.getInt(1) == 1)
                     {
                         scorers.append(" (P)");

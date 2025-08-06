@@ -19,16 +19,15 @@ public class Fixtures
     public static final String COL_NAME_OPPOSITION = "opposition";
     public static final String COL_NAME_GOALS_SCORED = "goals_scored";
     public static final String COL_NAME_GOALS_CONCEDED = "goals_conceded";
+    public static final String COL_NAME_GOALS_SCORED_ET = "goals_scored_et";
+    public static final String COL_NAME_GOALS_CONCEDED_ET = "goals_conceded_et";
+    public static final String COL_NAME_GOALS_SCORED_PENS = "goals_scored_pens";
+    public static final String COL_NAME_GOALS_CONCEDED_PENS = "goals_conceded_pens";
     public static final String COL_NAME_ATTENDANCE = "attendance";
     public static final String COL_NAME_SEASON_ID = "season_id";
 
     public static final String DEFAULT_SORT_ORDER = COL_NAME_DATE + " ASC";
     public static final String RESULTS_SORT_ORDER = COL_NAME_DATE + " DESC";
-
-    public static final String[] ALL_COLUMNS =
-            new String[]{COL_NAME_DATE, COL_NAME_COMPETITION, COL_NAME_VENUE, COL_NAME_OPPOSITION,
-                    COL_NAME_GOALS_SCORED, COL_NAME_GOALS_CONCEDED, COL_NAME_ATTENDANCE,
-                    COL_NAME_SEASON_ID};
 
     public static final int COL_ID_DATE = 1;
     public static final int COL_ID_COMPETITION = 2;
@@ -36,8 +35,12 @@ public class Fixtures
     public static final int COL_ID_OPPOSITION = 4;
     public static final int COL_ID_GOALS_SCORED = 5;
     public static final int COL_ID_GOALS_CONCEDED = 6;
-    public static final int COL_ID_ATTENDANCE = 7;
-    public static final int COL_ID_SEASON_ID = 8;
+    public static final int COL_ID_GOALS_SCORED_ET = 7;
+    public static final int COL_ID_GOALS_CONCEDED_ET = 8;
+    public static final int COL_ID_GOALS_SCORED_PENS = 9;
+    public static final int COL_ID_GOALS_CONCEDED_PENS = 10;
+    public static final int COL_ID_ATTENDANCE = 11;
+    public static final int COL_ID_SEASON_ID = 12;
 
     public static void createTable(final SQLiteDatabase database)
     {
@@ -49,6 +52,10 @@ public class Fixtures
                 COL_NAME_OPPOSITION + " TEXT NOT NULL, " +
                 COL_NAME_GOALS_SCORED + " INTEGER DEFAULT 0, " +
                 COL_NAME_GOALS_CONCEDED + " INTEGER DEFAULT 0, " +
+                COL_NAME_GOALS_SCORED_ET + " INTEGER DEFAULT -1, " +
+                COL_NAME_GOALS_CONCEDED_ET + " INTEGER DEFAULT -1, " +
+                COL_NAME_GOALS_SCORED_PENS + " INTEGER DEFAULT -1, " +
+                COL_NAME_GOALS_CONCEDED_PENS + " INTEGER DEFAULT -1, " +
                 COL_NAME_ATTENDANCE + " INTEGER DEFAULT 0, " +
                 COL_NAME_SEASON_ID + " INTEGER NOT NULL, " +
                 "FOREIGN KEY (" + COL_NAME_SEASON_ID + ")" +

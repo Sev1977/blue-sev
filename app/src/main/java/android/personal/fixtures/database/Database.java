@@ -30,8 +30,10 @@ public class Database extends SQLiteOpenHelper
 
     /*
      * Version 6: 5-Apr-2020, added Player.IsCurrent
+     * Version 7: 5-Aug-2025, added Goals.PlayerID
+     * Version 8: 6-Aug-2025, added Fixtures ET goals and Pens
      */
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
 
     private static final String DATABASE_NAME = "fixtures_db";
 

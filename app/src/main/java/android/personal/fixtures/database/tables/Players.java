@@ -1,6 +1,8 @@
 package android.personal.fixtures.database.tables;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.personal.fixtures.database.Database;
 import android.provider.BaseColumns;
 
 /**
@@ -16,6 +18,10 @@ public class Players
 
     public static final String DEFAULT_SORT_ORDER = COL_NAME_FORENAME + " ASC";
     public static final String NAME_SORT_ORDER = COL_NAME_SURNAME + " ASC";
+
+    public  static  final  int COL_ID_FORENAME   = 1;
+    public  static  final  int COL_ID_SURNAME   = 2;
+    public  static  final  int COL_ID_CURRENT   = 3;
 
     public static void createTable(final SQLiteDatabase database)
     {

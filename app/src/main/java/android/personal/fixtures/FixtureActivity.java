@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.helpers.ClubsHelper;
+import android.personal.fixtures.database.helpers.PlayersHelper;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.personal.fixtures.database.tables.Goals;
 import android.provider.BaseColumns;
@@ -209,7 +210,7 @@ public class FixtureActivity extends AppCompatActivity
                 // Set the goal scorers
                 final StringBuilder builder = new StringBuilder();
                 final Cursor goals = mDatabase.getColumnsForSelection(Goals.TABLE_NAME,
-                        new String[]{Goals.COL_NAME_PLAYER_NAME, Goals.COL_NAME_PENALTY},
+                        new String[]{Goals.COL_NAME_PLAYER_ID, Goals.COL_NAME_PENALTY},
                         Goals.COL_NAME_FIXTURE_ID + "=?", new String[]{String.valueOf(mFixtureId)},
                         null);
                 if (goals != null)
@@ -218,7 +219,9 @@ public class FixtureActivity extends AppCompatActivity
                     {
                         do
                         {
-                            builder.append(goals.getString(0));
+                            String playerName =
+                                    PlayersHelper.getFullNameFromId(mDatabase, goals.getLong(0));
+                            builder.append(playerName);
                             if (goals.getInt(1) == 1)
                             {
                                 builder.append(" (p)");

@@ -89,15 +89,10 @@ public class ResultRecyclerViewAdapter
             holder.mAwayTeamScore.setText(String.valueOf(goalsFor));
         }
 
-        holder.mView.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
+        holder.mView.setOnClickListener(v -> {
+            if (mListener != null)
             {
-                if (mListener != null)
-                {
-                    mListener.onResultSelected(holder.mFixtureId);
-                }
+                mListener.onResultSelected(holder.mFixtureId);
             }
         });
 

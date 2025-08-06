@@ -9,6 +9,7 @@ import android.personal.fixtures.FixtureActivity;
 import android.personal.fixtures.R;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.helpers.ClubsHelper;
+import android.personal.fixtures.database.helpers.PlayersHelper;
 import android.personal.fixtures.database.tables.Fixtures;
 import android.personal.fixtures.database.tables.Goals;
 import android.support.v4.app.DialogFragment;
@@ -80,16 +81,14 @@ public class FixturePopupFragment extends DialogFragment
     {
         // Inflate the layout for this fragment
         final View layout = inflater.inflate(R.layout.fragment_fixture_popup, container, false);
-        layout.findViewById(R.id.editButton).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(final View view)
-            {
-                final Intent edit = new Intent(getActivity().getApplicationContext(),
-                        EditFixtureActivity.class);
-                edit.putExtra(EXTRA_FIXTURE_ID, mFixtureId);
-                startActivityForResult(edit, REQUEST_EDIT);
-            }
+        layout.findViewById(R.id.editButton).setOnClickListener(view -> {
+            final Intent edit = new Intent(getActivity().getApplicationContext(),
+                    EditFixtureActivity.class);
+            edit.putExtra(EXTRA_FIXTURE_ID, mFixtureId);
+            startActivityForResult(edit, REQUEST_EDIT);
+        });
+        layout.findViewById(R.id.cancelButton).setOnClickListener(view->{
+            getFragmentManager().beginTransaction().remove(this).commit();
         });
 
         if (mFixture != null)
@@ -144,7 +143,7 @@ public class FixturePopupFragment extends DialogFragment
                 // Set the goal scorers
                 final StringBuilder builder = new StringBuilder();
                 final Cursor goals = mDatabase.getColumnsForSelection(Goals.TABLE_NAME,
-                        new String[]{Goals.COL_NAME_PLAYER_NAME, Goals.COL_NAME_PENALTY},
+                        new String[]{Goals.COL_NAME_PLAYER_ID, Goals.COL_NAME_PENALTY},
                         Goals.COL_NAME_FIXTURE_ID + "=?", new String[]{String.valueOf(mFixtureId)},
                         null);
                 if (goals != null)
@@ -153,7 +152,9 @@ public class FixturePopupFragment extends DialogFragment
                     {
                         do
                         {
-                            builder.append(goals.getString(0));
+                            String playerName =
+                                    PlayersHelper.getFullNameFromId(mDatabase, goals.getLong(0));
+                            builder.append(playerName);
                             if (goals.getInt(1) == 1)
                             {
                                 builder.append(" (p)");

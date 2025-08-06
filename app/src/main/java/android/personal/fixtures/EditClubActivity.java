@@ -64,14 +64,17 @@ public class EditClubActivity extends AppCompatActivity
             final Cursor club = mDatabase.getFullRecordWithId(Clubs.TABLE_NAME, mClubId);
             if (club != null)
             {
-                mFullNameInput.setText(
-                        club.getString(club.getColumnIndex(Clubs.COL_NAME_FULL_NAME)));
-                final String name = club.getString(club.getColumnIndex(Clubs.COL_NAME_SHORT_NAME));
+                int fullNameCol = club.getColumnIndex(Clubs.COL_NAME_FULL_NAME);
+                int shortNameCol = club.getColumnIndex(Clubs.COL_NAME_SHORT_NAME);
+                int codeCol = club.getColumnIndex(Clubs.COL_NAME_CODE);
+                int isLeagueCol = club.getColumnIndex(Clubs.COL_NAME_IS_LEAGUE);
+
+                mFullNameInput.setText(club.getString(fullNameCol));
+                final String name = club.getString(shortNameCol);
                 mShortNameInput.setText(name);
                 mOldName = name;
-                mCodeInput.setText(club.getString(club.getColumnIndex(Clubs.COL_NAME_CODE)));
-                mLeagueSwitch.setChecked(
-                        club.getInt(club.getColumnIndex(Clubs.COL_NAME_IS_LEAGUE)) == 1);
+                mCodeInput.setText(club.getString(codeCol));
+                mLeagueSwitch.setChecked(club.getInt(isLeagueCol) == 1);
                 club.close();
             }
         }

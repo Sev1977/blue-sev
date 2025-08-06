@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.helpers.PlayersHelper;
 import android.personal.fixtures.database.tables.Goals;
+import android.personal.fixtures.database.tables.Players;
 import android.provider.BaseColumns;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class EditGoalScorersActivity extends AppCompatActivity
 {
@@ -35,14 +38,9 @@ public class EditGoalScorersActivity extends AppCompatActivity
     private Database mDatabase;
     private long mFixtureId;
 
-    private final View.OnClickListener mNameClickListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(final View view)
-        {
-            OnNameClicked(view);
-        }
-    };
+    private ArrayList<Integer> mPlayerIds;
+
+    private final View.OnClickListener mNameClickListener = this::OnNameClicked;
     private final View.OnClickListener mDeleteGoalListener = new View.OnClickListener()
     {
         @Override
@@ -85,22 +83,35 @@ public class EditGoalScorersActivity extends AppCompatActivity
 
         mFixtureId = getIntent().getLongExtra(EXTRA_FIXTURE_ID, -1);
 
+        mPlayerIds = new ArrayList<>(0);
+
         // Check if there are any existing goals for this mCurrentFixture and add them to the list.
         final Cursor goals = mDatabase.getSelection(Goals.TABLE_NAME,
                 Goals.COL_NAME_FIXTURE_ID + "=?", new String[]{String.valueOf(mFixtureId)}, null);
         if (goals != null)
         {
-            if (goals.getCount() > 0)
+            if (goals.moveToFirst())
             {
                 do
                 {
                     addAnotherScorer(null);
                     final View item = mList.getChildAt(mList.getChildCount() - 1);
                     item.setTag(goals.getLong(0)); // set the goal ID as the tag for this view
-                    ((TextView)item.findViewById(NAME_VIEW_ID)).setText(
-                            goals.getString(goals.getColumnIndex(Goals.COL_NAME_PLAYER_NAME)));
-                    ((CheckBox)item.findViewById(PENALTY_VIEW_ID)).setChecked(
-                            goals.getInt(goals.getColumnIndex(Goals.COL_NAME_PENALTY)) == 1);
+
+                    // Get the player record
+                    final Cursor player = mDatabase.getFullRecordWithId(Players.TABLE_NAME,
+                            goals.getInt(Goals.COL_ID_PLAYER_ID));
+                    if (player != null && player.moveToFirst()) {
+                        mPlayerIds.add(player.getInt(0));
+                        // Get the name
+                        final String first = player.getString(Players.COL_ID_FORENAME);
+                        final String second = player.getString(Players.COL_ID_SURNAME);
+                        ((TextView) item.findViewById(NAME_VIEW_ID))
+                                .setText(String.format("%s %s", first, second));
+                    }
+                    // Get the penalty 'flag'
+                    ((CheckBox)item.findViewById(PENALTY_VIEW_ID))
+                            .setChecked(goals.getInt(Goals.COL_ID_PENALTY) == 1);
                 } while (goals.moveToNext());
             }
 
@@ -187,7 +198,7 @@ public class EditGoalScorersActivity extends AppCompatActivity
 
             // Now I'll add a new record for each goal.
             final StringBuilder scorers = new StringBuilder();
-            // Travers the list and save a goal in the DB for each item.
+            // Traverse the list and save a goal in the DB for each item.
             final int count = mList.getChildCount();
             for (int i = 0; i < count; i++)
             {
@@ -198,9 +209,16 @@ public class EditGoalScorersActivity extends AppCompatActivity
                     final String playerName = nameView.getText().toString();
                     final int penalty = ((CheckBox)listItem.findViewById(PENALTY_VIEW_ID))
                             .isChecked() ? 1 : 0;
+
                     final ContentValues values = new ContentValues();
                     values.put(Goals.COL_NAME_FIXTURE_ID, mFixtureId);
-                    values.put(Goals.COL_NAME_PLAYER_NAME, playerName);
+                    // Split the player name and search the players table for the ID
+                    final String[] names = playerName.split(" ");
+                    final Cursor player = PlayersHelper.getPlayerIdFromNames(mDatabase, names[0], names[1]);
+                    if ((player == null) || (player.getCount() == 0))
+                        return null;
+
+                    values.put(Goals.COL_NAME_PLAYER_ID, player.getInt(0));
                     values.put(Goals.COL_NAME_PENALTY, penalty);
                     mDatabase.addRecord(Goals.TABLE_NAME, values);
 
@@ -209,7 +227,7 @@ public class EditGoalScorersActivity extends AppCompatActivity
                     {
                         scorers.append(" (P)");
                     }
-                    if (i < count - 1)
+                    if (i < (count - 1))
                     {
                         scorers.append(", ");
                     }

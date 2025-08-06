@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.personal.fixtures.database.Database;
+import android.personal.fixtures.database.helpers.PlayersHelper;
 import android.personal.fixtures.fragments.FixturePopupFragment;
 import android.personal.fixtures.fragments.FixturesFragment;
 import android.personal.fixtures.fragments.ResultsFragment;
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity
          * Create the database
          */
         Database.getInstance(getApplicationContext());
+
+        Database mDatabase = Database.getInstance(MainActivity.this);
+        PlayersHelper.checkData(mDatabase);
 
         final FixturesFragment fragment = new FixturesFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.main_content, fragment,
