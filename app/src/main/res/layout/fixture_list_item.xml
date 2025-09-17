@@ -2,12 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
+    android:layout_marginBottom="2dp"
     android:layout_marginEnd="@dimen/list_item_horizontal_margin"
     android:layout_marginStart="@dimen/list_item_horizontal_margin"
-    android:layout_marginTop="4dp"
+    android:layout_marginTop="2dp"
     android:background="@drawable/list_item"
-    android:padding="@dimen/fixtures_list_item_padding">
+    android:paddingStart="@dimen/list_item_horizontal_padding"
+    android:paddingEnd="@dimen/list_item_horizontal_padding"
+    android:paddingBottom="@dimen/fixtures_list_item_padding"
+    android:paddingTop="@dimen/fixtures_list_item_padding">
 
     <TextView
         android:id="@+id/fixtureDateTime"

@@ -1,7 +1,6 @@
 package android.personal.fixtures;
 
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.personal.fixtures.database.Database;

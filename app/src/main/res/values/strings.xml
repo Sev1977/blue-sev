@@ -80,7 +80,9 @@
     <string name="edit_comp_is_league">This is a league</string>
     <string name="edit_changes_saved">Changes saved</string>
     <string name="edit_player_deleted">Player deleted</string>
+    <string name="edit_fixture_deleted">Fixture deleted</string>
     <string name="edit_delete_player_query">Are you sure you want to delete this player?</string>
+    <string name="edit_delete_fixture_query">Are you sure you want to delete this fixture?</string>
 
     <!-- Chooser titles -->
     <string name="competition_chooser_title">Choose competition</string>
