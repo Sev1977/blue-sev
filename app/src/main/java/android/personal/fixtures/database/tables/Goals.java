@@ -22,6 +22,7 @@ public class Goals
     public static final String COL_NAME_FIXTURE_ID = "fixture_id";
     public static final String COL_NAME_PLAYER_ID = "player_id";
     public static final String COL_NAME_PENALTY = "penalty";
+    public static final String COL_NAME_IS_ET_GOAL = "is_ET_goal";
 
     public static final int COL_ID_FIXTURE_ID = 1;
     public static final int COL_ID_PLAYER_ID = 2;
@@ -34,6 +35,7 @@ public class Goals
                 COL_NAME_FIXTURE_ID + " INTEGER NOT NULL, " +
                 COL_NAME_PLAYER_ID + " INTEGER NOT NULL, " +
                 COL_NAME_PENALTY + " INTEGER DEFAULT 0, " +
+                COL_NAME_IS_ET_GOAL + " INTEGER DEFAULT 0, " +
                 "FOREIGN KEY (" + COL_NAME_FIXTURE_ID + ")" +
                 "REFERENCES " + Fixtures.TABLE_NAME + " (" + BaseColumns._ID + "), " +
                 "FOREIGN KEY (" + COL_NAME_PLAYER_ID + ")" +

@@ -19,6 +19,7 @@ import android.personal.fixtures.fragments.TimePickerFragment;
 import android.provider.BaseColumns;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -27,8 +28,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -184,6 +187,7 @@ public class EditFixtureActivity extends AppCompatActivity
         // Set the default date and time
         final Calendar calendar = Calendar.getInstance();
 
+        // Grab the existing data for this fixture and populate the controls.
         final Bundle extras = getIntent().getExtras();
         if (extras != null)
         {
@@ -215,15 +219,40 @@ public class EditFixtureActivity extends AppCompatActivity
                 updateScoreButtonText(fixture.getInt(Fixtures.COL_ID_GOALS_SCORED),
                         fixture.getInt(Fixtures.COL_ID_GOALS_CONCEDED));
                 // Get the goal scorers
-                mGoalScorersButton.setText(getGoalScorers());
+                mGoalScorersButton.setText(getGoalScorers(false));
                 // Get the attendance
                 mAttendanceInput.setText(
                         String.valueOf(fixture.getInt(Fixtures.COL_ID_ATTENDANCE)));
 
+                /* Extra time */
+                // Score
+                int homeETGoals = fixture.getInt(Fixtures.COL_ID_GOALS_SCORED_ET);
+                int awayETGoals = fixture.getInt(Fixtures.COL_ID_GOALS_CONCEDED_ET);
+                if (homeETGoals >= 0 || awayETGoals >= 0)
+                {
+                    ((CheckBox)findViewById(R.id.editFixtureExtraTime)).setChecked(true);
+                    findViewById(R.id.editFixtureETFrame).setVisibility(View.VISIBLE);
+                    ((Button)findViewById(R.id.editFixtureETScore))
+                            .setText(getString(R.string.score_format, homeETGoals, awayETGoals));
+                    // Goal scorers
+                    ((Button)findViewById(R.id.editFixtureETScorers)).setText(getGoalScorers(true));
+                }
+
+                /* Penalties */
+                // Score
+                int homePensGoals = fixture.getInt(Fixtures.COL_ID_GOALS_SCORED_PENS);
+                int awayPensGoals = fixture.getInt(Fixtures.COL_ID_GOALS_CONCEDED_PENS);
+                if (homePensGoals >= 0 || awayPensGoals >= 0) {
+                    ((CheckBox)findViewById(R.id.editFixturePenalties)).setChecked(true);
+                    findViewById(R.id.editFixturePensFrame).setVisibility(View.VISIBLE);
+                    ((Button)findViewById(R.id.editFixturePensScore))
+                            .setText(getString(R.string.score_format, homePensGoals, awayPensGoals));
+                }
+
                 fixture.close();
             }
         }
-        else
+        else // this is a new fixture
         {
             // Use the current season as the default for a new fixture/result
             mSeasonId = Settings.getSelectedSeasonId(this);
@@ -254,12 +283,29 @@ public class EditFixtureActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.edit_fixture_action_delete:
-                if (deleteFixture())
-                {
-                    setResult(RESULT_OK);
-                    finish();
-                }
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.are_you_sure)
+                        .setMessage(R.string.edit_delete_fixture_query)
+                        .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                            if (deleteFixture())
+                            {
+                                Toast.makeText(getApplicationContext(),
+                                        R.string.edit_fixture_deleted, Toast.LENGTH_SHORT).show();
+                                setResult(RESULT_OK);
+                                finish();
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), "Failed to delete the fixture",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, (dialog, which) -> {})
+                        .create()
+                        .show();
                 return true;
+            }
 
             case R.id.edit_fixture_action_save:
                 if (saveFixture())
@@ -369,6 +415,10 @@ public class EditFixtureActivity extends AppCompatActivity
             values.put(Fixtures.COL_NAME_ATTENDANCE, attendance.toString());
         }
         values.put(Fixtures.COL_NAME_SEASON_ID, mSeasonId);
+
+        /*
+         * Extra time and penalties
+         */
 
         if (mIsEditMode)
         {
@@ -518,10 +568,10 @@ public class EditFixtureActivity extends AppCompatActivity
     /**
      * @return
      */
-    private String getGoalScorers()
+    private String getGoalScorers(boolean getETGoals)
     {
         final Cursor goals = mDatabase.getColumnsForSelection(Goals.TABLE_NAME,
-                new String[]{Goals.COL_NAME_PLAYER_ID, Goals.COL_NAME_PENALTY},
+                new String[]{Goals.COL_NAME_PLAYER_ID, Goals.COL_NAME_PENALTY, Goals.COL_NAME_IS_ET_GOAL},
                 Goals.COL_NAME_FIXTURE_ID + "=?", new String[]{String.valueOf(mFixtureId)}, null);
         if (goals != null)
         {
@@ -530,12 +580,15 @@ public class EditFixtureActivity extends AppCompatActivity
             {
                 do
                 {
-                    String playerName =
-                            PlayersHelper.getFullNameFromId(mDatabase, goals.getLong(0));
-                    scorers.append(playerName);
-                    if (goals.getInt(1) == 1)
+                    boolean isETGoal = goals.getInt(2) == 1;
+                    if ((getETGoals && isETGoal) || (!getETGoals && !isETGoal))
                     {
-                        scorers.append(" (P)");
+                        String playerName =
+                                PlayersHelper.getFullNameFromId(mDatabase, goals.getLong(0));
+                        scorers.append(playerName);
+                        if (goals.getInt(1) == 1) {
+                            scorers.append(" (P)");
+                        }
                     }
                     if (!goals.isLast())
                     {
@@ -550,6 +603,36 @@ public class EditFixtureActivity extends AppCompatActivity
         }
 
         return null;
+    }
+
+    public void updateExtraTimeVisibility(View view)
+    {
+        if (view instanceof CheckBox)
+        {
+            if (((CheckBox)view).isChecked())
+            {
+                findViewById(R.id.editFixtureETFrame).setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                findViewById(R.id.editFixtureETFrame).setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    public void updatePenaltiesVisibility(View view)
+    {
+        if (view instanceof CheckBox)
+        {
+            if (((CheckBox)view).isChecked())
+            {
+                findViewById(R.id.editFixturePensFrame).setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                findViewById(R.id.editFixturePensFrame).setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     @Override
