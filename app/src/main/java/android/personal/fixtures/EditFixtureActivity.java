@@ -81,7 +81,7 @@ public class EditFixtureActivity extends AppCompatActivity
         public void onClick(final View view)
         {
             Intent chooser = new Intent(EditFixtureActivity.this, ChooserListActivity.class);
-            int requestId = 0;
+            int requestId = -1;
 
             switch (view.getId())
             {
@@ -297,7 +297,7 @@ public class EditFixtureActivity extends AppCompatActivity
                             }
                             else
                             {
-                                Toast.makeText(getApplicationContext(), "Failed to delete the fixture",
+                                Toast.makeText(getApplicationContext(), "Can't delete a past result",
                                         Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -461,8 +461,8 @@ public class EditFixtureActivity extends AppCompatActivity
         if (score != null)
         {
             final int[] scores = new int[2];
-            scores[0] = Integer.valueOf(score.substring(0, score.indexOf(" ")));
-            scores[1] = Integer.valueOf(score.substring(score.lastIndexOf(" ") + 1));
+            scores[0] = Integer.parseInt(score.substring(0, score.indexOf(" ")));
+            scores[1] = Integer.parseInt(score.substring(score.lastIndexOf(" ") + 1));
             return scores;
         }
 
@@ -508,7 +508,7 @@ public class EditFixtureActivity extends AppCompatActivity
             };
 
     /**
-     * @param view
+     * @param view The view that's tapped.
      */
     public void showTimePicker(View view)
     {

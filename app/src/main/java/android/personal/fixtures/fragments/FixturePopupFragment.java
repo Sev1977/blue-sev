@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -41,6 +42,7 @@ public class FixturePopupFragment extends DialogFragment
 
     private long mFixtureId = 0;
     private Cursor mFixture;
+    private long mFixtureTimestamp = 0;
 
     public FixturePopupFragment()
     {
@@ -87,17 +89,30 @@ public class FixturePopupFragment extends DialogFragment
             edit.putExtra(EXTRA_FIXTURE_ID, mFixtureId);
             startActivityForResult(edit, REQUEST_EDIT);
         });
-        layout.findViewById(R.id.cancelButton).setOnClickListener(view->{
+        layout.findViewById(R.id.cancelButton).setOnClickListener(view -> {
             getFragmentManager().beginTransaction().remove(this).commit();
+        });
+        layout.findViewById(R.id.deleteButton).setOnClickListener(v -> {
+            if (deleteFixture())
+            {
+                Toast.makeText(getActivity().getApplicationContext(),
+                        R.string.edit_fixture_deleted, Toast.LENGTH_SHORT).show();
+                getFragmentManager().beginTransaction().remove(this).commit();
+            }
+            else
+            {
+                Toast.makeText(getActivity().getApplicationContext(), "Can't delete a past result",
+                        Toast.LENGTH_SHORT).show();
+            }
         });
 
         if (mFixture != null)
         {
             // Set the date
-            final int unixTimestamp = mFixture.getInt(Fixtures.COL_ID_DATE);
+            mFixtureTimestamp = mFixture.getInt(Fixtures.COL_ID_DATE);
             final Calendar calendar = Calendar.getInstance();
             final long now = calendar.getTimeInMillis(); // store the time now for later use.
-            calendar.setTimeInMillis(TimeUnit.SECONDS.toMillis(unixTimestamp));
+            calendar.setTimeInMillis(TimeUnit.SECONDS.toMillis(mFixtureTimestamp));
             ((TextView)layout.findViewById(R.id.dateAndTime)).setText(
                     new SimpleDateFormat(getString(R.string.long_date_format), Locale.UK)
                             .format(calendar.getTime()));
@@ -188,5 +203,21 @@ public class FixturePopupFragment extends DialogFragment
         }
 
         return layout;
+    }
+
+    private boolean deleteFixture()
+    {
+        /*
+         * If the date is in the future, we can safely delete the fixture without any knock on
+         * effect, otherwise, if the fixture is in the past, we'd have to recalculate all the
+         * statistics again.  Therefore, we won't allow the user to delete a fixture from the past.
+         */
+
+        if (TimeUnit.SECONDS.toMillis(mFixtureTimestamp) <= System.currentTimeMillis())
+        {
+            return false;
+        }
+
+        return mDatabase.deleteRecord(Fixtures.TABLE_NAME, mFixtureId);
     }
 }

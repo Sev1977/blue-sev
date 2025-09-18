@@ -15,6 +15,7 @@
         android:background="@color/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/actionBar"
+        app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/actionBarPopupMenu"/>
 
     <TextView
