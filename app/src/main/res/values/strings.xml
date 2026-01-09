@@ -80,9 +80,11 @@
     <string name="edit_comp_is_league">This is a league</string>
     <string name="edit_changes_saved">Changes saved</string>
     <string name="edit_player_deleted">Player deleted</string>
+    <string name="edit_season_deleted">Season deleted</string>
     <string name="edit_fixture_deleted">Fixture deleted</string>
     <string name="edit_delete_player_query">Are you sure you want to delete this player?</string>
     <string name="edit_delete_fixture_query">Are you sure you want to delete this fixture?</string>
+    <string name="edit_delete_season_query">Are you sure you want to delete this season?</string>
 
     <!-- Chooser titles -->
     <string name="competition_chooser_title">Choose competition</string>
@@ -117,6 +119,7 @@
     <string name="clubs_filter_label">Only show league opponents</string>
 
     <!-- Common strings -->
+    <string name="yes">Yes</string>
     <string name="action_add">Add</string>
     <string name="action_save">Save</string>
     <string name="action_edit">Edit</string>

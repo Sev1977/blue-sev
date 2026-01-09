@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.personal.fixtures.database.Database;
 import android.personal.fixtures.database.tables.Seasons;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class EditSeasonActivity extends AppCompatActivity
 {
@@ -72,6 +74,26 @@ public class EditSeasonActivity extends AppCompatActivity
     {
         switch (item.getItemId())
         {
+            case R.id.edit_action_delete:
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.are_you_sure)
+                        .setMessage(R.string.edit_delete_season_query)
+                        .setPositiveButton(R.string.yes, (dialog, which) -> {
+                            if (deleteSeason())
+                            {
+                                Toast.makeText(getApplicationContext(),
+                                        R.string.edit_season_deleted, Toast.LENGTH_SHORT).show();
+                                setResult(RESULT_OK);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, (dialog, which) -> {})
+                        .create()
+                        .show();
+                return true;
+            }
+
             case R.id.edit_action_save:
                 if (saveSeason())
                 {
@@ -109,5 +131,10 @@ public class EditSeasonActivity extends AppCompatActivity
         {
             return mDatabase.addRecord(Seasons.TABLE_NAME, values) != -1;
         }
+    }
+
+    private boolean deleteSeason()
+    {
+        return mDatabase.deleteRecord(Seasons.TABLE_NAME, mSeasonId);
     }
 }

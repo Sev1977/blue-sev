@@ -60,12 +60,14 @@ public class EditPlayerActivity extends AppCompatActivity
             final Cursor player = mDatabase.getFullRecordWithId(Players.TABLE_NAME, mPlayerId);
             if (player != null)
             {
-                mForenameInput.setText(
-                        player.getString(player.getColumnIndex(Players.COL_NAME_FORENAME)));
-                mSurnameInput.setText(
-                        player.getString(player.getColumnIndex(Players.COL_NAME_SURNAME)));
-                mCurrentSwitch.setChecked(
-                        1 == player.getInt(player.getColumnIndex(Players.COL_NAME_CURRENT)));
+                int colIndex = player.getColumnIndex(Players.COL_NAME_FORENAME);
+                mForenameInput.setText(player.getString(colIndex));
+
+                colIndex = player.getColumnIndex(Players.COL_NAME_SURNAME);
+                mSurnameInput.setText(player.getString(colIndex));
+
+                colIndex = player.getColumnIndex(Players.COL_NAME_CURRENT);
+                mCurrentSwitch.setChecked(1 == player.getInt(colIndex));
                 player.close();
             }
         }
@@ -89,7 +91,7 @@ public class EditPlayerActivity extends AppCompatActivity
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.are_you_sure)
                         .setMessage(R.string.edit_delete_player_query)
-                        .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                        .setPositiveButton(R.string.yes, (dialog, which) -> {
                             if (deletePlayer())
                             {
                                 Toast.makeText(getApplicationContext(),
@@ -101,7 +103,7 @@ public class EditPlayerActivity extends AppCompatActivity
                         .setNegativeButton(android.R.string.cancel, (dialog, which) -> {})
                         .create()
                         .show();
-                break;
+                return true;
             }
 
             case R.id.edit_action_save:
